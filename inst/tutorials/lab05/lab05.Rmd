@@ -162,7 +162,9 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE,
+                      comment = "", fig.align = "center", fig.width = 6, 
+                      fig.asp = 0.75, out.width = "100%")
 
 data(yrbss)
 
@@ -281,7 +283,7 @@ Make a boxplot (using `geom_boxplot()`) for the new categorical variable `physic
 ```
 
 ```{r answer-1a-hint}
-ggplot(___, aes(x = ___, y = ___)) + geom_boxplot()
+ggplot(`___`, aes(x = `___`, y = `___`)) + geom_boxplot()
 ```
 
 ```{r answer-1b}
@@ -316,8 +318,8 @@ Consult the sections of the Course Notes on hypothesis testing. Are all conditio
 
 ```{r by-means-eg-hint}
 yrbss_exercise %>%
-  group_by(___) %>%
-  summarise(mean_weight = ___, samp_size = ___)
+  group_by(`___`) %>%
+  summarise(mean_weight = `___`, samp_size = `___`)
 ```
 
 ```{r by-means-eg-solution}

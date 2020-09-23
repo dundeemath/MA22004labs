@@ -163,7 +163,9 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, 
+                      comment = "", fig.align = "center", fig.width = 6, 
+                      fig.asp = 0.75, out.width = "100%")
 
 data(ames)
 samp1 <- sample(ames$area, 50)
@@ -226,8 +228,8 @@ Let's look at the distribution of area in our population of home sales by calcul
 ```
 
 ```{r area-hint}
-summary(___)
-ggplot(___) + geom_histogram()
+summary(`___`)
+ggplot(`___`) + geom_histogram()
 ```
 
 ```{r area-solution}
@@ -266,8 +268,8 @@ Describe the distribution of the sample `samp1 <- sample(area, 50)`. How does it
 ```
 
 ```{r answer-1a-hint}
-summary(___)
-___
+summary(`___`)
+`___`
 ```
 
 ```{r answer-1b}
@@ -288,7 +290,7 @@ If we're interested in estimating the average living area in homes in Ames using
 ```
 
 ```{r mean-samp1-hint}
-mean(___)
+mean(`___`)
 ```
 
 ```{r mean-samp1-check}
@@ -307,7 +309,7 @@ Take a second sample of the `area` data, also of size 50, and call it `samp2`. H
 ```
 
 ```{r answer-2a-hint}
-samp2 <- ___
+samp2 <- `___`
 ```
 
 ```{r answer-2b}
@@ -433,18 +435,18 @@ To get a sense of the effect that sample size has on our distribution, build up 
 sample_means10 <- rep(NA, 5000)
 sample_means100 <- rep(NA, 5000)
 for(i in 1:5000){
-___
+`___`
 }
 ```
 
 ```{r samp-10-100-hint-1}
 sample_means10 <- rep(NA, 5000)
 sample_means100 <- rep(NA, 5000)
-for(___){
-  samp <- ___
-  sample_means10[___] <- ___
-  samp <- ___
-  sample_means100[___] <- ___
+for(`___`){
+  samp <- `___`
+  sample_means10[`___`] <- `___`
+  samp <- `___`
+  sample_means100[`___`] <- `___`
 }
 ```
 
@@ -452,10 +454,10 @@ for(___){
 sample_means10 <- rep(NA, 5000)
 sample_means100 <- rep(NA, 5000)
 for(i in 1:5000){
-  samp <- sample(area, ___)
-  sample_means10[i] <- mean(___)
-  samp <- sample(area, ___)
-  sample_means100[i] <- mean(___)
+  samp <- sample(area, `___`)
+  sample_means10[i] <- mean(`___`)
+  samp <- sample(area, `___`)
+  sample_means100[i] <- mean(`___`)
 }
 ```
 

@@ -162,10 +162,11 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, 
+                      comment = "", fig.align = "center", fig.width = 6, 
+                      fig.asp = 0.75, out.width = "100%")
 
 data(hfi)
-
 ```
 
 ## Getting started
@@ -200,7 +201,7 @@ The **YRBSS Survey Data** contains the amount of days that the respondent texted
 ```
 
 ```{r yrbss-counts-textdriving-hint}
-ggplot(yrbss, aes(x=___)) + geom_bar()
+ggplot(yrbss, aes(x=`___`)) + geom_bar()
 ```
 
 ```{r yrbss-counts-textdriving-free}
@@ -226,13 +227,13 @@ What is the proportion of people have texted while driving every day in the past
 # Here, we will name the dataset `no_helmet`
 
 no_helmet <- yrbss %>%
-  filter(___ == "never")
+  filter(`___` == "never")
 
 # Create a new yes/no variable that specifies whether the individual 
 # has texted  every day while driving over the past 30 days or not.
 # We will call this variable `text_ind`.
 no_helmet <- no_helmet %>%
-  mutate(text_ind = ifelse(___ == "30", "yes", "no"))
+  mutate(text_ind = ifelse(`___` == "30", "yes", "no"))
 ```
 
 ```{r proportion-nohelmet-texting-solution}

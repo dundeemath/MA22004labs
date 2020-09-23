@@ -161,7 +161,9 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, 
+                      comment = "", fig.align = "center", fig.width = 6, 
+                      fig.asp = 0.75, out.width = "100%")
 
 data(hfi)
 hfi_samp <- hfi %>% drop_na(pf_expression_control, pf_score)
@@ -206,7 +208,7 @@ What are the dimensions of the `hfi` dataset?
 ```
 
 ```{r glimpse-hfi-hint}
-dim(___)
+dim(`___`)
 
 # Don't forget to run `glimpse(hfi)` in the console or 
 # explore the data frame through the RStudio environment pane
@@ -221,7 +223,7 @@ What type of plot would you use to display the relationship between the personal
 ```
 
 ```{r scatter-plot-1-hint}
-ggplot(___) + geom_point()
+ggplot(`___`) + geom_point()
 ```
 
 ```{r scatter-plot-free}

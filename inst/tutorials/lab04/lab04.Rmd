@@ -162,7 +162,9 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, 
+                      comment = "", fig.align = "center", fig.width = 6, 
+                      fig.asp = 0.75, out.width = "100%")
 
 data(ames)
 population <- ames
@@ -214,8 +216,8 @@ Explore the distribution for the population and the sample by plotting histogram
 ```
 
 ```{r sample-exploration-hint}
-summary(___)
-ggplot(___) + geom_histogram()
+summary(`___`)
+ggplot(`___`) + geom_histogram()
 ```
 
 ```{r sample-exploration-solution}
@@ -264,7 +266,7 @@ One of the most common ways to describe the typical or central value of a distri
 ```
 
 ```{r sample-mean-hint-1}
-mean(___)
+mean(`___`)
 ```
 
 ```{r sample-mean-check}
@@ -292,16 +294,16 @@ Compute the standard error `se` for the 60 samples and save it to a vector `se`.
 ```
 
 ```{r ci-hint-1}
-se <- ___
-lower <- ___
-upper <- ___
+se <- `___`
+lower <- `___`
+upper <- `___`
 c(lower, upper)
 ```
 
 ```{r ci-hint-2}
-se <- sd(___) / sqrt(___)
-lower <- ___ - 1.96 * ___
-upper <- ___ + 1.96 * ___
+se <- sd(`___`) / sqrt(`___`)
+lower <- `___` - 1.96 * `___`
+upper <- `___` + 1.96 * `___`
 c(lower, upper)
 ```
 
@@ -435,33 +437,33 @@ samp_sd <- rep(NA, 50)     # create empty vector for sds
 m <- 60                    # sample size
 
 for(i in 1:50){
-___
+`___`
 }
 
-___
-___
+`___`
+`___`
 ```
 
 ```{r cififty-hint-1}
 for(i in 1:50){
-  x <- ___                      # obtain a sample of size 60 from the population
-  samp_mean[i] <- ___           # save sample mean in ith element of samp_mean
-  samp_sd[i] <- ___             # save sample sd in ith element of samp_sd
+  x <- `___`                      # obtain a sample of size 60 from the population
+  samp_mean[i] <- `___`           # save sample mean in ith element of samp_mean
+  samp_sd[i] <- `___`             # save sample sd in ith element of samp_sd
 }
 
-lower_vector <- ___  
-upper_vector <- ___ 
+lower_vector <- `___`  
+upper_vector <- `___` 
 ```
 
 ```{r cififty-hint-2}
 for(i in 1:50){
-  x <- sample(___, m)          # obtain a sample of size m from the population
-  samp_mean[i] <- mean(___)    # save sample mean in ith element of samp_mean
-  samp_sd[i] <- sd(___)        # save sample sd in ith element of samp_sd
+  x <- sample(`___`, m)          # obtain a sample of size m from the population
+  samp_mean[i] <- mean(`___`)    # save sample mean in ith element of samp_mean
+  samp_sd[i] <- sd(`___`)        # save sample sd in ith element of samp_sd
 }
 
-lower_vector <- ___ - 1.96 * ___ / ___
-upper_vector <- ___ + 1.96 * ___ / ___
+lower_vector <- `___` - 1.96 * `___` / `___`
+upper_vector <- `___` + 1.96 * `___` / `___`
 ```
 
 ```{r cififty-solution}

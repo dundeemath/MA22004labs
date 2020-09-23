@@ -163,7 +163,9 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE,
+                      comment = "", fig.align = "center", fig.width = 6, 
+                      fig.asp = 0.75, out.width = "100%")
 data(cdc)
 ```
 
@@ -209,7 +211,7 @@ The data set `cdc` that shows up in your workspace is a *data matrix*, with each
 To view the names of the variables, one uses the `names` function.
 
 ```{r names, exercise = TRUE}
-names(___)
+names(``___``)
 ```
 
 This returns the names `genhlth`, `exerany`, `hlthplan`, `smoke100`, `height`, `weight`, `wtdesire`, `age`, and `gender`. Each one of these variables corresponds to a question that was asked in the survey. For example, for `genhlth`, respondents were asked to evaluate their general health, responding either excellent, very good, good, fair or poor. The `exerany` variable indicates whether the respondent exercised in the past month (1) or did not (0). Likewise, `hlthplan` indicates whether the respondent had some form of health coverage (1) or did not (0). The `smoke100` variable indicates whether the respondent had smoked at least 100 cigarettes in her lifetime. The other variables record the respondent's `height` in inches, `weight` in pounds as well as their desired weight, `wtdesire`, `age` in years, and `gender`.
@@ -217,13 +219,13 @@ This returns the names `genhlth`, `exerany`, `hlthplan`, `smoke100`, `height`, `
 We can have a look at the first few entries (rows) of our data with the `head` function.
 
 ```{r head, exercise = TRUE}
-___(cdc)
+`___`(cdc)
 ```
 
 Similarly we can look at the last few using the `tail` function.
 
 ```{r tail, exercise = TRUE}
-___(cdc)
+`___`(cdc)
 ```
 
 Remember that you can use `glimpse` to take a quick peek at your data to understand its contents better.
@@ -237,7 +239,7 @@ The BRFSS questionnaire is a massive trove of information.  A good first step in
 Try producing a summary for the `weight` variable.
 
 ```{r summary-weight, exercise = TRUE}
-summary(___$___)
+summary(`___`$`___`)
 ```
 
 If you wanted to compute the interquartile range for the respondents' weight, you would look at the output from the summary command above and then enter:
@@ -276,12 +278,12 @@ Next, make a bar plot of the entries in the `tabyl` data frame using `ggplot` wi
 
 ```{r table-smoke-barplot, exercise = TRUE}
 df <- cdc %>% tabyl(smoke100)
-ggplot(___, aes(x = smoke100, y = ___)) + geom_bar(stat = "identity")
+ggplot(`___`, aes(x = smoke100, y = `___`)) + geom_bar(stat = "identity")
 ```
 
 ```{r table-smoke-barplot-hint}
 df <- cdc %>% tabyl(smoke100)
-ggplot(df, aes(x = smoke100, y = ___)) + geom_bar(stat = "identity") 
+ggplot(df, aes(x = smoke100, y = `___`)) + geom_bar(stat = "identity") 
 # you can set `y` to `n` or `percentage` as you please
 ```
 
@@ -355,7 +357,7 @@ We mentioned that `R` stores data in data frames, which you might think of as a 
 ### Subsetting (Base `R`)
 
 ```{r dim, exercise = TRUE}
-___(___)
+`___`(`___`)
 ```
 
 ```{r dim-solution}
@@ -391,7 +393,7 @@ cdc[1:10,]
 By leaving out an index or a range (we didn't type anything between the comma and the square bracket), we get all the columns. When starting out in `R`, this is a bit counterintuitive. As a rule, we omit the column number to see all columns in a data frame. Similarly, if we leave out an index or range for the rows, we would access all the observations, not just the 567<sup>th</sup>, or rows 1 through 10. Display the weights of the second batch of 100 respondents.
 
 ```{r 6th-column, exercise = TRUE}
-cdc[___, ___]
+cdc[`___`, `___`]
 ```
 
 ```{r 6th-column-check}
@@ -417,7 +419,7 @@ cdc$weight[567]
 Write a code to retrieve the weights of the first 10 respondents using the dollar-sign notation. 
 
 ```{r weight-first10, exercise = TRUE}
-___
+`___`
 ```
 
 The command above returns the same result as the `cdc[1:10,6]` command. Both row-and-column notation and dollar-sign notation are widely used, which one you choose to use depends on your personal preference.
@@ -502,7 +504,7 @@ In principle, you may use as many "and" and "or" clauses as you like when filter
 Using the **CDC Health Data**, create a new object called `under23_and_smoke` that contains all observations of respondents under the age of 23 that have smoked 100 cigarettes in their lifetime. Write the command you used to create the new object as the answer to this exercise.
 
 ```{r answer-6, exercise = TRUE}
-under23_and_smoke <- ___
+under23_and_smoke <- `___`
 under23_and_smoke
 ```
 
@@ -552,8 +554,8 @@ Notice that the first line above is just some arithmetic, but it's applied to al
 Using the **CDC Health Data**, create a box plot of `bmi` versus `genhlth`. What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would have a relationship to BMI,  and indicate what the figure seems to suggest. 
 
 ```{r answer-7a, exercise = TRUE}
-cdc <- ___ %>% mutate(bmi = 703 * ___ / ___)
-ggplot(___) + ___
+cdc <- `___` %>% mutate(bmi = 703 * `___` / `___`)
+ggplot(`___`) + `___`
 ```
 
 ```{r answer-7b}
