@@ -27,26 +27,26 @@ devtools::install_github("dundeemath/MA22004labs")
 The `MA22004labs` package includes a list of dependencies (packages that are used in one or more of the lab tutorials). RStudio will try to install these dependencies but will need to ask for your permission. Please give permission to update/install packages as required. RStudio will prompt you for permission in the console (usually, you will be asked to enter "1" or "Yes" to proceed with the updates/installs).
 
 
-## Running Tutorials
+## Run Tutorials
 
 The tutorials are labeled `lab0n` for `n = 1, 2, ..., 7`, e.g., the first lab tutorial is `lab01`. There are a few ways to run tutorials. 
 
-1.  You can run the tutorials directly from the console using the command:
+-  You can run the tutorials directly from the console using the command:
 
 ```
 learnr::run_tutorial("lab01", "MA22004labs")
 ```
 
-2.  In newer versions of RStudio, the tutorials can also also be run from the *Tutorial* tab in the upper right-hand pane (a neighbor of *Environment*, *History*, etc). Navigate through the list to the appropriate tutorial and select "Start Tutorial >". The tutorial window can be enlarged by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane. 
+-  In newer versions of RStudio, the tutorials can also also be run from the *Tutorial* tab in the upper right-hand pane (a neighbor of *Environment*, *History*, etc). Navigate through the list to the appropriate tutorial and select "Start Tutorial >". The tutorial window can be enlarged by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane. 
 
 ![Enlarge tutorial window by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane.](images/enlargetutorial.png)
 
-3.  If all else fails, try downloading the associated `.Rmd` file (found in `inst/tutorials/lab0n`) and opening it in RStudio. Then you can "Run" the file. But maybe it is a good idea to contact me first.
+-  If all else fails, try downloading the associated `.Rmd` file (found in `inst/tutorials/lab0n`) and opening it in RStudio. Then you can "Run" the file. But maybe it is a good idea to contact me first.
 
 ## Tutorial State
 
 As you progress through the tutorial, the state (i.e. the answers you have entered) will be preserved even if you close the tutorial window. There is a small option underneath the table of contents that says "Start Over". Pressing this will reset the state of the lab (after a confirmation prompt). 
 
-<img src="images/state.png" alt="The tutorial state will be preserved unless you manually rest it by clicking `Start Over`." width="60%"/>
+![The tutorial state will be preserved unless you manually rest it by clicking "Start Over".](images/state.png)
 
 Pressing "Start Over" above an individual code chunk will reset the state of that individual code chunk. 
