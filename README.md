@@ -39,7 +39,7 @@ learnr::run_tutorial("lab01", "MA22004labs")
 
 -  In newer versions of RStudio, the tutorials can also also be run from the *Tutorial* tab in the upper right-hand pane (a neighbor of *Environment*, *History*, etc). Navigate through the list to the appropriate tutorial and select "Start Tutorial >". The tutorial window can be enlarged by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane. 
 
-![Enlarge tutorial window by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane.](images/enlargetutorial.png)
+![Enlarge tutorial window by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane.](assets/img/enlargetutorial.png)
 
 -  If all else fails, try downloading the associated `.Rmd` file (found in `inst/tutorials/lab0n`) and opening it in RStudio. Then you can "Run" the file. But maybe it is a good idea to contact me first.
 
@@ -47,6 +47,6 @@ learnr::run_tutorial("lab01", "MA22004labs")
 
 As you progress through the tutorial, the state (i.e. the answers you have entered) will be preserved even if you close the tutorial window. There is a small option underneath the table of contents that says "Start Over". Pressing this will reset the state of the lab (after a confirmation prompt). 
 
-![The tutorial state will be preserved unless you manually rest it by clicking "Start Over".](images/state.png)
+![The tutorial state will be preserved unless you manually rest it by clicking "Start Over".](assets/img/state.png)
 
 Pressing "Start Over" above an individual code chunk will reset the state of that individual code chunk. 
