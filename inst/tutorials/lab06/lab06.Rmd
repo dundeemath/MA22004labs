@@ -1,0 +1,424 @@
+---
+title: "Lab 6"
+subtitle: "Inference for Categorical Data"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+tutorial:
+  id: "ma22004-lab06"
+  version: 0.5.2020
+---
+
+```{css, echo=FALSE}
+body {
+    counter-reset: li; /* initialize counter named li */
+}
+
+ol {
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+}
+ol > li {
+    position:relative; /* Create a positioning context */
+    margin:0 0 10px 2em; /* Give each list item a left margin to make room for the numbers */
+    padding:10px 80px; /* Add some spacing around the content */
+    list-style:none; /* Disable the normal item numbering */
+    border-top:2px solid #317EAC;
+    background:rgba(49, 126, 172, 0.1);
+}
+ol > li:before {
+    content:"Exercise " counter(li); /* Use the counter as content */
+    counter-increment:li; /* Increment the counter by 1 */
+    /* Position and style the number */
+    position:absolute;
+    top:-2px;
+    left:-2em;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    width:7em;
+    /* Some space between the number and the content in browsers that support
+       generated content but not positioning it (Camino 2 is one example) */
+    margin-right:8px;
+    padding:4px;
+    border-top:2px solid #317EAC;
+    color:#fff;
+    background:#317EAC;
+    font-weight:bold;
+    font-family:"Helvetica Neue", Arial, sans-serif;
+    text-align:center;
+}
+li ol,
+li ul {margin-top:6px;}
+ol ol li:last-child {margin-bottom:0;}
+
+.oyo ul {
+    list-style-type:decimal;
+}
+
+.oyo ul {
+    list-style-type:decimal;
+}
+
+
+hr {
+    border: 1px solid #357FAA;
+}
+
+div#boxedtext {
+    background-color: rgba(86, 155, 189, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 10pt;
+}
+
+div#template {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #808080;
+    border:1px solid #808080;
+    padding: 10px 10px;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 5px;
+}
+
+div#license { 
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #4C721D;
+    border:1px solid #4C721D;
+    padding: 10px 10px;
+    background-color: rgba(76, 114, 29, 0.2);
+    border-radius: 5px;
+}
+
+/*------------ Fancy blocks --------------*/
+
+.noteblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #042e6b;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/info-circle.svg");
+}
+
+.tipblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #d5d5ce;
+  background: 1.5em center/2em no-repeat;
+  background-image: url("images/lightbulb.svg");
+}
+
+.warningblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #be4e00;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/exclamation-triangle.svg");
+}
+
+.importantblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #c30000;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/exclamation-circle.svg");
+}
+
+.exerciseblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #317EAC;
+  background: rgba(49, 126, 172, 0.1) 1.5em center/2.5em no-repeat;
+  background-image: url("images/flag.svg");
+}
+```
+
+```{r setup, include = FALSE}
+# packages
+library(MA22004labs)
+library(tidyverse)
+library(infer)
+library(learnr)
+library(gradethis)
+
+# tutorial options
+tutorial_options(
+  # code running in exercise times out after 30 seconds
+  # if it is taking more than 30 s something is wrong 
+  exercise.timelimit = 30,
+  # use gradethis for checking
+  exercise.checker = gradethis::grade_learnr
+  )
+options(width = 60)
+
+# hide non-exercise code chunks
+knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+
+data(hfi)
+
+```
+
+## Getting started
+
+This lab considers inferences for categorical data. 
+
+:::{.noteblock}
+The report for Lab 6 consists of answers to exercises 1-4 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+:::
+
+### Packages
+
+In this lab, we will explore and visualize the data using the **tidyverse** suite of packages, and perform statistical inference using **infer**.
+
+Recall that all the necessary packages can be loaded using the `library` command. 
+
+```{r load-packages, message=FALSE, echo = TRUE}
+library(MA22004labs)
+library(tidyverse)
+library(infer)
+```
+
+### The **YRBSS Survey Data**
+
+You will be analyzing the same dataset as Lab 5, where you delved into a sample from the Youth Risk Behavior Surveillance System (YRBSS) survey, which uses data from high school aged youth to help discover health patterns. The **YRBSS Survey Data** is in a data frame called `yrbss`.
+
+:::{.exerciseblock}
+The **YRBSS Survey Data** contains the amount of days that the respondent texted while driving within the past 30 days. How many counts are within each category for the amount of days that the students texted while driving within the past 30 days? (Do not include `NA` in your count; a graphical representation is acceptable.)
+
+```{r yrbss-counts-textdriving, exercise = TRUE}
+
+```
+
+```{r yrbss-counts-textdriving-hint}
+ggplot(yrbss, aes(x=___)) + geom_bar()
+```
+
+```{r yrbss-counts-textdriving-free}
+question_text(
+  "Enter your observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+:::{.exerciseblock}
+What is the proportion of people have texted while driving every day in the past 30 days and never wear helmets? 
+
+```{r proportion-nohelmet-texting, exercise = TRUE}
+
+```
+
+```{r proportion-nohelmet-texting-hint}
+# You can use `filter` to limit the dataset to just non-helmet wearers.
+# Here, we will name the dataset `no_helmet`
+
+no_helmet <- yrbss %>%
+  filter(___ == "never")
+
+# Create a new yes/no variable that specifies whether the individual 
+# has texted  every day while driving over the past 30 days or not.
+# We will call this variable `text_ind`.
+no_helmet <- no_helmet %>%
+  mutate(text_ind = ifelse(___ == "30", "yes", "no"))
+```
+
+```{r proportion-nohelmet-texting-solution}
+# You can use `filter` to limit the dataset to just non-helmet wearers.
+# Here, we will name the dataset `no_helmet`
+
+no_helmet <- yrbss %>%
+  filter(helmet_12m == "never")
+
+# Create a new yes/no variable that specifies whether the individual 
+# has texted  every day while driving over the past 30 days or not.
+# We will call this variable `text_ind`.
+no_helmet <- no_helmet %>%
+  mutate(text_ind = ifelse(text_while_driving_30d == "30", "yes", "no"))
+```
+:::
+
+
+## Inference on proportions
+
+When summarizing the YRBSS, the Centers for Disease Control and Prevention seeks insight into the population *parameters*.
+To do this, you can answer the question, "What proportion of people in your sample reported that they have texted while driving each day for the past 30 days?" with a statistic; while the question "What proportion of people on earth have texted while driving each day for the past 30 days?" is answered with an estimate of the parameter.
+
+The inferential tools for estimating population proportion are analogous to those used for means in the last chapter: the confidence interval and the hypothesis test.
+
+```{r nohelmet-text-ci-pre}
+no_helmet <- yrbss %>%
+  filter(helmet_12m == "never") %>%
+  mutate(text_ind = ifelse(text_while_driving_30d == "30", "yes", "no"))
+```
+
+```{r nohelmet-text-ci, exercise = TRUE, warning = FALSE, exercise.setup = "nohelmet-text-ci-pre"}
+no_helmet %>%
+  specify(response = text_ind, success = "yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "prop") %>%
+  get_ci(level = 0.95)
+```
+
+Note that since the goal is to construct an interval estimate for a proportion, it's necessary to both include the `success` argument within `specify`, which accounts for the proportion of non-helmet wearers than have consistently texted while driving the past 30 days, in this example, and that `stat` within `calculate` is here "prop", signaling that you are trying to do some sort of inference on a proportion.
+
+<!-- 1.  What is the margin of error for the estimate of the proportion of non-helmet wearers that have texted while driving each day for the past 30 days based on this survey? -->
+
+:::{.exerciseblock}
+Using the `infer` package, calculate confidence intervals for two other categorical variables (i.e. not `helmet_12m` or `text_while_driving_30d`). You will need to decide which level to call "success" and report the associated margins of error. Interpret the intervals in context of the data. It may be helpful to create new datasets for each of the two variables first, and then use these datasets to construct the confidence intervals.
+
+```{r answer-1a, exercise = TRUE}
+
+```
+
+```{r answer-1b, exercise = TRUE}
+
+```
+:::
+
+## Margin of error
+
+Imagine you've set out to survey 1000 people on two questions: are you at least 6-feet tall?
+and are you left-handed?
+Since both of these sample proportions were calculated from the same sample size, they should have the same margin of error, right?
+Wrong!
+While the margin of error does change with sample size, it is also affected by the proportion.
+
+The margin of error for a 95% confidence interval is given by, 
+\[\mathsf{ME} = 1.96 \cdot \mathsf{se} = 1.96 \cdot \sqrt{p(1-p)/n} \,,\]
+where $\mathsf{se}$ is the standard error.
+Since the population proportion $p$ is in this $\mathsf{ME}$ formula, it should make sense that the margin of error is in some way dependent on the population proportion.
+We can visualize this relationship by creating a plot of $\mathsf{ME}$ vs. $p$.
+
+Since sample size is irrelevant to this discussion, let's just set it to some value ($n = 1000$) and use this value in the following calculations:
+
+```{r n-for-me-plot, echo = TRUE, eval = TRUE}
+n <- 1000
+```
+
+The first step is to make a variable `p` that is a sequence from 0 to 1 with each number incremented by 0.01.
+You can then create a variable of the margin of error (`me`) associated with each of these values of `p` using the familiar approximate formula ($\mathsf{ME} = 2 \times \mathsf{se}$).
+
+```{r p-me, echo = TRUE, eval = TRUE}
+p <- seq(from = 0, to = 1, by = 0.01)
+me <- 2 * sqrt(p * (1 - p)/n)
+```
+
+Lastly, you can plot the two variables against each other to reveal their relationship.
+To do so, we need to first put these variables in a data frame that you can call in the `ggplot` function.
+
+```{r me-plot, echo = TRUE, eval = TRUE}
+dd <- data.frame(p = p, me = me)
+ggplot(data = dd, aes(x = p, y = me)) + 
+  geom_line() +
+  labs(x = "Population Proportion", y = "Margin of Error")
+```
+
+:::{.exerciseblock}
+Construct a plot of margin of error vs. population proportion $p$. Describe the relationship between a population proportion and the margin of error. For a given sample size, for which value of $p$ is margin of error maximized?
+
+```{r me-plot-free}
+question_text(
+  "Enter your observations and thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+## Success-failure condition
+
+We have emphasized that you must always check conditions before making an inference.
+For inference on proportions, the sample proportion can be assumed to be nearly normal if it is based upon a random sample of independent observations and if both $np \geq 10$ and $n(1 - p) \geq 10$.
+This rule of thumb is easy enough to follow, but it makes you wonder: what's so special about the number 10?
+
+The short answer is: nothing.
+You could argue that you would be fine with 9 or that you really should be using 11.
+What is the "best" value for such a rule of thumb is, at least to some degree, arbitrary.
+However, when $np$ and $n(1-p)$ reaches 10 the sampling distribution is sufficiently normal to use confidence intervals and hypothesis tests that are based on that approximation.
+
+You can investigate the interplay between $n$ and $p$ and the shape of the sampling distribution by using simulations.
+Play around with the following app to investigate how the shape, center, and spread of the distribution of $\hat{p}$ changes as $n$ and $p$ changes.
+
+<!-- ```{r plotly-test, eval = TRUE, echo = FALSE, warning = FALSE} -->
+<!-- x <- seq(0,10, length.out = 1000) -->
+
+<!-- # create data -->
+<!-- aval <- list() -->
+<!-- for(step in 1:11){ -->
+<!--   aval[[step]] <-list(visible = FALSE, -->
+<!--                       name = paste0('v = ', step), -->
+<!--                       x=x, -->
+<!--                       y=sin(step*x)) -->
+<!-- } -->
+<!-- aval[3][[1]]$visible = TRUE -->
+
+<!-- # create steps and plot all traces -->
+<!-- steps <- list() -->
+<!-- fig <- plot_ly() -->
+<!-- for (i in 1:11) { -->
+<!--  fig <- add_lines(fig,x=aval[i][[1]]$x,  y=aval[i][[1]]$y, visible = aval[i][[1]]$visible,  -->
+<!--                  name = aval[i][[1]]$name, type = 'scatter', mode = 'lines', hoverinfo = 'name',  -->
+<!--                  line=list(color='00CED1'), showlegend = FALSE) -->
+
+<!--   step <- list(args = list('visible', rep(FALSE, length(aval))), -->
+<!--                method = 'restyle') -->
+<!--   step$args[[2]][i] = TRUE   -->
+<!--   steps[[i]] = step  -->
+<!-- }   -->
+
+<!-- # add slider control to plot -->
+<!-- fig <- fig %>% -->
+<!--   layout(sliders = list(list(active = 3, -->
+<!--                              currentvalue = list(prefix = "Frequency: "), -->
+<!--                              steps = steps))) -->
+
+<!-- fig -->
+<!-- ``` -->
+
+
+-   Describe the sampling distribution of sample proportions at $n = 300$ and $p = 0.1$. Be sure to note the center, spread, and shape.
+-  Keep $n$ constant and change $p$. How does the shape, center, and spread of the sampling distribution vary as $p$ changes? You might want to adjust min and max for the $x$-axis for a better view of the distribution.
+-  Now also change $n$. How does $n$ appear to affect the distribution of $\hat{p}$?
+    
+    
+## Summary (Exercises 1-5)
+
+:::{.warningblock}
+To submit your completed laboratory report, submit the answers (only) to the exercises 1-4 (+5 for bonus points) below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+:::
+
+The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 
+
+For some of the exercises below, you will conduct inference comparing two proportions.
+In such cases, you have a response variable that is categorical, and an explanatory variable that is also categorical, and you are comparing the proportions of success of the response variable across the levels of the explanatory variable. This means that when using `infer`, you need to include both variables within `specify`.
+
+1.  Using the `infer` package, calculate confidence intervals for two other categorical variables (i.e. not `helmet_12m` or `text_while_driving_30d`). You will need to decide which level to call "success" and report the associated margins of error. Interpret the intervals in context of the data. It may be helpful to create new datasets for each of the two variables first, and then use these datasets to construct the confidence intervals. **[6 marks]**
+
+2.  Construct a plot of margin of error vs. population proportion $p$. Describe the relationship between a population proportion and the margin of error. For a given sample size, for which value of $p$ is margin of error maximized? **[3 marks]**
+
+3.  Is there convincing evidence that those who sleep 10+ hours per day are more likely to strength train every day of the week? As always, write out the hypotheses for any tests you conduct and outline the status of the conditions for inference. If you find a significant difference, also quantify this difference with a confidence interval. **[6 marks]**
+
+4.  Let's say there has been no difference in likeliness to strength train every day of the week for those who sleep 10+ hours. What is the probability that you could detect a change (at a significance level of 0.05) simply by chance? *Hint:* Review the definition of the Type 1 error. **[5 marks]**
+
+5.  Suppose you're hired by the local government to estimate the proportion of residents that attend a religious service on a weekly basis. According to the guidelines, the estimate must have a margin of error no greater than 1% with 95% confidence. You have no idea what to expect for $p$. How many people would you have to sample to ensure that you are within the guidelines? *Hint:* Refer to your plot of the relationship between $p$ and margin of error. This question does not require using a dataset. **[Bonus marks]**
+
+------------------------------------------------------------------------
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+

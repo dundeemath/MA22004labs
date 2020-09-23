@@ -1,0 +1,36 @@
+Package: MA22004labs
+Type: Package
+Title: MA22004 (University of Dundee)
+Version: 0.5.2020
+Authors@R: as.person(
+    "Eric J. Hall <ehall001@dundee.ac.uk> [aut, cre] (<https://orcid.org/0000-0003-0211-3335>)"
+  )
+Description: Lab tutorials, templates, and data files for the course 
+    MA22004 - Statistics and Probability II 
+    in the Division of Mathematics at the University of Dundee.
+    The University of Dundee is a Scottish Registered Charity, No. SC015096.
+    This work is derivative of OpenIntro Labs and was modified by Eric Hall. 
+    The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel
+    from labs written by Mark Hansen of UCLA Statistics.
+License: `use_gpl3_license()`
+Language: "en"
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    learnr,
+    tidyverse (>= 1.3.0),
+    gradethis (>= 0.1.0.9004),
+    fontawesome,
+    tinytex,
+    janitor,
+    ggmosaic (>= 0.3.0),
+    cowplot,
+    infer
+Remotes: 
+    rstudio-education/gradethis,
+    rstudio/fontawesome,
+    haleyjeppson/ggmosaic
+Depends: 
+    R (>= 2.10)
+RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)

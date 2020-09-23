@@ -1,0 +1,63 @@
+---
+title: "Lab NUMBER: TITLE"
+author: "TEST STUDENT --- ID-NUMBER"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+papersize: a4
+---
+
+```{r setup, include = FALSE}
+### Some formatting options
+library(tidyverse)
+options(width = 80)
+theme_set(theme_bw(base_size = 10))
+knitr::opts_chunk$set(comment = "", fig.width = 5, fig.asp = 0.75, fig.align = "left")
+```
+
+To complete this lab report, we load the following packages and datasets.
+
+```{r load-packages}
+library(MA22004labs)
+# ADD PACKAGES/DATASETS HERE
+```
+
+***
+
+### Exercise 1
+
+Insert any text here (or below the `r` chunk if you like.)
+
+```{r answer-1}
+# Insert code for Exercise 1 here
+```
+
+\newpage
+
+### Exercise 2
+
+Insert any text here.
+
+```{r answer-2}
+# Insert code for Exercise 2 here
+```
+
+\newpage
+
+### Exercise 3
+
+Insert any text here.
+
+```{r answer-3}
+# Insert code for Exercise 3 here
+```
+
+\newpage
+
+### Exercise 4
+
+Insert any text here.
+
+```{r answer-4}
+# Insert code for Exercise 4 here
+```

@@ -1,0 +1,520 @@
+---
+title: "Lab 7"
+subtitle: "Introduction to Linear Regression"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+tutorial:
+  id: "ma22004-lab07"
+  version: 0.5.2020
+---
+
+```{css, echo=FALSE}
+body {
+    counter-reset: li; /* initialize counter named li */
+}
+
+ol {
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+}
+ol > li {
+    position:relative; /* Create a positioning context */
+    margin:0 0 10px 2em; /* Give each list item a left margin to make room for the numbers */
+    padding:10px 80px; /* Add some spacing around the content */
+    list-style:none; /* Disable the normal item numbering */
+    border-top:2px solid #317EAC;
+    background:rgba(49, 126, 172, 0.1);
+}
+ol > li:before {
+    content:"Exercise " counter(li); /* Use the counter as content */
+    counter-increment:li; /* Increment the counter by 1 */
+    /* Position and style the number */
+    position:absolute;
+    top:-2px;
+    left:-2em;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    width:7em;
+    /* Some space between the number and the content in browsers that support
+       generated content but not positioning it (Camino 2 is one example) */
+    margin-right:8px;
+    padding:4px;
+    border-top:2px solid #317EAC;
+    color:#fff;
+    background:#317EAC;
+    font-weight:bold;
+    font-family:"Helvetica Neue", Arial, sans-serif;
+    text-align:center;
+}
+li ol,
+li ul {margin-top:6px;}
+ol ol li:last-child {margin-bottom:0;}
+
+.oyo ul {
+    list-style-type:decimal;
+}
+
+.oyo ul {
+    list-style-type:decimal;
+}
+
+
+hr {
+    border: 1px solid #357FAA;
+}
+
+div#boxedtext {
+    background-color: rgba(86, 155, 189, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 10pt;
+}
+
+div#template {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #808080;
+    border:1px solid #808080;
+    padding: 10px 10px;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 5px;
+}
+
+div#license { 
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #4C721D;
+    border:1px solid #4C721D;
+    padding: 10px 10px;
+    background-color: rgba(76, 114, 29, 0.2);
+    border-radius: 5px;
+}
+
+/*------------ Fancy blocks --------------*/
+
+.noteblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #042e6b;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/info-circle.svg");
+}
+
+.tipblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #d5d5ce;
+  background: 1.5em center/2em no-repeat;
+  background-image: url("images/lightbulb.svg");
+}
+
+.warningblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #be4e00;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/exclamation-triangle.svg");
+}
+
+.importantblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #c30000;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/exclamation-circle.svg");
+}
+
+.exerciseblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #317EAC;
+  background: rgba(49, 126, 172, 0.1) 1.5em center/2.5em no-repeat;
+  background-image: url("images/flag.svg");
+}
+```
+
+```{r setup, include = FALSE}
+# packages
+library(MA22004labs)
+library(tidyverse)
+library(learnr)
+library(gradethis)
+
+# tutorial options
+tutorial_options(
+  # code running in exercise times out after 30 seconds
+  # if it is taking more than 30 s something is wrong 
+  exercise.timelimit = 30,
+  # use gradethis for checking
+  exercise.checker = gradethis::grade_learnr
+  )
+options(width = 60)
+
+# hide non-exercise code chunks
+knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+
+data(hfi)
+hfi_samp <- hfi %>% drop_na(pf_expression_control, pf_score)
+hfi_samp <- sample_n(hfi_samp, 30)
+```
+
+## Getting started
+
+In this lab, we will investigate simple linear models and the components of a least squares regression.
+
+:::{.noteblock}
+The report for Lab 7 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+:::
+
+
+### Packages
+
+In this lab, we will explore and visualize the data using the **tidyverse** suite of packages. 
+
+Recall that all the necessary packages can be loaded using the `library` command. 
+
+
+```{r load-packages, message=FALSE, echo = TRUE}
+library(MA22004labs)
+library(tidyverse)
+```
+
+### The **Human Freedom Index Data**
+
+:::{.tipblock}
+The Human Freedom Index is a report that attempts to summarize the idea of "freedom" through a bunch of different variables for many countries around the globe.
+It serves as a rough objective measure for the relationships between the different types of freedom --- whether it's political, religious, economical or personal freedom --- and other social and economic circumstances. The Human Freedom Index is an annually co-published report by the Cato Institute, the Fraser Institute, and the Liberales Institut at the Friedrich Naumann Foundation for Freedom. 
+:::
+
+In this lab, you'll be analyzing the **Human Freedom Index Data** from 2008-2016. You will  summarize a few of the relationships within the data both graphically and numerically in order to find which variables can help tell a story about freedom. The data we're working with is in a data frame called `hfi`, short for Human Freedom Index, made available by the openintro package.
+
+:::{.exerciseblock}
+What are the dimensions of the `hfi` dataset?
+
+```{r glimpse-hfi, exercise = TRUE}
+
+```
+
+```{r glimpse-hfi-hint}
+dim(___)
+
+# Don't forget to run `glimpse(hfi)` in the console or 
+# explore the data frame through the RStudio environment pane
+```
+:::
+
+:::{.exerciseblock}
+What type of plot would you use to display the relationship between the personal freedom score, `pf_score`, and one of the other numerical variables? Plot this relationship using the variable `pf_expression_control` as the predictor. Does the relationship look linear? If you knew a country's `pf_expression_control`, or its score out of 10, with 0 being the most, of political pressures and controls on media content, would you be comfortable using a linear model to predict the personal freedom score?
+
+```{r scatter-plot-1, exercise = TRUE, warning = FALSE}
+
+```
+
+```{r scatter-plot-1-hint}
+ggplot(___) + geom_point()
+```
+
+```{r scatter-plot-free}
+question_text(
+  "Enter your observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+The correlation coefficient quantifies the strength of a linear relationship between variables. A correlation coefficient can be computed using the `cor` function. A perfect linear association has correlation $\pm 1$. A correlation near zero indicates the absence of a linear association. 
+
+```{r cor, echo = TRUE, eval = TRUE}
+hfi %>%
+  summarise(cor(pf_expression_control, pf_score, use = "complete.obs"))
+```
+
+Here, we pipe `hfi` to the `summarize` command and set the `use` argument of `cor` to "complete.obs" since there are some observations of NA (and we want to ingore these and focus on complete observations only).
+
+## Sum of squared residuals
+
+In this section, you will use an interactive function to investigate what we mean by "sum of squared residuals". An interactive function `plot_ss` is provided; however you will need to run this function in your console, not in your markdown document. Running the function also requires that the `hfi` dataset is loaded in your environment.
+
+Think back to the way that we described the distribution of a single variable.
+Recall that we discussed characteristics such as center, spread, and shape.
+It's also useful to be able to describe the relationship of two numerical variables, such as `pf_expression_control` and `pf_score` above.
+
+:::{.exerciseblock}
+Consider your plot of `pf_expression_control` vs `pf_score` from the previous exercise. Describe the relationship between these two variables. Make sure to discuss the form, direction, and strength of the relationship as well as any unusual observations.
+
+```{r scatter-plot-reflection}
+question_text(
+  "Enter your observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+Just as you've used the mean and standard deviation to summarize a single variable, you can summarize the relationship between these two variables by finding the line that best follows their association.
+Use the following interactive function to select the line that you think does the best job of going through the cloud of points.
+
+```{r plotss-setup, echo = TRUE, eval = FALSE}
+# We must remove records with `NA` responses.
+hfi <- hfi %>% drop_na(pf_expression_control, pf_score)
+# We consider a smaller sample of just 30 rows, just because.
+hfi_samp <- sample_n(hfi, 30)
+```
+
+```{r plotss-expression-score, exercise = TRUE}
+# Here we demonstrate call & output of `plot_ss`; 
+# this command will run interactively from your console. 
+plot_ss(x = hfi_samp$pf_expression_control, y = hfi_samp$pf_score)
+```
+
+After running this command, you'll be prompted to click two points on the plot to define a line.
+Once you've done that, the line you specified will be shown in black and the residuals in blue.
+Note that there are $m$ residuals, one for each of the $m$ observations (above we set $m = 30$).
+Recall that the residuals are the difference between the observed values and the values predicted by the line,
+
+\[e_i = y_i - \hat{y}_i \,.\]
+
+The most common way to do linear regression is to select the line that minimizes the sum of squared residuals.
+To visualize the squared residuals, you can rerun the plot command and add the argument `showSquares = TRUE`.
+
+```{r plotss-expression-score-squares, exercise = TRUE}
+plot_ss(x = hfi_samp$pf_expression_control, y = hfi_samp$pf_score, showSquares = TRUE)
+```
+
+Note that the output from the `plot_ss` function provides you with the slope and intercept of your line as well as the sum of squares.
+
+:::{.exerciseblock}
+Using `plot_ss` in the console, choose a line that does a good job of minimizing the sum of squares. Repeat this process several times and record the sum of squares. What was the smallest sum of squares that you captured?
+
+```{r plot-ss-reflection}
+question_text(
+  "Enter your observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+## The linear model
+
+It is rather cumbersome to try to get the correct least squares line, i.e. the line that minimizes the sum of squared residuals, through trial and error.
+Instead, you can use the `lm` function in `R` to fit the linear model (aka regression line).
+
+```{r m1, echo = TRUE, eval = TRUE}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+```
+
+The first argument in the function `lm` is a formula that takes the form `y ~ x`.
+Here it can be read that we want to make a linear model of `pf_score` as a function of `pf_expression_control`.
+The second argument specifies that `R` should look in the `hfi` data frame to find the two variables.
+
+The output of `lm` is an object that contains all of the information we need about the linear model that was just fit.
+We can access this information using the summary function.
+
+```{r summary-m1, echo = TRUE, eval = TRUE}
+summary(m1)
+```
+
+Let's consider this output piece by piece.
+First, the formula used to describe the model is shown at the top.
+After the formula you find the five-number summary of the residuals.
+The "Coefficients" table shown next is key; its first column displays the linear model's y-intercept and the coefficient of `pf_expression_control`.
+With this table, we can write down the least squares regression line for the linear model,
+
+\[ \hat{y} = 4.61707 + 0.49143 \cdot \mathsf{pf\_expression\_control} \,.\]
+
+One last piece of information we will discuss from the summary output is the Multiple R-squared, or more simply, $R^2$.
+The $R^2$ value represents the proportion of variability in the response variable that is explained by the explanatory variable.
+For this model, 63.42% of the variability in `pf_score` is explained by `pf_expression_control`.
+
+:::{.exerciseblock}
+Fit a new linear (least squares) model that uses `pf_expression_control` to predict `hf_score`, or the total human freedom score. Using the estimates from the `R` output, write the equation of the regression line. What does the slope tell us in the context of the relationship between human freedom and the amount of political pressure on media content?
+
+```{r answer-1a, exercise = TRUE}
+
+```
+
+```{r answer-1b}
+question_text(
+  "Enter your observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+## Prediction and prediction errors
+
+To add a least squares line on top of a scatter plot, we add a new geometry item using `geom_smooth` (or `stat_smooth` which is just an alias).
+
+```{r reg-with-line, exercise = TRUE, warning = FALSE}
+ggplot(data = hfi, aes(x = pf_expression_control, y = pf_score)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Here, we are literally adding a layer on top of the existing scatter plot.
+`geom_smooth` creates the line by fitting a linear model.
+It can also show us the standard error `se` associated with our line, but we'll suppress that for now.
+
+This line can be used to predict $y$ at any value of $x$.
+When predictions are made for values of $x$ that are beyond the range of the observed data, it is referred to as *extrapolation* and is not usually recommended.
+However, predictions made within the range of the data are more reliable.
+They're also used to compute the residuals.
+
+:::{.exerciseblock}
+If someone saw the least squares regression line and not the actual data, how would they predict a country's personal freedom school for one with a 6.7 rating for `pf_expression_control`? Is this an overestimate or an underestimate, and by how much? In other words, what is the residual for this prediction?
+```{r answer-ls-plot-reflection}
+question_text(
+  "Enter your observations and thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+## Model diagnostics
+
+To assess whether the linear model is reliable, we need to check for (1) linearity, (2) nearly normal residuals, and (3) constant variability.
+
+### Linearity
+
+You already checked if the relationship between `pf_score` and `pf_expression_control` is linear using a scatterplot.
+We should also verify this condition with a plot of the residuals vs fitted (predicted) values.
+
+```{r residuals-pre}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+```
+
+```{r residuals, exercise = TRUE, exercise.setup = "residuals-pre"}
+ggplot(data = m1, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+Notice here that `m1` can also serve as a data set because stored within it are the fitted values ($\hat{y}$) and the residuals.
+Also note that we're getting fancy with the code here.
+After creating the scatterplot on the first layer (first line of code), we overlay a horizontal dashed line at $y = 0$ (to help us check whether residuals are distributed around 0), and we also reanme the axis labels to be more informative.
+
+:::{.exerciseblock}
+Is there any apparent pattern in the residuals plot? What does this indicate about the linearity of the relationship between the two variables?
+
+```{r linearity-free}
+question_text(
+  "Enter your observations and thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+### Nearly normal residuals
+
+To check this condition, we can look at a histogram:
+
+```{r hist-res-pre}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+```
+
+```{r hist-res, exercise = TRUE, exercise.setup = "hist-res-pre"}
+ggplot(data = m1, aes(x = .resid)) +
+  geom_histogram(binwidth = .25) +
+  xlab("Residuals")
+```
+
+or a normal probability plot of the residuals:
+
+```{r qq-res-pre}
+m1 <- lm(pf_score ~ pf_expression_control, data = hfi)
+```
+
+```{r qq-res, exercise = TRUE, exercise.setup = "qq-res-pre"}
+ggplot(data = m1, aes(sample = .resid)) +
+  stat_qq() + stat_qq_line()
+```
+
+Note that the syntax for making a normal probability plot is a bit different than what you're used to seeing: we set `sample` equal to the residuals instead of `x`, and we set a statistical method `qq`, which stands for "quantile-quantile", another name commonly used for normal probability plots (`stat_qq_line()` simply draws a straight line through the points on the qq-plot).
+
+:::{.exerciseblock}
+Based on the histogram and the normal probability plot, does the nearly normal residuals condition appear to be met?
+
+```{r normality-free}
+question_text(
+  "Enter your observations and thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+
+### Constant variability
+
+:::{.exerciseblock}
+Based on the residuals vs fitted plot, does the constant variability condition appear to be met?
+
+```{r variability-free}
+question_text(
+  "Enter your observations and thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+------------------------------------------------------------------------
+
+
+## Summary (Exercises 1-5)
+
+:::{.warningblock}
+To submit your completed laboratory report, submit the answers (only) to the exercises 1-5 below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+:::
+
+The following exercises refer to variables found in or derived from the **Human Freedom Index Data* in the data frame `hfi` which is packaged with `MA22004labs`. 
+
+1.  Consider a scatterplot of `pf_expression_control` vs `pf_score` from the previous exercise. Describe the relationship between these two variables. Make sure to discuss the form, direction, and strength of the relationship as well as any unusual observations. **[2 marks]**
+
+2.  Fit a new linear (least squares) model that uses `pf_expression_control` to predict `hf_score`, or the total human freedom score. Using the estimates from the `R` output, write the equation of the regression line. What does the slope tell us in the context of the relationship between human freedom and the amount of political pressure on media content? **[6 marks]**
+
+3.  Choose another freedom variable and a variable you think would strongly correlate with this new freedom variable. Produce a scatterplot of the two variables and fit a linear model. At a glance, does there seem to be a linear relationship? **[3 marks]**
+
+4.  How does this relationship in Exercise 3 compare to the relationship between `pf_expression_control` and `pf_score`? Use the $R^2$ values from the two model summaries to compare. Does your independent variable seem to predict your dependent one better? Why or why not? **[6 marks]**
+
+5.  What's one freedom relationship you were most surprised about and why? Display the model diagnostics for the regression model analyzing this relationship. **[3 marks]**
+
+
+
+------------------------------------------------------------------------
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+

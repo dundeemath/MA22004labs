@@ -1,0 +1,455 @@
+---
+title: "Lab 5"
+subtitle: "Inference for Numerical Data"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+tutorial:
+  id: "ma22004-lab05"
+  version: 0.5.2020
+---
+
+```{css, echo=FALSE}
+body {
+    counter-reset: li; /* initialize counter named li */
+}
+
+ol {
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+}
+ol > li {
+    position:relative; /* Create a positioning context */
+    margin:0 0 10px 2em; /* Give each list item a left margin to make room for the numbers */
+    padding:10px 80px; /* Add some spacing around the content */
+    list-style:none; /* Disable the normal item numbering */
+    border-top:2px solid #317EAC;
+    background:rgba(49, 126, 172, 0.1);
+}
+ol > li:before {
+    content:"Exercise " counter(li); /* Use the counter as content */
+    counter-increment:li; /* Increment the counter by 1 */
+    /* Position and style the number */
+    position:absolute;
+    top:-2px;
+    left:-2em;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    width:7em;
+    /* Some space between the number and the content in browsers that support
+       generated content but not positioning it (Camino 2 is one example) */
+    margin-right:8px;
+    padding:4px;
+    border-top:2px solid #317EAC;
+    color:#fff;
+    background:#317EAC;
+    font-weight:bold;
+    font-family:"Helvetica Neue", Arial, sans-serif;
+    text-align:center;
+}
+li ol,
+li ul {margin-top:6px;}
+ol ol li:last-child {margin-bottom:0;}
+
+.oyo ul {
+    list-style-type:decimal;
+}
+
+.oyo ul {
+    list-style-type:decimal;
+}
+
+
+hr {
+    border: 1px solid #357FAA;
+}
+
+div#boxedtext {
+    background-color: rgba(86, 155, 189, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 10pt;
+}
+
+div#template {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #808080;
+    border:1px solid #808080;
+    padding: 10px 10px;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 5px;
+}
+
+div#license { 
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #4C721D;
+    border:1px solid #4C721D;
+    padding: 10px 10px;
+    background-color: rgba(76, 114, 29, 0.2);
+    border-radius: 5px;
+}
+
+/*------------ Fancy blocks --------------*/
+
+.noteblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #042e6b;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/info-circle.svg");
+}
+
+.tipblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #d5d5ce;
+  background: 1.5em center/2em no-repeat;
+  background-image: url("images/lightbulb.svg");
+}
+
+.warningblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #be4e00;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/exclamation-triangle.svg");
+}
+
+.importantblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #c30000;
+  background: 1.5em center/2.5em no-repeat;
+  background-image: url("images/exclamation-circle.svg");
+}
+
+.exerciseblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #317EAC;
+  background: rgba(49, 126, 172, 0.1) 1.5em center/2.5em no-repeat;
+  background-image: url("images/flag.svg");
+}
+```
+
+```{r setup, include = FALSE}
+# packages
+library(MA22004labs)
+library(tidyverse)
+library(infer)
+library(learnr)
+library(gradethis)
+
+# tutorial options
+tutorial_options(
+  # code running in exercise times out after 30 seconds
+  # if it is taking more than 30 s something is wrong 
+  exercise.timelimit = 30,
+  # use gradethis for checking
+  exercise.checker = gradethis::grade_learnr
+  )
+options(width = 60)
+
+# hide non-exercise code chunks
+knitr::opts_chunk$set(echo = FALSE, comment = "", fig.align = "center", fig.width = 6, fig.asp = 0.75, out.width = "100%")
+
+data(yrbss)
+
+yrbss_exercise <- yrbss %>% 
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+
+obs_diff <- yrbss_exercise %>%
+  specify(weight ~ physical_3plus) %>%
+  calculate(stat = "diff in means", order = c("yes", "no"))
+
+null_dist <- yrbss_exercise %>%
+  specify(weight ~ physical_3plus) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in means", order = c("yes", "no"))
+```
+
+## Getting started
+
+This lab considers inferences for numerical data. 
+
+:::{.noteblock}
+The report for Lab 5 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+:::
+
+### Packages
+
+In this lab, we will explore and visualize the data using the **tidyverse** suite of packages, and perform statistical inference using **infer**.
+
+Recall that all the necessary packages can be loaded using the `library` command. 
+
+```{r load-packages, message=FALSE, echo = TRUE}
+library(MA22004labs)
+library(tidyverse)
+library(infer)
+```
+
+### The **YRBSS Survey Data**
+
+:::{.tipblock}
+Every two years, the Centers for Disease Control and Prevention in the United States conduct the Youth Risk Behavior Surveillance System (YRBSS) survey, where it collects response data from high school aged youth (ca. 14-18 year olds). The YRBSS survey is carried out with the intention of analyzing health patterns.
+
+The **YRBSS Survey Data** includes a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted. The data frame `yrbss` contains observations for 13 different variables, some categorical and some numerical. The meaning of each variable can be found by bringing up the help file `?yrbss`.
+:::
+
+Load the `yrbss` data set into your workspace by calling the `data` command. 
+
+```{r load-data, echo = TRUE}
+data(yrbss)
+```
+
+:::{.exerciseblock}
+Consider `yrbss`. What are the variables in the **YRBSS Survey Data**? How many records are there in the sample?
+
+```{r answer-a-a, exercise = TRUE}
+
+```
+
+```{r answer-a-a-hint}
+# look, but don't include this output in your final lab report 
+glimpse(yrbss) 
+```
+
+```{r answer-a-b}
+question_text(
+  "Enter your observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+
+## Exploratory data analysis
+
+You will first start with analyzing the weight of the participants in kilograms: `weight`.
+
+Using visualization and summary statistics, describe the distribution of weights.
+The `summary` function can be useful.
+
+```{r summary, eval = TRUE, echo = TRUE}
+summary(yrbss$weight)
+```
+
+```{r how-many-nas}
+question(
+  "How many observations are we missing weights from?",
+  answer("1004", correct = TRUE),
+  answer("none", message = "Unfortunately, not everyone fills out a survey completely."),
+  answer("29.94"),
+  answer("67"),
+  answer("500"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+
+Next, consider the possible relationship between a youth's weight and their physical activity.
+Plotting the data is a useful first step because it helps us quickly visualize trends, identify strong associations, and develop research questions.
+
+First, let's create a new variable `physical_3plus`, which will be coded as either "yes" if they are physically active for at least 3 days a week, and "no" if not. This can be done using the following code (note: since the variable `physical_3plus` is not part of the `yrbss`, you will need to recreate this variable if used in your lab report). 
+
+```{r create-new-var, echo = TRUE}
+yrbss_exercise <- yrbss %>% 
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+```
+
+:::{.exerciseblock}
+Make a boxplot (using `geom_boxplot()`) for the new categorical variable `physical_3plus` by `weight`. Is there a relationship between engaging in physical activity for at least 3 days a week and weight? What did you expect and why?
+
+```{r answer-1a, exercise = TRUE}
+
+```
+
+```{r answer-1a-hint}
+ggplot(___, aes(x = ___, y = ___)) + geom_boxplot()
+```
+
+```{r answer-1b}
+question_text(
+  "Enter your thoughts and observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+The box plots show how the medians of the two distributions compare, but we can also compare the means of the distributions using the following to first group the data by the `physical_3plus` variable, and then calculate the mean `weight` in these groups using the `mean` function while ignoring missing values by setting the `na.rm` argument to `TRUE`.
+
+```{r by-means, exercise = TRUE}
+yrbss_exercise %>%
+  group_by(physical_3plus) %>%
+  summarise(mean_weight = mean(weight, na.rm = TRUE))
+```
+
+The summary above indicates an observed difference in the mean weight, but is this difference statistically significant? In order to answer this question we will conduct a hypothesis test.
+
+## Inference
+
+:::{.exerciseblock}
+Consult the sections of the Course Notes on hypothesis testing. Are all conditions necessary for making an inference satisfied? Comment on each. You can compute the group sizes with the `summarize` command as above by defining a new variable with the definition `n()`.
+
+```{r by-means-eg, exercise = TRUE}
+
+```
+
+```{r by-means-eg-hint}
+yrbss_exercise %>%
+  group_by(___) %>%
+  summarise(mean_weight = ___, samp_size = ___)
+```
+
+```{r by-means-eg-solution}
+yrbss_exercise %>%
+  group_by(physical_3plus) %>%
+  summarise(mean_weight = mean(weight, na.rm = TRUE), samp_size = n())
+```
+
+```{r by-means-eg-question}
+question_text(
+  "Enter your thoughts and observations as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+    
+Write the hypotheses for testing if the average weights are different for those who exercise at least times a week and those who don't.
+
+```{r null-hypoth}
+question_text(
+  "Enter the null hypothesis.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r alt-hypoth}
+question_text(
+  "Enter the alternative hypothesis.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+Next, we will introduce a new function, `hypothesize`, that falls into the `infer` workflow.
+You will use this method for conducting hypothesis tests.
+
+But first, we need to initialize the test, which we will save as `obs_diff`.
+
+```{r inf-weight-habit-ht-initial, tidy=FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
+obs_diff <- yrbss_exercise %>%
+  specify(weight ~ physical_3plus) %>%
+  calculate(stat = "diff in means", order = c("yes", "no"))
+obs_diff$stat
+```
+
+Notice how you can use the functions `specify` and `calculate` again like you did for calculating confidence intervals.
+Here, though, the statistic you are searching for is the difference in means, with the order being `yes - no != 0`.
+
+After you have initialized the test, you need to simulate the test on the null distribution, which we will save as `null_dist`.
+
+```{r inf-weight-habit-ht-null, tidy=FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
+null_dist <- yrbss_exercise %>%
+  specify(weight ~ physical_3plus) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in means", order = c("yes", "no"))
+```
+
+Here, `hypothesize` is used to set the null hypothesis as a test for independence.
+In one sample cases, the `null` argument can be set to "point" to test a hypothesis relative to a point estimate.
+
+Also, note that the `type` argument within `generate` is set to `permute`, which is the argument when generating a null distribution for a hypothesis test.
+
+We can visualize this null distribution with the following code:
+
+```{r vis-null-dist, exercise = TRUE}
+ggplot(data = null_dist, aes(x = stat)) +
+  geom_histogram()
+```
+
+How many of these `null` permutations have a difference of at least `obs_diff$stat`?
+
+```{r null-v-obs_stat, exercise = TRUE}
+
+```
+
+```{r null-v-obs_stat-hint}
+null_dist$stat >= obs_diff$stat
+```
+
+```{r null-v-obs_stat-solution}
+sum(null_dist$stat >= obs_diff$stat)
+```
+
+Now that the test is initialized and the null distribution formed, you can calculate the $P$-value for your hypothesis test using the function `get_p_value`.
+
+```{r inf-weight-habit-ht-pvalue, exercise = TRUE}
+null_dist %>%
+  get_p_value(obs_stat = obs_diff, direction = "two_sided")
+```
+
+This the standard workflow for performing hypothesis tests!
+
+
+:::{.exerciseblock}
+Construct and record a confidence interval for the difference between the weights of those who exercise at least three times a week and those who do not. Interpret this interval estimate in context of the data.
+
+```{r ci-weight-exercise, exercise = TRUE}
+
+```
+:::
+
+## Summary (Exercises 1-5)
+
+:::{.warningblock}
+To submit your completed laboratory report, submit the answers (only) to the exercises 1-5 below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+:::
+
+The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 
+
+1.  Make a boxplot for the new categorical variable `physical_3plus` by `height`. Is there a relationship between engaging in physical activity for at least 3 days a week and height? What did you expect and why? **[3 marks]**
+
+2.  Calculate a 90% confidence interval for the average height in meters (`height`) and interpret it in context. **[3 mark]**
+
+<!-- 3.  Calculate a new confidence interval for the same parameter at the 90% confidence level. Comment on the width of this interval versus the one obtained in the previous exercise. **[2 marks]** -->
+
+3.  Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who don't. **[5 marks]**
+
+4.  Now, a non-inference task: Determine the number of different options there are in the data set for the `hours_tv_per_school_day` there are. **[2 marks]**
+
+5.  Come up with a research question evaluating the relationship between height or weight and sleep. Formulate the question in a way that it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results, and also provide an explanation in plain language. Be sure to check all assumptions, state your $\alpha$ level, and conclude in context. **[7 marks]**
+
+------------------------------------------------------------------------
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+
