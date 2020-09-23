@@ -150,6 +150,7 @@ library(ggmosaic)
 library(janitor)
 library(learnr)
 library(gradethis)
+library(knitr)
 
 # tutorial options
 tutorial_options(

@@ -147,6 +147,7 @@ library(MA22004labs)
 library(tidyverse)
 library(learnr)
 library(gradethis)
+library(knitr)
 library(fontawesome)
 
 # tutorial options

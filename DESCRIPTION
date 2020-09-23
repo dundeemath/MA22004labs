@@ -25,7 +25,8 @@ Imports:
     janitor,
     ggmosaic (>= 0.3.0),
     cowplot,
-    infer
+    infer,
+    knitr
 Remotes: 
     rstudio-education/gradethis,
     rstudio/fontawesome,

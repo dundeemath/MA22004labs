@@ -149,6 +149,7 @@ library(tidyverse)
 library(infer)
 library(learnr)
 library(gradethis)
+library(knitr)
 
 # tutorial options
 tutorial_options(

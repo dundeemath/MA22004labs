@@ -144,13 +144,13 @@ div#license {
 
 ```{r setup, include = FALSE}
 # packages
-# library(openintro)
 library(MA22004labs)
 library(tidyverse)
 library(janitor)
 library(cowplot)
 library(learnr)
 library(gradethis)
+library(knitr)
 
 # tutorial options
 tutorial_options(
