@@ -162,7 +162,7 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, 
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, 
                       comment = "", fig.align = "center", fig.width = 6, 
                       fig.asp = 0.75, out.width = "100%")
 

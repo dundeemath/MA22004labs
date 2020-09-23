@@ -162,7 +162,7 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, 
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, 
                       comment = "", fig.align = "center", fig.width = 6, 
                       fig.asp = 0.75, out.width = "100%")
 
@@ -265,7 +265,7 @@ no_helmet <- yrbss %>%
   mutate(text_ind = ifelse(text_while_driving_30d == "30", "yes", "no"))
 ```
 
-```{r nohelmet-text-ci, exercise = TRUE, warning = FALSE, exercise.setup = "nohelmet-text-ci-pre"}
+```{r nohelmet-text-ci, exercise = TRUE, warning = FALSE, error = FALSE, exercise.setup = "nohelmet-text-ci-pre"}
 no_helmet %>%
   specify(response = text_ind, success = "yes") %>%
   generate(reps = 1000, type = "bootstrap") %>%

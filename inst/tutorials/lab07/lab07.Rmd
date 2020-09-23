@@ -161,7 +161,7 @@ tutorial_options(
 options(width = 60)
 
 # hide non-exercise code chunks
-knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, 
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, 
                       comment = "", fig.align = "center", fig.width = 6, 
                       fig.asp = 0.75, out.width = "100%")
 
@@ -218,7 +218,7 @@ dim(`___`)
 :::{.exerciseblock}
 What type of plot would you use to display the relationship between the personal freedom score, `pf_score`, and one of the other numerical variables? Plot this relationship using the variable `pf_expression_control` as the predictor. Does the relationship look linear? If you knew a country's `pf_expression_control`, or its score out of 10, with 0 being the most, of political pressures and controls on media content, would you be comfortable using a linear model to predict the personal freedom score?
 
-```{r scatter-plot-1, exercise = TRUE, warning = FALSE}
+```{r scatter-plot-1, exercise = TRUE, warning = FALSE, error = FALSE}
 
 ```
 
@@ -368,7 +368,7 @@ question_text(
 
 To add a least squares line on top of a scatter plot, we add a new geometry item using `geom_smooth` (or `stat_smooth` which is just an alias).
 
-```{r reg-with-line, exercise = TRUE, warning = FALSE}
+```{r reg-with-line, exercise = TRUE, warning = FALSE, error = FALSE}
 ggplot(data = hfi, aes(x = pf_expression_control, y = pf_score)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE)
