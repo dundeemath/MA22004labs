@@ -47,6 +47,6 @@ learnr::run_tutorial("lab01", "MA22004labs")
 
 As you progress through the tutorial, the state (i.e. the answers you have entered) will be preserved even if you close the tutorial window. There is a small option underneath the table of contents that says "Start Over". Pressing this will reset the state of the lab (after a confirmation prompt). 
 
-<img src="images/state.png" alt="The tutorial state will be preserved unless you manually rest it by clicking `Start Over`." width="70%"/>
+<img src="images/state.png" alt="The tutorial state will be preserved unless you manually rest it by clicking `Start Over`." width="60%"/>
 
 Pressing "Start Over" above an individual code chunk will reset the state of that individual code chunk. 
