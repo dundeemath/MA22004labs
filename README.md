@@ -21,7 +21,7 @@ To install the package `MA22004labs` using RStudio:
 
 1.  Install the `devtools` package.
 2.  Source the `MA22004labs` package from GitHub.
-3.  Give permission for RStudio
+3.  Give permission to RStudio to install any required dependencies. 
 
 The first two steps are initiated by running the following code in the console. 
 
