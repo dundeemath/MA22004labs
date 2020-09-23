@@ -1,6 +1,7 @@
 ---
 title: "Lab 4"
 subtitle: "Confidence Intervals"
+description: "Lab report consists of answers to exercises 1-5."
 output:
   learnr::tutorial:
     progressive: true
@@ -265,8 +266,12 @@ One of the most common ways to describe the typical or central value of a distri
 
 ```
 
-```{r sample-mean-hint-1}
+```{r sample-mean-hint}
 mean(`___`)
+```
+
+```{r sample-mean-solution}
+mean(samp$area)
 ```
 
 ```{r sample-mean-check}
@@ -309,8 +314,8 @@ c(lower, upper)
 
 ```{r ci-check}
 grade_result(
-  pass_if(~ all( signif(.result, digits = 8) == signif(c(mean(samp) - 1.96 * sd(samp) / sqrt(60), mean(samp) + 1.96 * sd(samp) / sqrt(60)), digits = 8)))
-)
+  pass_if(~ all( signif(.result[1], digits = 8) == signif(mean(samp$area) - 1.96 * sd(samp$area) / sqrt(60), digits = 8) & signif(.result[2], digits = 8) == signif(mean(samp$area) + 1.96 * sd(samp$area) / sqrt(60), digits = 8))
+))
 ```
 
 ```{r ci-solution}
@@ -442,6 +447,9 @@ for(i in 1:50){
 
 `___`
 `___`
+
+summary(lower_vector)
+summary(upper_vector)
 ```
 
 ```{r cififty-hint-1}
@@ -464,6 +472,9 @@ for(i in 1:50){
 
 lower_vector <- `___` - 1.96 * `___` / `___`
 upper_vector <- `___` + 1.96 * `___` / `___`
+
+summary(lower_vector)
+summary(upper_vector)
 ```
 
 ```{r cififty-solution}
@@ -479,6 +490,9 @@ for(i in 1:50){
 
 lower_vector <- samp_mean - 1.96 * samp_sd / sqrt(m) 
 upper_vector <- samp_mean + 1.96 * samp_sd / sqrt(m) 
+
+summary(lower_vector)
+summary(upper_vector)
 ```
 
 

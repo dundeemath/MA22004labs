@@ -1,6 +1,7 @@
 ---
 title: "Lab 1"
 subtitle: "Intro to `R` & RStudio"
+description: "Lab report consists of answers to exercises 1-3."
 output:
   learnr::tutorial:
     progressive: true
@@ -208,7 +209,7 @@ For this lab, and many others in the future, we will use the following:
 -   The **learnr** `R` package: for running these interactive lab tutorials
 -   The **gradethis** `R` package: to serve you answers to interactive tutorial exercises
 
-In the lower right-hand corner of the RStudio window you can find the *Packages* tab. Type the name of each of these packages (learnr, tidyverse ) into the search box to see if they have been installed. If these packages do not appear when you type in their name, install them by copying and pasting or typing the following two lines of code into the console of your RStudio session. Be sure to press enter/return after each line of code.
+In the lower right-hand corner of the RStudio window you can find the *Packages* tab. Type the name of each package (e.g., `tidyverse`) into the search box to see if they have been installed. If packages do not appear when you type in their name, install them by copying and pasting or typing the following code into the console of your RStudio session. Be sure to press enter/return after each line of code.
 
 ```{r install-packages, message = FALSE, eval = FALSE, echo = TRUE}
 # If you installed the package "MA22004labs" then these will have
@@ -222,7 +223,7 @@ If you were not prompted to select a server for downloading packages when you in
 ### Loading packages
 
 You only need to *install* packages once, but you need to *load* them each time you relaunch RStudio.
-We load packages with the `library` function. Copy and paste or type the the following two lines in your console to load the MA22004labs, tidyverse, learnr, and gradethis packages into your working environment. 
+We load packages with the `library` function. Copy and paste or type the the following code into your console to load the `tidyverse` package into your working environment. 
 
 ```{r load-packages, echo = TRUE, eval = FALSE}
 library(tidyverse)
@@ -233,7 +234,7 @@ Additionally, these packages share common philosophies and are designed to work 
 
 ## Creating reproducible lab reports
 
-As part of your grade for MA22004 you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `ma22004` package. Access the template by selecting **New File > R Markdown**. You will then be greeted with a pop-up window. Choose **From Template** from the left-hand pane and then select **MA22004 Lab Template**. A new **Untitled.Rmd** file will open. Feel free to change the name to something sensible and save it where you like; I suggest answering the exercise questions as you work through the lab.
+As part of your grade for MA22004 you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `MA22004labs` package. Access the template by selecting **New File > R Markdown**. You will then be greeted with a pop-up window. Choose **From Template** from the left-hand pane and then select **MA22004 Lab Template**. A new **Untitled.Rmd** file will open. Feel free to change the name to something sensible and save it where you like; I suggest answering the exercise questions as you work through the lab.
 
 [**Why use R Markdown for Lab Reports?**](https://youtu.be/lNWVQ2oxNho) <iframe width="560" height="315" src="https://www.youtube.com/embed/lNWVQ2oxNho" frameborder="0" allowfullscreen></iframe>
 
@@ -263,7 +264,7 @@ options(width = 80)
 knitr::opts_chunk$set(fig.width = 6, fig.asp = 0.75, fig.align = "center")
 
 ### LOAD NECESSARY PACKAGES HERE
-library(MA22004)
+library(MA22004labs)
 ```
 ````
 
@@ -305,11 +306,11 @@ sqrt(5) + 3 * sin(pi/2) + 1/4
 A useful feature of `R` is its ability to create plots.  These typically appear in RStudio on the lower right hand panel in the Plots tab. Fill in the blank below to generate a scatter plot of **100** random numbers drawn from a Uniform distribution between 0.0 and 5.0:
 
 ```{r ex-input-plot, exercise = TRUE}
-
+plot(runif(`___`, 0.0, 5.0))
 ```
 
-```{r ex-input-plot-hint}
-plot(runif(`___`, 0.0, 5.0))
+```{r ex-input-plot-solution}
+plot(runif(100, 0.0, 5.0))
 ```
 
 ### Working with arrays
@@ -346,6 +347,10 @@ You can also output just one element of the array via indexing: `bob[index]`. Tr
 bob[`___`]
 ```
 
+```{r ex-input-array-bob2-solution}
+bob[2]
+```
+
 ```{r ex-input-array-bob2-check}
 grade_result(
   pass_if(~ identical(.result,"b"), 
@@ -370,7 +375,7 @@ To remove objects from your environment use the `rm()` command.
 To illustrate the power of `R` at handling larger sets of data, lets examine some data on birth records collected by Dr. John Arbuthnot, an 18<sup>th</sup> century physician, writer, and mathematician.  
 
 :::{.tipblock}
-The **Arbuthnot Baptism Data** is a collection of baptism records for children born in London for every year from 1629 to 1710. Dr. Arbuthnot was interested in the ratio of newborn boys to newborn girls. This data can be accessed using the command `arbuthnot` after loading the openintro package (`library(openintro)`).
+The **Arbuthnot Baptism Data** is a collection of baptism records for children born in London for every year from 1629 to 1710. Dr. Arbuthnot was interested in the ratio of newborn boys to newborn girls. This data can be accessed using the command `arbuthnot` after loading the MA22004labs package (`library(MA22004labs)`).
 :::
 
 ### Arbuthnot Baptism Data
@@ -508,7 +513,7 @@ Using the **Arbuthnot Data Set**, generate a line plot of female baptisms by yea
 ```
 
 ```{r answer-1a-hint}
-ggplot(data = , aes()) + `___`
+ggplot(data = `___`, aes(`___`)) + `___`
 ```
 
 ```{r answer-1b}
@@ -568,6 +573,7 @@ We can do this using the following code:
 ```{r calc-total-bapt-vars-save, exercise = TRUE}
 arbuthnot <- arbuthnot %>%
   mutate(total = boys + girls)
+glimpse(arbuthnot)
 ```
 
 This code has a lot of new pieces to it, so let's break it down.
@@ -621,11 +627,12 @@ arbuthnot <- arbuthnot %>%
 ```{r calc-prop-boys-to-girls-vars, exercise = TRUE, exercise.setup = "calc-prop-boys-to-girls-vars-e"}
 arbuthnot <- arbuthnot %>%
   mutate(boy_to_girl_ratio = boys / girls)
+glimpse(arbuthnot)
 ```
 
 You can also compute the proportion of newborns that are boys in 1629 with the following code:
 
-```{r calc-prop-boys-numbers, exercise = TRUE}
+```{r calc-prop-boys-numbers, echo = TRUE, eval = TRUE}
 5218 / (5218 + 4683)
 ```
 
@@ -641,6 +648,7 @@ arbuthnot <- arbuthnot %>%
 ```{r calc-prop-boys-vars, exercise = TRUE, exercise.setup = "calc-prop-boys-vars-e"}
 arbuthnot <- arbuthnot %>%
   mutate(boy_ratio = boys / total)
+glimpse(arbuthnot)
 ```
 
 Notice that rather than dividing by `boys + girls` we are using the `total` variable we created earlier in our calculations!
@@ -680,8 +688,13 @@ arbuthnot <- arbuthnot %>%
 ```{r boys-more-than-girls, exercise = TRUE, exercise.setup = "boys-more-than-girls-e"}
 arbuthnot <- arbuthnot %>%
   mutate(more_boys = boys > girls)
-  
 glimpse(`___`)
+```
+
+```{r boys-more-than-girls-solution}
+arbuthnot <- arbuthnot %>%
+  mutate(more_boys = boys > girls)
+glimpse(arbuthnot)
 ```
 
 This command adds a new variable to the `arbuthnot` data frame containing the values of either `TRUE` if that year had more boys than girls, or `FALSE` if that year did not (the answer may surprise you).

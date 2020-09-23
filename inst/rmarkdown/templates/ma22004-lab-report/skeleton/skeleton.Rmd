@@ -13,7 +13,7 @@ library(tidyverse)
 options(width = 80)
 theme_set(theme_bw(base_size = 10))
 knitr::opts_chunk$set(comment = "", fig.width = 5, fig.asp = 0.75, fig.align = "left",
-                      error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE)
+                      warning = FALSE, echo = TRUE, eval = TRUE)
 ```
 
 To complete this lab report, we load the following packages and datasets.

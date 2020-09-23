@@ -1,6 +1,7 @@
 ---
 title: "Lab 6"
 subtitle: "Inference for Categorical Data"
+description: "Lab report consists of answers to exercises 1-4."
 output:
   learnr::tutorial:
     progressive: true
@@ -400,7 +401,7 @@ Play around with the following app to investigate how the shape, center, and spr
 ## Summary (Exercises 1-5)
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-4 (+5 for bonus points) below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+To submit your completed laboratory report, submit the answers (only) to the exercises 1-4 (and 5 for bonus points) below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 

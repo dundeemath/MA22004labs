@@ -1,6 +1,7 @@
 ---
 title: "Lab 2"
 subtitle: "Intro to Data Analysis"
+description: "Lab report consists of answers to exercises 1-6."
 output:
   learnr::tutorial:
     progressive: true
@@ -211,7 +212,11 @@ The data set `cdc` that shows up in your workspace is a *data matrix*, with each
 To view the names of the variables, one uses the `names` function.
 
 ```{r names, exercise = TRUE}
-names(``___``)
+names(`___`)
+```
+
+```{r names-solution}
+names(cdc)
 ```
 
 This returns the names `genhlth`, `exerany`, `hlthplan`, `smoke100`, `height`, `weight`, `wtdesire`, `age`, and `gender`. Each one of these variables corresponds to a question that was asked in the survey. For example, for `genhlth`, respondents were asked to evaluate their general health, responding either excellent, very good, good, fair or poor. The `exerany` variable indicates whether the respondent exercised in the past month (1) or did not (0). Likewise, `hlthplan` indicates whether the respondent had some form of health coverage (1) or did not (0). The `smoke100` variable indicates whether the respondent had smoked at least 100 cigarettes in her lifetime. The other variables record the respondent's `height` in inches, `weight` in pounds as well as their desired weight, `wtdesire`, `age` in years, and `gender`.
@@ -222,10 +227,18 @@ We can have a look at the first few entries (rows) of our data with the `head` f
 `___`(cdc)
 ```
 
+```{r head-solutioni}
+head(cdc)
+```
+
 Similarly we can look at the last few using the `tail` function.
 
 ```{r tail, exercise = TRUE}
 `___`(cdc)
+```
+
+```{r tail-solution}
+tail(cdc)
 ```
 
 Remember that you can use `glimpse` to take a quick peek at your data to understand its contents better.
@@ -242,7 +255,11 @@ Try producing a summary for the `weight` variable.
 summary(`___`$`___`)
 ```
 
-If you wanted to compute the interquartile range for the respondents' weight, you would look at the output from the summary command above and then enter:
+```{r summary-weight-solution}
+summary(cdc$weight)
+```
+
+If you wanted to compute the interquartile range (difference between 3rd and 1st quartile) for the respondents' weight, you would look at the output from the summary command above and then enter:
 
 ```{r weight-range-arith, eval = FALSE, echo = TRUE}
 190 - 140
@@ -320,11 +337,11 @@ question_text(
 
 The `tabyl` command can be used to tabulate any number of variables that you provide. For example, to examine which participants have smoked across each gender, we could use the following.
 
-```{r table-smoke-gender, eval = FALSE, echo = TRUE}
+```{r table-smoke-gender, eval = TRUE, echo = TRUE}
 cdc %>% tabyl(smoke100, gender)
 ```
 
-Here, we see column labels of 0 and 1. Recall that 1 indicates a respondent has smoked at least 100 cigarettes. The rows refer to gender (m for male or f for female). 
+Here, the first column named `smoke100` contains the categories (levels) 0 and 1. Recall that 1 indicates a respondent has smoked at least 100 cigarettes. The columns named `m` and `f` then refer to gender (m for male or f for female) and the numbers correspond to totals in each category. 
 
 Creating a mosaic plot of this table (`gender` vs `smoke100`) can be done using `ggplot` and working directly from the original `cdc` data frame by setting the aesthetic for `x` in `geom_mosaic` to `product(X,Y)`. 
 
@@ -448,6 +465,7 @@ Suppose we want to extract just the data for the men in the sample, or just for 
 
 ```{r males, exercise = TRUE}
 mdata <- cdc %>% filter(gender == "m")
+glimpse(mdata)
 ```
 
 will create a new data set called `mdata` that contains only the men from the `cdc` data set. This new data set contains all the same variables but just under half the rows. The important thing is that we can carve up the data based on values of one or more variables.
@@ -466,18 +484,23 @@ The most commonly used logical operators for data analysis are as follows:
 Create a subset of the health data of men over thirty. 
 
 ```{r males-and-over30, exercise = TRUE}
-m_and_over30 <- cdc %>% filter(gender == "m", age > 30)
-m_and_over30 
+m_and_over30 <- `___` %>% filter(`___`, `___`)
+m_and_over30
 ```
 
-```{r males-and-over30-check}
-grade_result(
-  pass_if(~ all((dim(.result) == c(7244, 9)) & (.result['age'] > 30) & (.result['gender'] == 'm'))),
-  fail_if(~ !all(.result['age'] > 30), "The ages are not above 30."),
-  fail_if(~ !all(.result['gender'] == "m"), "Not all of the respondents are male."),
-  fail_if(~ !all(dim(.result) == c(7244, 9)), "This vector doesn't seem to be the correct size."),
-)
+```{r males-and-over30-solution}
+m_and_over30 <- cdc %>% filter(gender == "m", age > 30)
+m_and_over30
 ```
+
+<!-- ```{r males-and-over30-check} -->
+<!-- grade_result( -->
+<!--   pass_if(~ all((dim(.result) == c(7244, 9)) & (.result['age'] > 30) & (.result['gender'] == 'm'))), -->
+<!--   fail_if(~ !all(.result['age'] > 30), "The ages are not above 30."), -->
+<!--   fail_if(~ !all(.result['gender'] == "m"), "Not all of the respondents are male."), -->
+<!--   fail_if(~ !all(dim(.result) == c(7244, 9)), "This vector doesn't seem to be the correct size."), -->
+<!-- ) -->
+<!-- ``` -->
 
 Note that you can separate `filter` conditions using commas if you want responses that are both from males **and** over 30.
 If you are interested in either men **or** over 30, then you can use the `|` instead of the comma.
@@ -485,18 +508,23 @@ If you are interested in either men **or** over 30, then you can use the `|` ins
 Create a subset of the health data of mean or people over thirty. 
 
 ```{r males-or-over30, exercise = TRUE}
+m_or_over30 <- `___` %>% `___`
+m_or_over30
+```
+
+```{r males-or-over30-solution}
 m_or_over30 <- cdc %>% filter(gender == "m" | age > 30)
 m_or_over30
 ```
 
-```{r males-or-over30-check}
-grade_result(
-  pass_if(~ all((dim(.result) == c(17591, 9)) & ((.result['age'] > 30) | (.result['gender'] == 'm')))),
-  fail_if(~ !all(.result['age'] > 30), "The ages are not above 30."),
-  fail_if(~ all(.result['gender'] == "m"), "All of the respondents are male. You should be females over thrity too."),
-  fail_if(~ !all(dim(.result) == c(17591, 9)), "This vector doesn't seem to be the correct size.")
-)
-```
+<!-- ```{r males-or-over30-check} -->
+<!-- grade_result( -->
+<!--   pass_if(~ all((dim(.result) == c(17591, 9)) & ((.result['age'] > 30) | (.result['gender'] == 'm')))), -->
+<!--   fail_if(~ !all(.result['age'] > 30), "The ages are not above 30."), -->
+<!--   fail_if(~ all(.result['gender'] == "m"), "All of the respondents are male. You should be females over thrity too."), -->
+<!--   fail_if(~ !all(dim(.result) == c(17591, 9)), "This vector doesn't seem to be the correct size.") -->
+<!-- ) -->
+<!-- ``` -->
 
 In principle, you may use as many "and" and "or" clauses as you like when filtering data.
 

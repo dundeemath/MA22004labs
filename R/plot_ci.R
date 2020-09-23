@@ -9,7 +9,7 @@ plot_ci <- function(lo, hi, m){
 
  plot(xR, yR, type='n', xlab='', ylab='', axes=FALSE)
  abline(v=m, lty=2, col='#00000088')
- axis(1, at=m, paste("mu = ",round(m,4)), cex.axis=1.15)
+ axis(1, at=m, paste("true mean = ",round(m,2)), cex.axis=1.15)
  #axis(2)
  for(i in 1:k){
   x <- mean(c(hi[i],lo[i]))

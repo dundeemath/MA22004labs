@@ -1,6 +1,7 @@
 ---
 title: "Lab 7"
 subtitle: "Introduction to Linear Regression"
+description: "Lab report consists of answers to exercises 1-5."
 output:
   learnr::tutorial:
     progressive: true

@@ -1,6 +1,7 @@
 ---
 title: "Lab 3"
 subtitle: "Sampling Distributions"
+description: "Lab report consists of answers to exercises 1-5."
 output:
   learnr::tutorial:
     progressive: true
@@ -216,7 +217,7 @@ Load the **Ames Housing Data** data frame by calling `ames`.
 
 ```
 
-```{r view-data-hint, exercise = TRUE}
+```{r view-data-hint}
 data(ames)
 ```
 
@@ -255,13 +256,13 @@ In this lab we have access to the entire population, but this is rarely the case
 If we were interested in estimating the mean living area in Ames based on a sample, we can use the following command to survey the population.
 
 ```{r samp1, eval = FALSE, echo = TRUE}
-samp1 <- sample(area, 50) # (1 as in one not l as in lucy)
+samp1 <- sample(ames$area, 50) # (1 as in one not l as in lucy)
 ```
 
 This command collects a simple random sample of size 50 from the vector `area`, which is assigned to `samp1`.  This is like going into the City Assessor's database and pulling up the files on 50 random home sales.  Working with these 50 files would be considerably simpler than working with all 2930 home sales.
 
 :::{.exerciseblock}
-Describe the distribution of the sample `samp1 <- sample(area, 50)`. How does it compare to the distribution of the population? 
+Describe the distribution of the sample `samp1 <- sample(ames$area, 50)`. How does it compare to the distribution of the population? 
 
 ```{r answer-1a, exercise = TRUE}
 
@@ -349,7 +350,7 @@ ggplot(NULL, aes(x = sample_means50)) + geom_histogram()
 ```
 
 ```{r hist-breaks-solution}
-ggplot(NULL, aes(x = sample_means50)) + geom_histogram(bins = 25) # bins >= 25
+ggplot(NULL, aes(x = sample_means50)) + geom_histogram(bins = 40) # bins >= 30
 ```
 
 Here we use `R` to take 5000 samples of size 50 from the population, calculate the mean of each sample, and store each result in a vector called `sample_means50`. In the next section, we'll review how this set of code works.
@@ -378,13 +379,13 @@ Let's take a break from the statistics for a moment to let that last block of co
 
 ```{r loop-long, eval = FALSE, echo = TRUE}
 sample_means50 <- rep(NA, 5000)
-samp <- sample(area, 50)
+samp <- sample(ames$area, 50)
 sample_means50[1] <- mean(samp)
-samp <- sample(area, 50)
+samp <- sample(ames$area, 50)
 sample_means50[2] <- mean(samp)
-samp <- sample(area, 50)
+samp <- sample(ames$area, 50)
 sample_means50[3] <- mean(samp)
-samp <- sample(area, 50)
+samp <- sample(ames$area, 50)
 sample_means50[4] <- mean(samp)
 ```
 
@@ -454,9 +455,9 @@ for(`___`){
 sample_means10 <- rep(NA, 5000)
 sample_means100 <- rep(NA, 5000)
 for(i in 1:5000){
-  samp <- sample(area, `___`)
+  samp <- sample(ames$area, `___`)
   sample_means10[i] <- mean(`___`)
-  samp <- sample(area, `___`)
+  samp <- sample(ames$area, `___`)
   sample_means100[i] <- mean(`___`)
 }
 ```
@@ -465,9 +466,9 @@ for(i in 1:5000){
 sample_means10 <- rep(NA, 5000)
 sample_means100 <- rep(NA, 5000)
 for(i in 1:5000){
-  samp <- sample(area, 10)
+  samp <- sample(ames$area, 10)
   sample_means10[i] <- mean(samp)
-  samp <- sample(area, 100)
+  samp <- sample(ames$area, 100)
   sample_means100[i] <- mean(samp)
 }
 ```
