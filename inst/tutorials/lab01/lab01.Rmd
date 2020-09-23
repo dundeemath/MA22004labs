@@ -286,7 +286,7 @@ At the most elementary level `R` works as a fancy calculator. `R` will evaluate 
 and return a result.  For example, try evaluating $5.7^{2}-2.57$. That is, fill in/replace the "blanks" and hit *Run Code* to evaluate your answer and/or *Submit Answer* (if the option is available) for instant feedback.
 
 ```{r ex-input-basic, exercise = TRUE}
-___
+`___`
 ```
 
 ```{r ex-input-basic-check}
@@ -305,7 +305,11 @@ sqrt(5) + 3 * sin(pi/2) + 1/4
 A useful feature of `R` is its ability to create plots.  These typically appear in RStudio on the lower right hand panel in the Plots tab. Fill in the blank below to generate a scatter plot of **100** random numbers drawn from a Uniform distribution between 0.0 and 5.0:
 
 ```{r ex-input-plot, exercise = TRUE}
-plot(runif(___, 0.0, 5.0))
+
+```
+
+```{r ex-input-plot-hint}
+plot(runif(`___`, 0.0, 5.0))
 ```
 
 ### Working with arrays
@@ -313,7 +317,7 @@ plot(runif(___, 0.0, 5.0))
 The `R` language is based on objects which you can create, manipulate and delete.  The most basic object for holding data is called an array and is just an ordered list of things.  These are created using the function `c`. Often these things are numbers.  Fill in the blanks to create an array (suggested variable name `alvin`) containing just three numbers.
 
 ```{r ex-input-array, exercise = TRUE}
-alvin <- c(___, ___, ___)
+alvin <- c(`___`, `___`, `___`)
 ```
 
 ```{r ex-input-array-check}
@@ -335,7 +339,11 @@ bob
 You can also output just one element of the array via indexing: `bob[index]`. Try retrieving the second element of `bob` by filling in the blanks. 
 
 ```{r ex-input-array-bob2, exercise = TRUE}
-bob[___]
+
+```
+
+```{r ex-input-array-bob2-hint}
+bob[`___`]
 ```
 
 ```{r ex-input-array-bob2-check}
@@ -483,8 +491,8 @@ This tells `ggplot()` to draw a line from each observation with the next observa
 Create a line plot of female baptisms by year from the **Arbuthnot Baptism Data** by complete the code below. 
 
 ```{r plot-girls-vs-year-line, exercise = TRUE}
-ggplot(data = arbuthnot, aes(x = year, y = girls)) +
-  ___
+ggplot(data = arbuthnot, aes(x = year, y = girls)) + 
+  `___`
 ```
 
 ```{r plot-girls-vs-year-line-solution}
@@ -496,7 +504,11 @@ ggplot(data = arbuthnot, aes(x = year, y = girls)) +
 Using the **Arbuthnot Data Set**, generate a line plot of female baptisms by year. Is there an apparent trend in the number of girls baptized over the years? How would you describe it? (To ensure that your lab report is comprehensive, be sure to include the code needed to make the plot as well as your written interpretation.)
 
 ```{r answer-1a, exercise = TRUE}
-ggplot(data = ___, aes(x = ___, y = ___)) + ___
+
+```
+
+```{r answer-1a-hint}
+ggplot(data = , aes()) + `___`
 ```
 
 ```{r answer-1b}
@@ -539,7 +551,7 @@ This would probably take us a while, but luckily there is a faster way!
 If we add the vector for baptisms for boys to that of girls, `R` can compute each of these sums simultaneously. Try it now.
 
 ```{r calc-total-bapt-vars, exercise = TRUE}
-arbuthnot$boys + ___
+arbuthnot$boys + `___`
 ```
 
 What you will see is a list of 82 numbers.
@@ -586,7 +598,7 @@ arbuthnot <- arbuthnot %>%
 ```
 
 ```{r plot-total-vs-year, exercise = TRUE, exercise.setup = "calc-total-bapt-vars-save-e"}
-ggplot(arbuthnot, aes(x = year, y = ___)) + 
+ggplot(arbuthnot, aes(x = year, y = `___`)) + 
   geom_line()
 ```
 
@@ -643,7 +655,7 @@ arbuthnot <- arbuthnot %>%
 ```
 
 ```{r answer-3a, exercise = TRUE, exercise.setup = "answer-3a-e"}
-ggplot(___)
+ggplot(`___`)
 ```
 
 ```{r answer-3b}
@@ -669,7 +681,7 @@ arbuthnot <- arbuthnot %>%
 arbuthnot <- arbuthnot %>%
   mutate(more_boys = boys > girls)
   
-glimpse(___)
+glimpse(`___`)
 ```
 
 This command adds a new variable to the `arbuthnot` data frame containing the values of either `TRUE` if that year had more boys than girls, or `FALSE` if that year did not (the answer may surprise you).
