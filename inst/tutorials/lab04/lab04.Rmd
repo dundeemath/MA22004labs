@@ -1,5 +1,5 @@
 ---
-title: "Lab 4"
+title: "MA22004 Lab 4"
 subtitle: "Confidence Intervals"
 description: "Lab report consists of answers to exercises 1-5."
 output:

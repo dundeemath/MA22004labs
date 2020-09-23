@@ -1,5 +1,5 @@
 ---
-title: "Lab 5"
+title: "MA22004 Lab 5"
 subtitle: "Inference for Numerical Data"
 description: "Lab report consists of answers to exercises 1-5."
 output:

@@ -1,5 +1,5 @@
 ---
-title: "Lab 1"
+title: "MA22004 Lab 1"
 subtitle: "Intro to `R` & RStudio"
 description: "Lab report consists of answers to exercises 1-3."
 output:

@@ -1,5 +1,5 @@
 ---
-title: "Lab 2"
+title: "MA22004 Lab 2"
 subtitle: "Intro to Data Analysis"
 description: "Lab report consists of answers to exercises 1-6."
 output:
