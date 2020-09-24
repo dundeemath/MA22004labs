@@ -3,11 +3,13 @@
 Welcome. The lab tutorials, templates, functions, and data files required for MA22004 - Statistics and Probability II at the University of Dundee are available at this repository as an `R` package. 
 
 Instructions for installing `R` and RStudio can be found here:
-[https://learnr-examples.shinyapps.io/ex-setup-r/](https://learnr-examples.shinyapps.io/ex-setup-r/)
+[https://learnr-examples.shinyapps.io/ex-setup-r/](https://learnr-examples.shinyapps.io/ex-setup-r/).
 
-**Please ensure that you have a current version of `R` (>= 4.0.2).** 
+**Please ensure that you have a current version of `R` (>= 4.0.2 "Taking Off Again" released on 2020/06/22).** 
+`R` can be downloaded from *CRAN* at [https://cran.r-project.org/](https://cran.r-project.org/). 
+Follow the appropriate link for your operating system. 
 
-Older versions of `R` may work, but I have not been able to test them. 
+Older versions of `R` may work (probably not), but I have not been able to test them. 
 
 ## Installation
 
