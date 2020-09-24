@@ -16,15 +16,19 @@ Older versions of `R` may work (probably not), but I have not been able to test 
 
 Follow these three steps to install the package `MA22004labs` using RStudio: 
 
-1.  Install the `devtools` package. From the RStudio console run:
+### 1. Install the `devtools` package. 
+
+From the RStudio console run:
 ```
 install.packages("devtools")
 ```
-2.  Source the `MA22004labs` package from GitHub. From the RStudio console run:
+### 2. Source the `MA22004labs` package from GitHub. 
+
+From the RStudio console run:
 ```
 devtools::install_github("dundeemath/MA22004labs")
 ```
-3.  Give permission to RStudio to install any required dependencies. 
+### 3. Give permission to RStudio to install any required dependencies. 
 
 The `MA22004labs` package includes a list of dependencies (packages that are used in one or more of the lab tutorials). RStudio will try to install these dependencies but will need to ask for your permission. Please give permission to install packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed.
 
@@ -32,11 +36,11 @@ The `MA22004labs` package includes a list of dependencies (packages that are use
 
 #### Test case: Windows 7
 
-- RStudio seems to require the Microsoft Visual Studio Runtime (`api-ms-crt-runtime-l1-1-0.dll`). This can be downloaded from Microsoft at [https://www.microsoft.com/en-in/download/details.aspx?id=48145](https://www.microsoft.com/en-in/download/details.aspx?id=48145) and you will be promted through an interactive install.
+- RStudio seems to require the **Microsoft Visual Studio Runtime** (`api-ms-crt-runtime-l1-1-0.dll`). This can be downloaded from Microsoft at [https://www.microsoft.com/en-in/download/details.aspx?id=48145](https://www.microsoft.com/en-in/download/details.aspx?id=48145) and you will be promted through an interactive install.
 
 - If the installation of `devtools` complains about missing package **RTools**, then download and install it from CRAN: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/)
  
-- Update the RStudio config setting at  **Tools > Global Options > Packages** and uncheck the *Use secure download* box.
+- Update the RStudio configuration setting at  **Tools > Global Options > Packages** by unchecking the *Use secure download* box.
 
 - If you have trouble with the command `devtools::install_github` producing unintended results, then split the load `devtools` and installation command into two:
 ```
@@ -45,27 +49,34 @@ install_github("dundeemath/MA2204labs")
 ```
 
 
-
 ## RUNNING TUTORIALS
 
 The tutorials are labeled `lab0n` for `n = 1, 2, ..., 7`, e.g., the first lab tutorial is `lab01`. There are a few ways to run tutorials. 
 
--  **`run_tutorial` method**: This will open the tutorial in your favorite browser (tested with Firefox, Chrome, Safari). You can run the tutorials directly from the console using the command:
+### Launch in browser
+
+You can run the tutorials directly from the console using the command:
 ```
 learnr::run_tutorial("lab01", "MA22004labs")
 ```
+This will open the tutorial in your favorite browser (tested with Firefox, Chrome, Safari). 
 
--  **RStudio Start Tutorial method**: In newer versions of RStudio, the tutorials can also also be run from within RStudio via the *Tutorial* tab in the upper right-hand pane (a neighbor of *Environment*, *History*, etc). Navigate through the list to the appropriate tutorial and select "Start Tutorial >". The tutorial window can be enlarged by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane. 
+### Launch within RStudio
+-  ****: In newer versions of RStudio, the tutorials can also also be run from within RStudio via the *Tutorial* tab in the upper right-hand pane (a neighbor of *Environment*, *History*, etc). Navigate through the list to the appropriate tutorial and select "Start Tutorial >". The tutorial window can be enlarged by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane. 
 
 ![Enlarge tutorial window by selecting the option between the little house and the stop sign in the upper left hand corner of the tutorial pane.](assets/img/enlargetutorial.png)
 
--  **No package method**: If all else fails with the package installation, the associated `.Rmd` files for each lab can be downloaded from GitHub (the are located within the directory `inst/tutorials/lab0n`). After opening the `.Rmd` file in RStudio, you should have the option to "Run". But if it comes to this, please contact me first. 
+### No package method 
+
+If you the installation of `MA22004labs` fails, the associated `.Rmd` files for each lab tutorial can be downloaded from GitHub (the are located within the directory `inst/tutorials/lab0n`). After opening the `.Rmd` file in RStudio, you should have the option to "Run" the file. If it comes to this, please contact me. 
+
 
 ### Special instructions for Windows
 
 #### Test case: Windows 7
 
 I've had reports that the tutorials fail on Internet Explorer and older versions of Firefox. If you are running Windows 7, please use the **RStudio Start Tutorial method** above to launch the tutorials. 
+
 
 ## TUTORIAL STATE
 
