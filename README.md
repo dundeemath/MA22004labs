@@ -76,7 +76,7 @@ If you the installation of `MA22004labs` fails, the associated `.Rmd` files for 
 
 #### Windows 7
 
-I've had reports that the tutorials fail on Internet Explorer and older versions of Firefox. If you are running Windows 7, please use the **RStudio Start Tutorial method** above to launch the tutorials. 
+I've had reports that the tutorials fail on Internet Explorer and older versions of Firefox. If you are running Windows 7, please use the **Launch within RStudio** method above. 
 
 
 ## TUTORIAL STATE
