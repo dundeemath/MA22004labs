@@ -537,7 +537,7 @@ Thankfully, `R` documents all of its functions extensively.
 To learn what a function does and how to use it (e.g. the function's arguments), just type in a question mark followed by the name of the function that you're interested in into the console.
 Type the following in your console:
 
-```{r plot-help, tidy = FALSE}
+```{r plot-help, tidy = FALSE, echo = TRUE}
 ?ggplot
 ```
 
