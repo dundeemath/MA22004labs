@@ -181,6 +181,8 @@ null_dist <- yrbss_exercise %>%
   hypothesize(null = "independence") %>%
   generate(reps = 1000, type = "permute") %>%
   calculate(stat = "diff in means", order = c("yes", "no"))
+
+data(yrbss_samp)
 ```
 
 ## Getting started
@@ -441,15 +443,15 @@ The following exercises refer to variables found in or derived from the **YRBSS 
 
 1.  Make a boxplot for the new categorical variable `physical_3plus` by `height`. Is there a relationship between engaging in physical activity for at least 3 days a week and height? What did you expect and why? **[3 marks]**
 
-2.  Calculate a 90% confidence interval for the average height in meters (`height`) and interpret it in context. **[3 mark]**
+2.  Calculate a 90% confidence interval for the average height in meters (`height`) and interpret it in context. Use both the `infer` package and normality theory and compare the two interval estimates.  **[5 mark]**
 
 <!-- 3.  Calculate a new confidence interval for the same parameter at the 90% confidence level. Comment on the width of this interval versus the one obtained in the previous exercise. **[2 marks]** -->
 
-3.  Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who don't. **[5 marks]**
+3.  Conduct a hypothesis test evaluating whether the average height is different at level $0.01$ for those who exercise at least three times a week and those who don't. You may use the `infer` package to conduct the test.  **[5 marks]**
 
 4.  Now, a non-inference task: Determine the number of different options there are in the data set for the `hours_tv_per_school_day` there are. **[2 marks]**
 
-5.  Come up with a research question evaluating the relationship between height or weight and sleep. Formulate the question in a way that it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results, and also provide an explanation in plain language. Be sure to check all assumptions, state your $\alpha$ level, and conclude in context. **[7 marks]**
+5.  Come up with a research question evaluating the relationship between height or weight and sleep. Formulate the question in a way that it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results, and also provide an explanation in plain language. Be sure to check all assumptions, state your $\alpha$ level, and conclude in context. **[5 marks]**
 
 ------------------------------------------------------------------------
 

@@ -175,7 +175,7 @@ data(hfi)
 This lab considers inferences for categorical data. 
 
 :::{.noteblock}
-The report for Lab 6 consists of answers to exercises 1-4 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+The report for Lab 6 consists of answers to exercises 1-3 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
 :::
 
 ### Packages
@@ -274,7 +274,7 @@ no_helmet %>%
   get_ci(level = 0.95)
 ```
 
-Note that since the goal is to construct an interval estimate for a proportion, it's necessary to both include the `success` argument within `specify`, which accounts for the proportion of non-helmet wearers than have consistently texted while driving the past 30 days, in this example, and that `stat` within `calculate` is here "prop", signaling that you are trying to do some sort of inference on a proportion.
+Note that since the goal is to construct an interval estimate for a proportion, it's necessary to both include the `success` argument within `specify`, which accounts for the proportion of non-helmet wearers than have consistently texted while driving the past 30 days, in this example, and that `stat` within `calculate` is here "prop", signaling that you are trying to infer something about a proportion.
 
 <!-- 1.  What is the margin of error for the estimate of the proportion of non-helmet wearers that have texted while driving each day for the past 30 days based on this survey? -->
 
@@ -356,52 +356,35 @@ However, when $np$ and $n(1-p)$ reaches 10 the sampling distribution is sufficie
 You can investigate the interplay between $n$ and $p$ and the shape of the sampling distribution by using simulations.
 Play around with the following app to investigate how the shape, center, and spread of the distribution of $\hat{p}$ changes as $n$ and $p$ changes.
 
-<!-- ```{r plotly-test, eval = TRUE, echo = FALSE, warning = FALSE} -->
-<!-- x <- seq(0,10, length.out = 1000) -->
 
-<!-- # create data -->
-<!-- aval <- list() -->
-<!-- for(step in 1:11){ -->
-<!--   aval[[step]] <-list(visible = FALSE, -->
-<!--                       name = paste0('v = ', step), -->
-<!--                       x=x, -->
-<!--                       y=sin(step*x)) -->
-<!-- } -->
-<!-- aval[3][[1]]$visible = TRUE -->
+```{r sf, exercise = TRUE, warning = FALSE}
+# Change n and p then rerun code
+n <- 300     
+p <- 0.1    
 
-<!-- # create steps and plot all traces -->
-<!-- steps <- list() -->
-<!-- fig <- plot_ly() -->
-<!-- for (i in 1:11) { -->
-<!--  fig <- add_lines(fig,x=aval[i][[1]]$x,  y=aval[i][[1]]$y, visible = aval[i][[1]]$visible,  -->
-<!--                  name = aval[i][[1]]$name, type = 'scatter', mode = 'lines', hoverinfo = 'name',  -->
-<!--                  line=list(color='00CED1'), showlegend = FALSE) -->
-
-<!--   step <- list(args = list('visible', rep(FALSE, length(aval))), -->
-<!--                method = 'restyle') -->
-<!--   step$args[[2]][i] = TRUE   -->
-<!--   steps[[i]] = step  -->
-<!-- }   -->
-
-<!-- # add slider control to plot -->
-<!-- fig <- fig %>% -->
-<!--   layout(sliders = list(list(active = 3, -->
-<!--                              currentvalue = list(prefix = "Frequency: "), -->
-<!--                              steps = steps))) -->
-
-<!-- fig -->
-<!-- ``` -->
+# Plot command (no need to change)
+pp <- data.frame(p_hat = rep(0, 5000))
+for(i in 1:5000){
+  samp <- sample(c(TRUE, FALSE), n, replace = TRUE, 
+                   prob = c(p, 1 - p))
+  pp$p_hat[i] <- sum(samp == TRUE) / n
+}
+ggplot(data = pp, aes(x = p_hat)) +
+  geom_histogram(binwidth = 1.06*sd(pp$p_hat)*n^(-1/5)) + xlim(0,1) +
+  #xlim(min(pp$p_hat) - min(pp$p_hat)*.05, max(pp$p_hat) + max(pp$p_hat)*.05) +
+  ggtitle(paste0("Distribution of p_hat, drawn from p = ", p, ", n = ", n))
+```
 
 
--   Describe the sampling distribution of sample proportions at $n = 300$ and $p = 0.1$. Be sure to note the center, spread, and shape.
+-  Describe the sampling distribution of sample proportions at $n = 300$ and $p = 0.1$. Be sure to note the center, spread, and shape.
 -  Keep $n$ constant and change $p$. How does the shape, center, and spread of the sampling distribution vary as $p$ changes? You might want to adjust min and max for the $x$-axis for a better view of the distribution.
 -  Now also change $n$. How does $n$ appear to affect the distribution of $\hat{p}$?
     
     
-## Summary (Exercises 1-5)
+## Summary (Exercises 1-3)
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-4 (and 5 for bonus points) below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+To submit your completed laboratory report, submit the answers (only) to the exercises 1-3 below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 
@@ -411,13 +394,13 @@ In such cases, you have a response variable that is categorical, and an explanat
 
 1.  Using the `infer` package, calculate confidence intervals for two other categorical variables (i.e. not `helmet_12m` or `text_while_driving_30d`). You will need to decide which level to call "success" and report the associated margins of error. Interpret the intervals in context of the data. It may be helpful to create new datasets for each of the two variables first, and then use these datasets to construct the confidence intervals. **[6 marks]**
 
-2.  Construct a plot of margin of error vs. population proportion $p$. Describe the relationship between a population proportion and the margin of error. For a given sample size, for which value of $p$ is margin of error maximized? **[3 marks]**
+2.  Construct a plot of margin of error vs. population proportion $p$. Describe the relationship between a population proportion and the margin of error. For a given sample size, for which value of $p$ is margin of error maximized? **[4 marks]**
 
-3.  Is there convincing evidence that those who sleep 10+ hours per day are more likely to strength train every day of the week? As always, write out the hypotheses for any tests you conduct and outline the status of the conditions for inference. If you find a significant difference, also quantify this difference with a confidence interval. **[6 marks]**
+3.  Is there convincing evidence that those who sleep 10+ hours per day are more likely to strength train every day of the week? As always, write out the hypotheses for any tests you conduct and outline the status of the conditions for inference. If you find a significant difference, also quantify this difference with a confidence interval. **[10 marks]**
 
-4.  Let's say there has been no difference in likeliness to strength train every day of the week for those who sleep 10+ hours. What is the probability that you could detect a change (at a significance level of 0.05) simply by chance? *Hint:* Review the definition of the Type 1 error. **[5 marks]**
+<!-- 4.  Let's say there has been no difference in likeliness to strength train every day of the week for those who sleep 10+ hours. What is the probability that you could detect a change (at a significance level of 0.05) simply by chance? *Hint:* Review the definition of the Type 1 error. **[5 marks]** -->
 
-5.  Suppose you're hired by the local government to estimate the proportion of residents that attend a religious service on a weekly basis. According to the guidelines, the estimate must have a margin of error no greater than 1% with 95% confidence. You have no idea what to expect for $p$. How many people would you have to sample to ensure that you are within the guidelines? *Hint:* Refer to your plot of the relationship between $p$ and margin of error. This question does not require using a dataset. **[Bonus marks]**
+<!-- 5.  Suppose you're hired by the local government to estimate the proportion of residents that attend a religious service on a weekly basis. According to the guidelines, the estimate must have a margin of error no greater than 1% with 95% confidence. You have no idea what to expect for $p$. How many people would you have to sample to ensure that you are within the guidelines? *Hint:* Refer to your plot of the relationship between $p$ and margin of error. This question does not require using a dataset. **[Bonus marks]** -->
 
 ------------------------------------------------------------------------
 
