@@ -195,9 +195,8 @@ These commands and their syntax have evolved over decades (literally) and now pr
 
 The panel in the upper right contains your *environment* as well as a history of the commands that you've previously entered.
 
-The panel in the lower right contains tabs for browse the *files* in your project folder, access *help* files for `R` functions, install and manage `R` *packages*, and inspecting visualizations.
-By default, all data visualizations you make will appear directly below the code you used to create them.
-If you would rather your plots appear in the *plots* tab, you will need to change your global options.
+The panel in the lower right contains tabs to browse the *files* in your project folder, access *help* files for `R` functions, install and manage `R` *packages*, and inspecting visualizations or *plots*. 
+
 
 ### `R` Packages
 
@@ -209,7 +208,7 @@ For this lab, and many others in the future, we will use the following:
 -   The **learnr** `R` package: for running these interactive lab tutorials
 -   The **gradethis** `R` package: to serve you answers to interactive tutorial exercises
 
-In the lower right-hand corner of the RStudio window you can find the *Packages* tab. Type the name of each package (e.g., `tidyverse`) into the search box to see if they have been installed. If packages do not appear when you type in their name, install them by copying and pasting or typing the following code into the console of your RStudio session. Be sure to press enter/return after each line of code.
+In the lower right-hand corner of the RStudio window you can find the *Packages* tab. Type the name of each package (e.g., `tidyverse`) into the search box there to see if a package has been installed. If the package does not appear when you type in their name, it can be installed using the `install.packages` command. 
 
 ```{r install-packages, message = FALSE, eval = FALSE, echo = TRUE}
 # If you installed the package "MA22004labs" then these will have
@@ -217,28 +216,32 @@ In the lower right-hand corner of the RStudio window you can find the *Packages*
 install.packages("tidyverse") 
 ```
 
-After pressing enter/return, a stream of text will begin, communicating the process `R` is going through to install the package from the location you selected when you installed `R`.
+After pressing enter/return, a stream of text will begin, communicating the process `R` is going through to install the package.
 If you were not prompted to select a server for downloading packages when you installed `R`, RStudio may prompt you to select a server from which to download; any of them will work.
 
 ### Loading packages
 
 You only need to *install* packages once, but you need to *load* them each time you relaunch RStudio.
-We load packages with the `library` function. Copy and paste or type the the following code into your console to load the `tidyverse` package into your working environment. 
+We load packages with the `library` function. For example, to load the `tidyverse` package into your working environment you would use the following code. 
 
 ```{r load-packages, echo = TRUE, eval = FALSE}
 library(tidyverse)
 ```
 
-We are choosing to use the tidyverse package because it consists of a set of packages necessary for different aspects of working with data, anything from loading data to wrangling data to visualizing data to analyzing data.
+The tidyverse package consists of a set of packages necessary for different aspects of working with data---anything from loading data to wrangling data to visualizing data to analyzing data.
 Additionally, these packages share common philosophies and are designed to work together. You can find more about the packages in the tidyverse at [tidyverse.org](http://tidyverse.org/).
 
 ## Creating reproducible lab reports
 
-As part of your grade for MA22004 you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `MA22004labs` package. Access the template by selecting **New File > R Markdown**. You will then be greeted with a pop-up window. Choose **From Template** from the left-hand pane and then select **MA22004 Lab Template**. A new **Untitled.Rmd** file will open. Feel free to change the name to something sensible and save it where you like; I suggest answering the exercise questions as you work through the lab.
+As part of your grade for MA22004 you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `MA22004labs` package. Access the template by selecting **New File > R Markdown**. You will then be greeted with a pop-up window. Choose **From Template** from the left-hand pane and then select **MA22004 Lab Template**. A new **Untitled.Rmd** file will open. Feel free to change the name to something sensible and save it where you like. The final PDF is created using the **Knit** shortcut from the menu bar (**File > Knit Document** if you cannot find the shortcut). Submit the lab report as a PDF but please also retain the lab report markdown file. 
+
+### Why use R Markdown for Lab Reports?
 
 [**Why use R Markdown for Lab Reports?**](https://youtu.be/lNWVQ2oxNho) <iframe width="560" height="315" src="https://www.youtube.com/embed/lNWVQ2oxNho" frameborder="0" allowfullscreen></iframe>
 
-In a nutshell, using the template will allow you to easily combine data analysis ("`R` chunks") with text. You can then generate a PDF document for submission (but please retain the lab report markdown file for your records). 
+In a nutshell, using the template will allow you to easily combine data analysis ("`R` chunks") with text.
+
+### Template in detail 
 
 Let's take a look at the anatomy of the template. At the top, there is a section that looks like this:
 
@@ -253,7 +256,7 @@ papersize: a4
 ---
 ```
 
-You should update the lab title and author information (retaining the quotes) with your title, name, and student ID number. The date will automatically update, but of course you can change that if you want too.  
+You should update the lab title and author information (retaining the quotes) with your title, name, and student ID number. The date will automatically update when you Knit the document, but of course you can change that if you want too.  
 
 The next part of the template contains an `R` chunk with some options that are loaded but will not be printed in the final report due to the option `include = FALSE`. 
 
