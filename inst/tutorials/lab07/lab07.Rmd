@@ -504,7 +504,7 @@ To submit your completed laboratory report, submit the answers (only) to the exe
 
 The following exercises refer to variables found in or derived from the **Human Freedom Index Data* in the data frame `hfi` which is packaged with `MA22004labs`. 
 
-1.  Consider a scatterplot of `pf_expression_control` vs `pf_score` from the previous exercise. Describe the relationship between these two variables. Make sure to discuss the form, direction, and strength of the relationship as well as any unusual observations. **[2 marks]**
+1.  Consider a scatterplot of `pf_expression_control` vs `pf_score`, with `pf_expression_control` as the predictor. Describe the relationship between these two variables. Make sure to discuss the form, direction, and strength of the relationship as well as any unusual observations. **[2 marks]**
 
 2.  Fit a new linear (least squares) model that uses `pf_expression_control` to predict `hf_score`, or the total human freedom score. Using the estimates from the `R` output, write the equation of the regression line. What does the slope tell us in the context of the relationship between human freedom and the amount of political pressure on media content? **[6 marks]**
 
