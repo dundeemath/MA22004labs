@@ -20,7 +20,6 @@ Imports:
     learnr,
     tidyverse (>= 1.3.0),
     gradethis (>= 0.1.0.9004),
-    fontawesome,
     tinytex,
     janitor,
     ggmosaic (>= 0.3.0),
