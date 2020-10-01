@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab01"
-  version: 0.5.2020
+  version: 1.0.1020
 ---
 
 ```{css, echo=FALSE}
@@ -149,7 +149,6 @@ library(tidyverse)
 library(learnr)
 library(gradethis)
 library(knitr)
-library(fontawesome)
 
 # tutorial options
 tutorial_options(
@@ -174,7 +173,7 @@ The goal of this lab is to introduce you to `R` and RStudio, which you'll be usi
 As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer! Before we get to that stage, however, you need to build some basic fluency in `R`. First, we will explore the fundamental building blocks of `R` and RStudio: the RStudio interface, reading in data, and basic commands for working with data in `R`.
 
 :::{.noteblock}
-The report for Lab 1 consists of answers to exercises 1-3 in the last section of this tutorial. The exercises are also included in-line to provide context (note the blue flags `r fa("flag", fill = "#317EAC")`), however, this will not always be the case for future labs. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. An `rmarkdown` template called *MA22004 Lab Report* is provided. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are found in Section "RStudio and lab reports" of this Lab. 
+The report for Lab 1 consists of answers to exercises 1-3 in the last section of this tutorial. The exercises are also included in-line to provide context (note the blue flags), however, this will not always be the case for future labs. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. An `rmarkdown` template called *MA22004 Lab Report* is provided. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are found in Section "RStudio and lab reports" of this Lab. 
 :::
 
 ### RStudio interface 
