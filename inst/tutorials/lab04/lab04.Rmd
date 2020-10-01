@@ -567,7 +567,7 @@ The following exercises refer to variables found in or derived from the **Ames H
 
 <!-- 5.  Calculate fifty new confidence intervals for the true mean area at the confidence level different from 95%. Using the `plot_ci` function, plot all intervals and calculate the proportion of intervals that include the true population mean. How does this percentage compare to the confidence level selected for the intervals? **[6 marks]** -->
 
-5.  Using code from the **infer** package and data from the one sample of size 60 from `ames`, find a confidence interval for the proportion of Ames residents that live in single family home (`Bldg.Type == 1Fam`) with a confidence level of your choosing (other than 95%) and interpret it.
+5.  Using code from the **infer** package and data from the one sample of size 60 from `ames`, find a confidence interval for the proportion of Ames residents that live in single family home (`Bldg.Type == 1Fam`) with a confidence level of your choosing (other than 95%) and interpret it. **[6 marks]**
 
 
 ------------------------------------------------------------------------
