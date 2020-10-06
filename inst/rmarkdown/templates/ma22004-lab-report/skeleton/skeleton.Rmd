@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = "", fig.width = 5, fig.asp = 0.75, fig.align = "
 
 To complete this lab report, we load the following packages and datasets.
 
-```{r load-packages}
+```{r load-packages, message = FALSE, warning = FALSE}
 library(MA22004labs)
 # ADD PACKAGES/DATASETS HERE
 ```
