@@ -45,7 +45,7 @@ The `MA22004labs` package includes a list of dependencies (packages that are use
 - If you have trouble with the command `devtools::install_github` producing unintended results, then split the load `devtools` and installation command into two:
 ```
 library(devtools)
-install_github("dundeemath/MA2204labs")
+install_github("dundeemath/MA22004labs")
 ```
 
 
