@@ -32,6 +32,10 @@ devtools::install_github("dundeemath/MA22004labs")
 
 The `MA22004labs` package includes a list of *dependencies* (these are packages that are used in one or more of the lab tutorials). RStudio will try to install these dependencies but will need to ask for your permission. Please give permission to *install* packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed.
 
+### If you need help
+
+If you are running into trouble with installation, please check/post to the "Technical hiccups" channel of the class **Microsof Teams** page. This is a good starting point for getting help. 
+
 ### Special install instructions
 
 #### Windows (General)
@@ -41,11 +45,11 @@ The `MA22004labs` package includes a list of *dependencies* (these are packages 
 - Some folks have run into problems when updating packages. They were successfully able to install the lab by simply *NOT* updating any packages, i.e., when prompted to *update* packages select "3 None".
 
 - If you receive an error that complains about `rlang` or `00LOCK-rlang`, then something went wrong with a package update/install. Please follow these steps:
-1.  First identify where your packages are installed to. This can be done by calling `packageStatus()` in the console. Some text will print; you are looking for a path that end in something like `.../R/4.0/library`.
-2.  Quit RStudio and navigate to the path above. 
-3.  Manually delete `rlang` and any folder the begins with `00LOCK-rlang`. 
+1.  First identify where your packages are installed to. This can be done by calling `packageStatus()` in the console. Some text will print; you are looking for a path that ends in `.../R/4.0/library`.
+2.  Quit RStudio and navigate to the path identified in (1) above. 
+3.  Manually delete `rlang` and any folder the begins with `00LOCK-rlang` from your `library` folder. 
 4.  Restart RStudio and re-install `rlang` by calling `install.packages("rlang")` in the console. Choose to compile the newest version from source (this will require typing "yes" and you must have RTools installed).
-5.  Return to trying to install the library package as normal. 
+5.  Return to trying to install `devtools` and/or `MA22004labs` package as normal. 
 
 
 #### Windows 7
