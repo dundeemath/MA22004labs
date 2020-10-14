@@ -1,8 +1,8 @@
 # README
 
-Welcome. The lab tutorials, templates, functions, and data files required for MA22004 - Statistics and Probability II at the University of Dundee are available at this repository as an `R` package. 
+Welcome. The lab tutorials, templates, functions, and data files required for MA22004 - Statistics and Probability II at the University of Dundee are available as an `R` package at this repository . 
 
-Instructions for installing `R` and RStudio can be found here:
+General instructions for installing `R` and RStudio can be found here:
 [https://learnr-examples.shinyapps.io/ex-setup-r/](https://learnr-examples.shinyapps.io/ex-setup-r/).
 
 **Please ensure that you have a current version of `R` (>= 4.0.2 "Taking Off Again" released on 2020/06/22).** 
@@ -28,17 +28,31 @@ From the RStudio console run:
 ```
 devtools::install_github("dundeemath/MA22004labs")
 ```
-### 3. Give permission to RStudio to install any required dependencies. 
+### 3. Give permission to RStudio to install any required dependencies. You should not need to *update* any packages.
 
-The `MA22004labs` package includes a list of dependencies (packages that are used in one or more of the lab tutorials). RStudio will try to install these dependencies but will need to ask for your permission. Please give permission to install packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed.
+The `MA22004labs` package includes a list of *dependencies* (these are packages that are used in one or more of the lab tutorials). RStudio will try to install these dependencies but will need to ask for your permission. Please give permission to *install* packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed.
 
-### Special instructions
+### Special install instructions
+
+#### Windows (General)
+
+- Download and install **RTools** from CRAN: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/). RTools enables you to update certain packages when the newest version must be compiled from source. 
+
+- Some folks have run into problems when updating packages. They were successfully able to install the lab by simply *NOT* updating any packages, i.e., when prompted to *update* packages select "3 None".
+
+- If you receive an error that complains about `rlang` or `00LOCK-rlang`, then something went wrong with a package update/install. Please follow these steps:
+1.  First identify where your packages are installed to. This can be done by calling `packageStatus()` in the console. Some text will print; you are looking for a path that end in something like `.../R/4.0/library`.
+2.  Quit RStudio and navigate to the path above. 
+3.  Manually delete `rlang` and any folder the begins with `00LOCK-rlang`. 
+4.  Restart RStudio and re-install `rlang` by calling `install.packages("rlang")` in the console. Choose to compile the newest version from source (this will require typing "yes" and you must have RTools installed).
+5.  Return to trying to install the library package as normal. 
+
 
 #### Windows 7
 
 - RStudio seems to require the **Microsoft Visual Studio Runtime** (`api-ms-crt-runtime-l1-1-0.dll`). This can be downloaded from Microsoft at [https://www.microsoft.com/en-in/download/details.aspx?id=48145](https://www.microsoft.com/en-in/download/details.aspx?id=48145) and you will be promted through an interactive install.
 
-- If the installation of `devtools` complains about missing package **RTools**, then download and install it from CRAN: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/)
+- If the installation of `devtools` complains about missing package **RTools**, then download and install it from CRAN: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/). 
  
 - Update the RStudio configuration setting at  **Tools > Global Options > Packages** by unchecking the *Use secure download* box.
 
@@ -47,6 +61,10 @@ The `MA22004labs` package includes a list of dependencies (packages that are use
 library(devtools)
 install_github("dundeemath/MA22004labs")
 ```
+
+#### Mac 
+
+- If you receive an error relating to `Xcode`, then you tried to update/install a package from source without having the correct libraries present on your computer. Either retry the install and select "3 None"" when prompted to update packages or install command line tools for `Xcode`. 
 
 
 ## RUNNING TUTORIALS
