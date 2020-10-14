@@ -30,7 +30,7 @@ devtools::install_github("dundeemath/MA22004labs")
 ```
 ### 3. Give permission to RStudio to install any required dependencies. You should not need to *update* any packages.
 
-The `MA22004labs` package includes a list of *dependencies* (these are packages that are used in one or more of the lab tutorials). RStudio will try to install these dependencies but will need to ask for your permission. Please give permission to *install* packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed.
+The `MA22004labs` package includes a list of *dependencies* (these are packages that are used in one or more of the lab tutorials). RStudio will try to install these dependencies but will need to ask for your permission. Please give permission to *install* packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed. I would recommend first trying to install *without* updating anything by selecting "3 None". 
 
 ### If you need help
 
