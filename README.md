@@ -34,7 +34,7 @@ The `MA22004labs` package includes a list of *dependencies* (these are packages 
 
 ### If you need help
 
-If you are running into trouble with installation, please check/post to the "Technical hiccups" channel of the class **Microsof Teams** page. This is a good starting point for getting help. 
+If you are running into trouble with installation, please check/post to the "Technical hiccups" channel of the class **Microsof Teams** page. This is a good starting point for getting help. There are also some "special install instructions" below that you should read.
 
 ### Special install instructions
 
