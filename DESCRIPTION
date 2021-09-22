@@ -1,7 +1,7 @@
 Package: MA22004labs
 Type: Package
 Title: MA22004 (University of Dundee)
-Version: 1.0.1020
+Version: 1.1.2021
 Authors@R: as.person(
     "Eric J. Hall <ehall001@dundee.ac.uk> [aut, cre] (<https://orcid.org/0000-0003-0211-3335>)"
   )
@@ -12,7 +12,7 @@ Description: Lab tutorials, templates, and data files for the course
     This work is derivative of OpenIntro Labs and was modified by Eric Hall. 
     The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel
     from labs written by Mark Hansen of UCLA Statistics.
-License: GPL-3
+License: CC BY-SA 4.0
 Language: "en"
 Encoding: UTF-8
 LazyData: true
@@ -25,7 +25,9 @@ Imports:
     ggmosaic (>= 0.3.0),
     cowplot,
     infer,
-    knitr
+    knitr,
+    rmarkdown,
+    shiny
 Remotes: 
     rstudio-education/gradethis,
     haleyjeppson/ggmosaic
