@@ -88,7 +88,7 @@ The `MA22004labs` package contains templates for generating lab reports that wor
 
 From the RStudio console run:
 ```
-install_tinytex() 
+tinytex::install_tinytex()
 ```
 and follow the onscreen prompts. This will download and install TinyTeX, a custom $\LaTeX$ distribution.
 
