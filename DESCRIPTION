@@ -24,7 +24,7 @@ Imports:
     janitor,
     ggmosaic (>= 0.3.3),
     cowplot,
-    infer,
+    infer (>= 1.0.0),
     knitr,
     rmarkdown,
     shiny
