@@ -135,3 +135,7 @@ Pressing "Start Over" above an individual code chunk will reset the state of tha
 ## If you need help
 
 If you are running into trouble with any part of the installation, please check/post to the "Technical hiccups" channel in our module Team on **MS Teams**. This is a good starting point for getting help. 
+
+*** 
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
