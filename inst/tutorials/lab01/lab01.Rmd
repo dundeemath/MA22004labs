@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab01"
-  version: 1.0.1020
+  version: 1.1.2021
 ---
 
 ```{css, echo=FALSE}
@@ -141,6 +141,15 @@ div#license {
   background: rgba(49, 126, 172, 0.1) 1.5em center/2.5em no-repeat;
   background-image: url("images/flag.svg");
 }
+
+.indentblock {
+  padding: 1em 1em 1em 6em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left: 6px solid #FFFFFF;
+  #background: rgba(49, 126, 172, 0.1) 1.5em center/2.5em no-repeat;
+  #background-image: url("images/flag.svg");
+}
 ```
 
 ```{r setup, include = FALSE}
@@ -168,21 +177,23 @@ data(arbuthnot)
 
 ## RStudio and lab reports
 
-The goal of this lab is to introduce you to `R` and RStudio, which you'll be using throughout the course both to learn the statistical concepts discussed in the course and to analyze real data and come to informed conclusions. To clarify which is which: `R` is the name of the programming language itself and RStudio is a convenient interface for working with `R`.
+The goal of this lab is to introduce you to `R` and RStudio, which you'll be using throughout the course both to learn the statistical concepts and to analyze real data and draw informed conclusions. To clarify which is which: `R` is the name of the statistical programming language that you will code in and RStudio is an application that provides a convenient interface for working with `R`.
 
 As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer! Before we get to that stage, however, you need to build some basic fluency in `R`. First, we will explore the fundamental building blocks of `R` and RStudio: the RStudio interface, reading in data, and basic commands for working with data in `R`.
 
 :::{.noteblock}
-The report for Lab 1 consists of answers to exercises 1-3 in the last section of this tutorial. The exercises are also included in-line to provide context (note the blue flags), however, this will not always be the case for future labs. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. An `rmarkdown` template called *MA22004 Lab Report* is provided. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are found in Section "RStudio and lab reports" of this Lab. 
+The report for Lab 1 consists of answers to exercises 1-4f in the last section of this tutorial. The exercises are also included in-line to provide context (note the blue flags), however, this will not always be the case for future labs. You will upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. An `rmarkdown` template called *MA22004 Lab Report* is provided. Further details about how to use the template to create your report are included in Section "RStudio and lab reports" of this interactive Lab. 
 :::
 
 ### RStudio interface 
 
-If you are already running this Lab tutorial then you have successfully installed and launched RStudio. Well done! You should see a window that looks more or less like the image shown below (I've added a few comments).
+If you are already running this Lab tutorial then you have successfully installed and launched RStudio. Well done! You should see a window that looks more or less like the image shown below (I've added a few comments). 
 
-```{r r-interface-2020, fig.margin = TRUE, echo = FALSE, fig.width = 3, out.width = "100%", fig.cap="A fresh *RStudio* window. Please try to use `R` version **4.0.2 (2020-06-22) \"Taking Off Again\"**."}
+```{r r-interface-2020, fig.margin = TRUE, echo = FALSE, fig.width = 3, out.width = "100%", fig.cap="A fresh *RStudio* window. Please try to use `R` version **4.0.2 (2020-06-22) \"Taking Off Again\"** or higher."}
 knitr::include_graphics("images/r-interface-4-0-2.png")
 ```
+
+The RStudio window is divided into various panels. 
 
 The panel on the lower left is where the action happens.
 This panel is called the *console*.
@@ -207,11 +218,11 @@ For this lab, and many others in the future, we will use the following:
 -   The **learnr** `R` package: for running these interactive lab tutorials
 -   The **gradethis** `R` package: to serve you answers to interactive tutorial exercises
 
-In the lower right-hand corner of the RStudio window you can find the *Packages* tab. Type the name of each package (e.g., `tidyverse`) into the search box there to see if a package has been installed. If the package does not appear when you type in their name, it can be installed using the `install.packages` command. 
+In the lower right-hand panel of RStudio, select the *Packages* tab. Type the name of each package (e.g., `tidyverse`) into the search box that appears to see if a package has been installed. If the package does not appear when you type in the name, it can be installed using the `install.packages` command. 
 
 ```{r install-packages, message = FALSE, eval = FALSE, echo = TRUE}
-# If you installed the package "MA22004labs" then these will have
-# already been installed as dependencies. 
+# If you installed the package "MA22004labs" then `tidyverse` 
+# will have already been installed as a dependency. 
 install.packages("tidyverse") 
 ```
 
@@ -232,30 +243,36 @@ Additionally, these packages share common philosophies and are designed to work 
 
 ## Creating reproducible lab reports
 
-As part of your grade for MA22004 you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `MA22004labs` package. Access the template by selecting **New File > R Markdown**. You will then be greeted with a pop-up window. Choose **From Template** from the left-hand pane and then select **MA22004 Lab Template**. A new **Untitled.Rmd** file will open. Feel free to change the name to something sensible and save it where you like. The final PDF is created using the **Knit** shortcut from the menu bar (**File > Knit Document** if you cannot find the shortcut). Submit the lab report as a PDF but please also retain the lab report markdown file. 
+As part of your grade for MA22004 you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `MA22004labs` package (recall that the package can be loaded by typing `library(MA22004labs)` at the RStudio console prompt). 
+
+Access the template by selecting **New File > R Markdown**. You will then be greeted with a pop-up window. Choose **From Template** from the left-hand pane and then select **MA22004 Lab Template**. A new **Untitled.Rmd** file will open. Feel free to change the name to something sensible and save it where you like. The final PDF is created using the **Knit** shortcut from the menu bar (**File > Knit Document** if you cannot find the shortcut). Submit the lab report as a PDF but please also retain the lab report markdown file. 
 
 ### Why use R Markdown for Lab Reports?
 
+Please watch this short video that summarizes the .
+
 [**Why use R Markdown for Lab Reports?**](https://youtu.be/lNWVQ2oxNho) <iframe width="560" height="315" src="https://www.youtube.com/embed/lNWVQ2oxNho" frameborder="0" allowfullscreen></iframe>
 
-In a nutshell, using the template will allow you to easily combine data analysis ("`R` chunks") with text.
+In a nutshell, using the template will allow you to easily combine data analysis ("`R` chunks") with text in a portable and reproducible format. You can also easily include mathematical typesetting in your text content using $\LaTeX$ syntax.
 
 ### Template in detail 
 
-Let's take a look at the anatomy of the template. At the top, there is a section that looks like this:
+Let's take a look at the anatomy of the template. The template is an R Markdown document and the file name should end in `.Rmd`. 
+
+At the top, there is a section that looks like this:
 
 ```markdown
 ---
 title: "Lab NUMBER: TITLE"
 author: "TEST STUDENT --- ID-NUMBER"
-date: "`r Sys.Date()`"
+date: "'r Sys.Date()'"
 output:
   pdf_document: default
 papersize: a4
 ---
 ```
 
-You should update the lab title and author information (retaining the quotes) with your title, name, and student ID number. The date will automatically update when you Knit the document, but of course you can change that if you want too.  
+You should **update** the lab title and author information (retaining the quotes) with your title, name, and student ID number. The date will automatically update when you Knit the document, but of course you can change that if you want too.  
 
 The next part of the template contains an `R` chunk with some options that are loaded but will not be printed in the final report due to the option `include = FALSE`. 
 
@@ -270,16 +287,56 @@ library(MA22004labs)
 ```
 ````
 
-The R Markdown file knows that the gray box contains `R` code because it begins with three tick marks (\`\`\`), followed by {`r` `setup`}. The **name** of this code chunk is `setup`; each code chunk *must* have a different name. The command `library(openintro)` loads a package that contains data needed for your first lab assignment. You may add other commands to the setup chunk if you want --- but remember you won't see them in the final report. 
+The Knit command will interpret the gray box as `R` code because it begins with three tick marks (\`\`\`), followed by {`r` `setup`}. The **name** of this code chunk is `setup`; each code chunk in an R Markdown document *must* have a unique name. The command `library(openintro)` loads a package that contains data needed for your first lab assignment. You may add other commands to the setup chunk if you want --- but remember you won't see them in the final report. 
 
-
-The rest of the template contains prompts for text and `R` code. To produce the final document you must "knit" the document into a Word Document or directly into a LaTeX PDF. You do this by selecting the the appropriate option from the "Knit" menu in RStudio. 
+The rest of the template contains prompts for text and `R` code. **Update these with your text as appropriate.** To produce the final document you must "knit" the document into a Word Document or directly into a LaTeX PDF. You do this by selecting the the appropriate option from the "Knit" menu in RStudio. 
 
 ```{r r-knit-menu, fig.margin = TRUE, echo = FALSE, fig.width = 3, out.width = "75%", fig.cap="The Knit menu allows you to effortlessly produce a reproducible lab report combining both data analysis and text. If there is ever a question about you analysis, you can follow up by sending the source code!"}
 knitr::include_graphics("images/knit-drop.png")
 ```
  
-Going forward you should refrain from typing your lab report code directly in the console, as this makes it very difficult to remember and reproduce the output you want to reference. Instead of typing our `R` code into the console, we encourage you to type any code you produce (final correct answer, or anything you're just trying out) in the `R` code chunk associated with each problem. Within the code chunk there are two ways to execute a line of `R` code: (1) place your cursor on the line on code and press `Ctrl-Enter` or `Cmd-Enter` (depending on your operating system), or (2) place your cursor on the line and press the "Run" button in the upper right hand corner of the R Markdown file.
+To produce your lab report, you should create an R Markdown document containing text and code associated with each problem. Place your code in `R` code chunks and ensure each chunk has a unique label. If you want to test your code as you go, then there are two ways to execute a line of `R` code within your R Markdown document: (1) place your cursor on the line on code and press `Ctrl-Enter` or `Cmd-Enter` (depending on your operating system), or (2) place your cursor on the line and press the "Run" button in the upper right hand corner of the R Markdown file.
+
+### What happens when you *knit* an R Markdown File?
+
+When you click the **Knit** button a document will be generated that includes both text content as well as the output of any embedded R code chunks within the document. 
+
+For example, you can write an R code chunk like this in your R Markdown document:
+
+````markdown
+`r ''` ```{r cars, echo = TRUE, eval = TRUE}
+summary(cars)
+```
+````
+
+which will render as:
+
+```{r cars, echo = TRUE, eval = TRUE}
+summary(cars)
+```
+
+As another example, you can include a code chunk like this (note here we used the `echo = FALSE` option):
+
+````markdown
+`r ''` ```{r pressure, echo = FALSE, eval = TRUE}
+ggplot(data = pressure, aes(x = temperature, y = pressure)) + 
+  geom_point()
+```
+````
+
+which will render as:
+
+```{r pressure, echo = TRUE, eval = TRUE}
+ggplot(data = pressure, aes(x = temperature, y = pressure)) + 
+  geom_point()
+```
+
+Text content can contain typeset mathematics expressions using standard $\LaTeX$ syntax.  
+
+For example,
+`$\alpha$` produces $\alpha$, `$\beta$` produces $\beta$, `$\gamma$` produces $\gamma$, etc. The equation for a line can be included as `$y = m x + b$` to produce $y=mx+b$. If you want the same to appear as a "displayed" equation (i.e., on its own line) then you type `\[ y=mx+b \]` or `$$y=mx+b$$` to produce: \[y=mx+b\]
+
+Please see the *$\LaTeX$ Math for Undergrads* handout posted to the MyDundee coursepage for commonly used mathematics symbols. Or, if you have a specific symbol in mind but don't know what it is called, then try [Detexify](https://detexify.kirelabs.org/classify.html).  
 
 ## Nuts and bolts
 
@@ -314,6 +371,8 @@ plot(runif(`___`, 0.0, 5.0))
 ```{r ex-input-plot-solution}
 plot(runif(100, 0.0, 5.0))
 ```
+
+The standard `plot` command is quite restrictive. We will use a very modern data visualization package called `ggplot2` from the `tidyverse` in the module. 
 
 ### Working with arrays
 
@@ -389,7 +448,7 @@ arbuthnot
 ```
 
 :::{.warningblock}
-Be careful the spelling and capitalization you use! `R` is case sensitive, so if you accidentally type `Arbuthnot` then `R` will tell you that object cannot be found.
+Be careful of spelling and capitalization! `R` is case sensitive, so if you accidentally type `Arbuthnot` then `R` will tell you that object cannot be found.
 :::
 
 What you should see are three columns of numbers. Each row represents a different record that includes the year, the numbers of boys baptized, and the number of girls baptized.
@@ -508,7 +567,7 @@ ggplot(data = arbuthnot, aes(x = year, y = girls)) +
 ```
 
 :::{.exerciseblock}
-Using the **Arbuthnot Data Set**, generate a line plot of female baptisms by year. Is there an apparent trend in the number of girls baptized over the years? How would you describe it? (To ensure that your lab report is comprehensive, be sure to include the code needed to make the plot as well as your written interpretation.)
+Using the **Arbuthnot Data Set**, generate a line plot of female baptisms by year using `ggplot`. Is there an apparent trend in the number of girls baptized over the years? How would you describe it? (To ensure that your lab report is comprehensive, be sure to include the code needed to make the plot as well as your written interpretation.)
 
 ```{r answer-1a, exercise = TRUE}
 
@@ -657,7 +716,7 @@ Notice that rather than dividing by `boys + girls` we are using the `total` vari
 
 
 :::{.exerciseblock}
-Using the **Arbuthnot Data Set**, make a plot of the proportion of boys over time. Comment on the qualitative nature of the plot that you made. 
+Using the **Arbuthnot Data Set**, make a plot of the proportion of boys over time using `ggplot` and `mutate`. Comment on the qualitative nature of the plot that you made. 
 
 ```{r answer-3a-e}
 arbuthnot <- arbuthnot %>%
@@ -706,23 +765,38 @@ Here, we've asked `R` to create *logical* data, data where the values are either
 In general, data analysis will involve many different kinds of data types, and one reason for using `R` is that it is able to represent and compute with many of them.
 
 
-## Summary (Exercises 1-3)
+## Exercises
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-3. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of this tutorial. The exercises below are repeated in-line in the tutorial to provide context (i.e. HINTS!). Lab 1 is intentionally short; we are easing into things. 
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text can be found in the first Section of this tutorial. 
 :::
 
 The following exercises refer to variables found in or derived from the **Arbuthnot Data Set** in the data frame `arbuthnot` which is packaged with `MA22004labs`. 
 
-1.  Using the **Arbuthnot Data Set**, generate a line plot of female baptisms by year. Is there an apparent trend in the number of girls baptized over the years? How would you describe it? (To ensure that your lab report is comprehensive, be sure to include the code needed to make the plot as well as your written interpretation.) **[5 marks]**
+1.  Using the **Arbuthnot Data Set**, generate a line plot of female baptisms by year using `ggplot`. Is there an apparent trend in the number of girls baptized over the years? How would you describe it? (To ensure that your lab report is comprehensive, be sure to include the code needed to make the plot as well as your written interpretation.) **[5 marks]**
 
-2.  Using the **Arbuthnot Data Set**, make a plot of the proportion of boys over time. Comment on the the proportion of boys using the plot that you made. **[5 mark]**
+2.  Using the **Arbuthnot Data Set**, make a plot of the proportion of boys over time using `ggplot` and `mutate`. Comment on the the proportion of boys using the plot that you made. **[5 mark]**
 
-3.  You will receive **[10 marks]** for successfully using the lab report template with `rmarkdown` and successfully submitting the lab report via Gradescope.
+3.  Demonstrate that you can interleave plots and text (including mathematical typesetting using $\LaTeX$ syntax) by plotting a function together with text describing the function you have plotted. **[5 marks]** 
+
+:::{.indentblock}
+*Hint:* to plot the function \[ y = f(x) = \frac{\log(x)}{x} \] (in $\LaTeX$ syntax: `\[y = f(x) = \frac{\log(x)}{x} \]`), then use the code
+```{r ex3-hint, eval = TRUE, echo = TRUE}
+x <- seq(1,10) #create a sequence of points
+data <- tibble(x) #convert to a tidyverse dataframe
+#now use ggplot to plot an anonymous function
+ggplot(data, aes(x)) + 
+  stat_function(fun = function(x) log(x)/x)
+```
+:::
+
+4.  You will receive **[5 marks]** for successfully using the lab report template with `rmarkdown` and successfully submitting the lab report via Gradescope.
+
+
 
 ------------------------------------------------------------------------
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+This work is derivative of OpenIntro Labs and was modified by Eric Hall. The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
 

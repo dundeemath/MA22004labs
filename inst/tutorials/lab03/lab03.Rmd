@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab03"
-  version: 1.0.1020
+  version: 1.1.2021
 ---
 
 ```{css, echo=FALSE}
@@ -506,42 +506,40 @@ question_text(
 ```
 :::
 
-## Summary (Exercises 1-5)
+## Exercises
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-5 below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
-:::{.importantblock}
-As this lab requires you to take random samples to build sampling distributions, fix a random seed value in your `load-packages` chunk:
+:::{.tipblock}
+To fix a seed value in an `R` chunk (replace `n` by your favorite integer or your student ID):
 
 ```{r setseed, echo = TRUE, eval = FALSE}
 set.seed(n)
 ```
-
-where you replace `n` by your favorite integer. 
 :::
 
-The following exercises refer to variables found in or derived from the **Ames Housing Data**  in the data frame `ames` which is packaged with `MA22004labs`. In particular, we focus on two features: the above ground living area of the house in square feet (`area` i.e. `ames$area`) and the sale price (`price` i.e. `ames$price`).  
+The following exercises refer to variables found in or derived from the **Ames Housing Data**  in the data frame `ames` which is packaged with `MA22004labs`. In particular, we focus on two features: the above ground living area of the house in square feet (`area` i.e. `ames$area`) and the sale price (`price` i.e. `ames$price`). Please use `ggplot` when creating plots and visualizations and use `tidy` methods for manipulating data. 
 
 1.  Describe the distribution of the sample `samp1 <- sample(ames$area, 50)`. How does it compare to the distribution of the population? **[2 mark]**
 
-2.  Take a second sample of the `area` data, also of size 50, and call it `samp2`. How does the mean of `samp2` compare with the mean of `samp1`? Suppose we took two more samples, one of size 100 and one of size 1000. Which would you think would provide a more accurate estimate of the population mean? **[3 marks]**
+2.  Take two samples each of size 50 from the `area` data and call them `samp1` and `samp2` respectively. How does the mean of `samp1` compare with the mean of `samp2`? Suppose we took two more samples, one of size 100 and one of size 1000. Which would you think would provide a more accurate estimate of the population mean? **[3 marks]**
 
 3.  In Section "The unknown sampling distribution" you created a vector `sample_means50`. How many elements are there in `sample_means50`?  Describe the sampling distribution, and be sure to specifically note its center. How would you expect the distribution to change if we instead collected 50,000 sample means? **[3 marks]**
 
 <!-- 4.  To make sure you understand what you've done in this loop, try running a smaller version.  Initialize a vector of 100 zeros called `sample_means_small`. Run a loop that takes a sample of size 50 from `area` and stores the sample mean in `sample_means_small`, but only iterate from 1 to 100. Present your results in a histogram. **[1 mark]** -->
 
-4.  Recreate sampling distribution histograms for the mean area for three different sample sizes (that are different from $n=10, 50, 100$ but that each differ by at least 30). As the sample size increases, what happens to the center of mass of the distribution?  What happens to the spread (dispersion) as the sample size increases? **[6 marks]**
+4.  Recreate sampling distribution histograms for the mean area for samples of three different sizes (that each differ by at least 30). As the sample size increases, what happens to the center of mass of the distribution?  Describe what happens to the spread (dispersion) as the sample size increases? **[6 marks]**
 
 <!-- 5.  Consider now the `price` variable. From the vector `price` take (a) 100 samples of size 15, (b) 100 samples of size 150, (c) 10000 samples of size 15, and (d) 10000 samples of size 150. Calculate the mean value of each sample. Produce histogram plots (displayed 2 histograms high by 2 histograms wide) showing the distribution of the sample means for the four combinations above. Produce box plots (displayed 2 plots high by 2 plots wide) showing the distribution of the sample means for the four combinations above. Comment on the underlying distribution for the sample means. **[4 marks]** -->
 
-5.  Take 1000 samples of size 15 from `price`, calculate the variance of each sample and present the distribution of the sample variance in a histogram. Take 1000 samples of size 30 from `price`, calculate the variance of each sample and present the distribution of the sample variance in a histogram. Comment on the underlying distribution for the sample variance. What happens to the mean of the sample variance as the sample size increases? **[6 marks]**
+5.  Take 1000 samples each of size 15 from `price/1e3`, calculate the variance of each sample. Present the distribution of the sample variances in a histogram. Take 1000 samples of size 30 from `price/1e3`, calculate the variance of each sample. Present the distribution of the sample variances in a histogram. Comment on the underlying distribution for the sample variance. What happens to the mean of the sample variance as the sample size increases? *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[6 marks]**
 
 
 ------------------------------------------------------------------------
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+This work is derivative of OpenIntro Labs and was modified by Eric Hall. The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
 

@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab05"
-  version: 1.0.1020
+  version: 1.1.2021
 ---
 
 ```{css, echo=FALSE}
@@ -279,7 +279,7 @@ yrbss_exercise <- yrbss %>%
 ```
 
 :::{.exerciseblock}
-Make a boxplot (using `geom_boxplot()`) for the new categorical variable `physical_3plus` by `weight`. Is there a relationship between engaging in physical activity for at least 3 days a week and weight? What did you expect and why?
+Make a boxplot (using `geom_boxplot()`) of `weight` by the new categorical variable `physical_3plus`. Is there a relationship between engaging in physical activity for at least 3 days a week and weight? What did you expect and why?
 
 ```{r answer-1a, exercise = TRUE}
 
@@ -313,7 +313,7 @@ The summary above indicates an observed difference in the mean weight, but is th
 ## Inference
 
 :::{.exerciseblock}
-Consult the sections of the Course Notes on hypothesis testing. Are all conditions necessary for making an inference satisfied? Comment on each. You can compute the group sizes with the `summarize` command as above by defining a new variable with the definition `n()`.
+Consult the sections of the lecture notes on hypothesis testing (or your favorite statistics text). Are all conditions necessary for making an inference satisfied? Comment on each. You can compute the group sizes with the `summarize` command as above by defining a new variable with the definition `n()`.
 
 ```{r by-means-eg, exercise = TRUE}
 
@@ -433,29 +433,29 @@ Construct and record a confidence interval for the difference between the weight
 ```
 :::
 
-## Summary (Exercises 1-5)
+## Exercises
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-5 below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 
 
-1.  Make a boxplot for the new categorical variable `physical_3plus` by `height`. Is there a relationship between engaging in physical activity for at least 3 days a week and height? What did you expect and why? **[3 marks]**
+1.  Create a new categorical variable `physical_3plus` denoting those who engaging in physical activity for at least 3 days a week (e.g., appropriate levels would be "no", "yes", and "NA"). Using `ggplot`, make a boxplot of `height` by `physical_3plus`. Is there a relationship between engaging in physical activity for at least 3 days a week and height? What did you expect and why? **[3 marks]**
 
-2.  Calculate a 90% confidence interval for the average height in meters (`height`) and interpret it in context. Use both the `infer` package and normality theory and compare the two interval estimates.  **[5 mark]**
+2.  Calculate a 90% confidence interval for the average respondent height in meters (`height`) and interpret it in context. Use both the `infer` package and normality theory and compare the two interval estimates.  **[5 mark]**
 
 <!-- 3.  Calculate a new confidence interval for the same parameter at the 90% confidence level. Comment on the width of this interval versus the one obtained in the previous exercise. **[2 marks]** -->
 
-3.  Conduct a hypothesis test evaluating whether the average height is different at level $0.01$ for those who exercise at least three times a week and those who don't. You may use the `infer` package to conduct the test.  **[5 marks]**
+3.  Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who don't at confidence level $0.01$. Please use the `infer` package to conduct the test.  **[5 marks]**
 
-4.  Now, a non-inference task: Determine the number of different options there are in the data set for the `hours_tv_per_school_day` there are. **[2 marks]**
+4.  Now, a non-inference task: determine the number of different levels or categories for the categorical variable `hours_tv_per_school_day`. **[2 marks]**
 
-5.  Come up with a research question evaluating the relationship between height or weight and sleep. Formulate the question in a way that it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results, and also provide an explanation in plain language. Be sure to check all assumptions, state your $\alpha$ level, and conclude in context. **[5 marks]**
+5.  Come up with a research question evaluating the relationship between height (or weight) and sleep. Formulate the question in a way that it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results, and also provide an explanation in plain language. Be sure to check all assumptions, state your confidence level (i.e., $\alpha$), and place your conclusion in context. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[5 marks]**
 
 ------------------------------------------------------------------------
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+This work is derivative of OpenIntro Labs and was modified by Eric Hall. The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
 

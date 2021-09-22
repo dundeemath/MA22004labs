@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab02"
-  version: 1.0.1020
+  version: 1.1.2021
 ---
 
 ```{css, echo=FALSE}
@@ -176,7 +176,7 @@ data(cdc)
 Some define Statistics as the field that focuses on turning information into knowledge.  The first step in that process is to summarize and describe the raw information - the data. In this lab, you will gain insight into public health by generating simple graphical and numerical summaries of a data set collected by the Centers for Disease Control and Prevention (CDC). As this is a large data set, along the way you'll also learn the indispensable skills of data processing and subsetting.
 
 :::{.noteblock}
-The report for Lab 2 consists of answers to exercises 1-6 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+The report for Lab 2 consists of answers to exercises 1-6 in the last section of this tutorial. Upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. Remember: to create your new lab report in RStudio go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
 :::
 
 ### Packages 
@@ -227,7 +227,7 @@ We can have a look at the first few entries (rows) of our data with the `head` f
 `___`(cdc)
 ```
 
-```{r head-solutioni}
+```{r head-solution}
 head(cdc)
 ```
 
@@ -557,7 +557,7 @@ You can compare the locations of the components of the box by examining the summ
 summary(cdc$height)
 ```
 
-Confirm that the median and upper and lower quartiles reported in the numerical summary match those in the graph. The purpose of a box plot is to provide a thumbnail sketch of a variable for the purpose of comparing across several categories. We can do this with `ggplot` by adding a `y` aesthetic to the mix.
+Confirm that the median and upper and lower quartiles reported in the numerical summary match those in the graph. The purpose of a box plot is to provide a thumbnail sketch of a variable for the purpose of comparing across the categories (levels or qualitative characteristics) of a categorical variable. We can do this with `ggplot` by adding a `y` aesthetic to the mix.
 
 ```{r boxplot-height-gender, exercise = TRUE}
 ggplot(cdc, aes(x = height, y = gender)) + geom_boxplot()
@@ -565,9 +565,9 @@ ggplot(cdc, aes(x = height, y = gender)) + geom_boxplot()
 
 Next let's consider a new variable that doesn't show up directly in this data set: Body Mass Index (BMI) [[W]](http://en.wikipedia.org/wiki/Body_mass_index). BMI is a weight to height ratio and can be calculated as:
 
-\[ BMI = \frac{weight~(lb)}{height~(in)^2} * 703 \]
+\[ \text{BMI} = \frac{\text{weight}~(lb)}{\text{height}~(in)^2} \cdot 703 \]
 
-The factor of 703 is the approximate conversion to change units from metric (meters and kilograms) to imperial (inches and pounds).
+The multiplicative factor of 703 is the approximate conversion to change units from metric (meters and kilograms) to imperial (inches and pounds).
 
 To create a new variable called `bmi` we use the `mutate` function. Then we can create a box plot of `bmi` by `genhlth`.
 
@@ -579,7 +579,7 @@ ggplot(cdc, aes(x = genhlth, y = bmi)) + geom_boxplot()
 Notice that the first line above is just some arithmetic, but it's applied to all 20,000 numbers in the `cdc` data set. That is, for each of the 20,000 participants, we take their weight, divide by their height-squared and then multiply by 703. The result is 20,000 BMI values, one for each respondent. This is one reason why we like R: it lets us perform computations like this using very simple expressions.
 
 :::{.exerciseblock}
-Using the **CDC Health Data**, create a box plot of `bmi` versus `genhlth`. What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would have a relationship to BMI,  and indicate what the figure seems to suggest. 
+Using the **CDC Health Data**, create a box plot of `bmi` by `genhlth`. What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would have a relationship to BMI, and indicate what the figure seems to suggest. 
 
 ```{r answer-7a, exercise = TRUE}
 cdc <- `___` %>% mutate(bmi = 703 * `___` / `___`)
@@ -623,30 +623,29 @@ question_text(
 
 At this point, we've done a good first pass at analyzing the information in the BRFSS questionnaire.  We've found an interesting association between smoking and gender, and we can say something about the relationship between people's assessment of their general health and their own BMI.  We've also picked up essential computing tools -- summary statistics, subsetting, and plots -- that will serve us well throughout this course.
 
-## Summary (Exercises 1-6)
+## Exercises
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-6. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1. 
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **CDC Health Data**  in the data frame `cdc` which is packaged with `MA22004labs`. 
 
 <!-- 1.  Using the **CDC Data**, create a numerical summary for `height` and `age`, and compute the interquartile range for each. Compute the relative frequency distribution for `gender` using `tabyl`. How many males are in the sample? What proportion of the sample reports being in excellent health?  **[5 marks]** -->
 
-1.  Generate a mosaic plot of `gender` vs `smoke100` from the **CDC Health Data**. What does the mosaic plot of  reveal about smoking habits and gender? **[2 marks]**
+1.  Generate a mosaic plot of `gender` vs `smoke100` from the **CDC Health Data** using  `ggplot`. What does the mosaic plot reveal about smoking habits and gender? **[2 marks]**
 
 <!-- 2.  Using the **CDC Health Data**, create a new object called `under23_and_smoke` that contains all observations of respondents under the age of 23 that have smoked 100 cigarettes in their lifetime. Write the command you used to create the new object as the answer to this exercise. **[1 mark]** -->
 
-2.  Using the **CDC Health Data**, pick another categorical variable from `cdc` and see how it relates to BMI. List the variable you chose, why you might think it would have a relationship to BMI,  and indicate what the figure seems to suggest. **[4 marks]**
+2.  List the categorical variables from the **CDC Health Data**. Create a box plot to compare BMI across a categorical variable from `cdc` (you may not use `genhlth`) using `ggplot` and `mutate`. List the variable you chose, why you might think it would have a relationship to BMI, and indicate what the figure seems to suggest. **[4 marks]**
 
-3.  Using the **CDC Health Data**, make a scatter plot of weight versus desired weight. Describe the relationship between these two variables. **[3 marks]**
+3.  Using the **CDC Health Data**, make a scatter plot of weight versus desired weight using `ggplot`. Describe the relationship between these two variables. **[3 marks]**
 
-4.  Using the **CDC Health Data**, consider a new variable: the difference between desired weight (`wtdesire`) and current weight (`weight`). Create this new variable by subtracting the two columns in the data frame and assigning them to a new object called `wdiff`. Write the command you used to create the new object as the answer to this exercise. What type of data is `wdiff`? If an observation `wdiff` is 0, what does this mean about the person's weight and desired weight? What if `wdiff` is positive or negative? **[3 marks]**
+4.  Using the **CDC Health Data**, consider a new variable `wdiff` that is the difference between desired weight and current weight. Provide a code to create `wdiff` using commands from `tidyverse`. What type of data is `wdiff`? If an observation `wdiff` is 0, what does this mean about the person's weight and desired weight? What if `wdiff` is positive or negative? **[3 marks]**
 
-5.  By using appropriate numerical summaries and plots, describe the distribution of `wdiff`, created in Exercise 4, in terms of its center, shape, and spread, including any plots you use. What does this tell us about how people feel about their current weight? **[4 marks]**
+5.  By using appropriate numerical summaries and `ggplot` plots, describe the distribution of `wdiff`, created in Exercise 4, in terms of its center, shape, and spread, including any plots you use. What does this tell us about how people feel about their current weight? **[4 marks]**
 
-6.  Using numerical summaries and a side-by-side box plot, determine if men tend to view their weight differently 
-than women.  **[4 marks]**
+6.  Using numerical summaries and a side-by-side box plot, determine if men tend to view their weight differently than women (use `ggplot`).  **[4 marks]**
 
 <!-- 7.  Find the mean and standard deviation of `weight` in `cdc` and determine what proportion of the weights are within one standard deviation of the mean. Give a box plot for the values of `wdiff` for the subset of individuals whose weight is  within one standard deviation of the mean weight. How does the distribution of `wdiff` vary for this subset? **[6 marks]** -->
 
@@ -655,5 +654,5 @@ than women.  **[4 marks]**
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+This work is derivative of OpenIntro Labs and was modified by Eric Hall. The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
 

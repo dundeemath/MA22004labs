@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab07"
-  version: 1.0.1020
+  version: 1.1.2021
 ---
 
 ```{css, echo=FALSE}
@@ -496,23 +496,23 @@ question_text(
 ------------------------------------------------------------------------
 
 
-## Summary (Exercises 1-5)
+## Exercises
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-5 below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
-The following exercises refer to variables found in or derived from the **Human Freedom Index Data* in the data frame `hfi` which is packaged with `MA22004labs`. 
+The following exercises refer to variables found in or derived from the **Human Freedom Index Data** in the data frame `hfi` which is packaged with `MA22004labs`. 
 
-1.  Consider a scatterplot of `pf_expression_control` vs `pf_score`, with `pf_expression_control` as the predictor. Describe the relationship between these two variables. Make sure to discuss the form, direction, and strength of the relationship as well as any unusual observations. **[2 marks]**
+1.  Use `ggplot` to construct a scatterplot of `pf_expression_control` vs `pf_score`. Use `pf_expression_control` as the predictor. Using the scatterplot, describe the relationship between these two variables. Make sure to discuss the form, direction, and strength of the relationship as well as any unusual observations. **[2 marks]**
 
-2.  Fit a new linear (least squares) model that uses `pf_expression_control` to predict `hf_score`, or the total human freedom score. Using the estimates from the `R` output, write the equation of the regression line. What does the slope tell us in the context of the relationship between human freedom and the amount of political pressure on media content? **[6 marks]**
+2.  Using `lm`, fit a least squares line that uses `pf_expression_control` to predict `hf_score`, the total human freedom score. Using the estimates from the output, write the equation of the regression line (remember to use $\LaTeX$). What does the slope tell us in the context of the relationship between human freedom and the amount of political pressure on media content? **[6 marks]**
 
-3.  Choose another freedom variable and a variable you think would strongly correlate with this new freedom variable. Produce a scatterplot of the two variables and fit a linear model. At a glance, does there seem to be a linear relationship? **[3 marks]**
+3.  Choose another freedom variable and a variable you think would strongly correlate with this new freedom variable. Use `ggplot` to produce a scatterplot of the two variables and fit a linear model. At a glance, does there seem to be a linear relationship? **[3 marks]**
 
-4.  How does this relationship in Exercise 3 compare to the relationship between `pf_expression_control` and `pf_score`? Use the $R^2$ values from the two model summaries to compare. Does your independent variable seem to predict your dependent one better? Why or why not? **[6 marks]**
+4.  How does this relationship in Exercise 3 compare to the relationship between `pf_expression_control` and `pf_score`? Use the $R^2$ values from the two model summaries (i.e., from `lm`) to compare. Does your independent variable seem to predict your dependent one better? Why or why not? **[6 marks]**
 
-5.  What's one freedom relationship you were most surprised about and why? Display the model diagnostics for the regression model analyzing this relationship. **[3 marks]**
+5.  What's one freedom relationship you were most surprised about and why? Using `lm`, display the model diagnostics for the regression model analyzing this relationship. **[3 marks]**
 
 
 
@@ -520,5 +520,5 @@ The following exercises refer to variables found in or derived from the **Human 
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+This work is derivative of OpenIntro Labs and was modified by Eric Hall. The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
 

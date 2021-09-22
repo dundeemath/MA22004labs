@@ -1,7 +1,7 @@
 ---
 title: "MA22004 Lab 6"
 subtitle: "Inference for Categorical Data"
-description: "Lab report consists of answers to exercises 1-4."
+description: "Lab report consists of answers to exercises 1-3."
 output:
   learnr::tutorial:
     progressive: true
@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab06"
-  version: 1.0.1020
+  version: 1.1.2021
 ---
 
 ```{css, echo=FALSE}
@@ -381,10 +381,10 @@ ggplot(data = pp, aes(x = p_hat)) +
 -  Now also change $n$. How does $n$ appear to affect the distribution of $\hat{p}$?
     
     
-## Summary (Exercises 1-3)
+## Exercises
 
 :::{.warningblock}
-To submit your completed laboratory report, submit the answers (only) to the exercises 1-3 below. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 
@@ -394,9 +394,9 @@ In such cases, you have a response variable that is categorical, and an explanat
 
 1.  Using the `infer` package, calculate confidence intervals for two other categorical variables (i.e. not `helmet_12m` or `text_while_driving_30d`). You will need to decide which level to call "success" and report the associated margins of error. Interpret the intervals in context of the data. It may be helpful to create new datasets for each of the two variables first, and then use these datasets to construct the confidence intervals. **[6 marks]**
 
-2.  Construct a plot of margin of error vs. population proportion $p$. Describe the relationship between a population proportion and the margin of error. For a given sample size, for which value of $p$ is margin of error maximized? **[4 marks]**
+2.  Using `ggplot`, construct a plot of population proportion $p$ vs. margin of error for a fixed sample size. Remember to label your plot. Describe the relationship between a population proportion and the margin of error. For a given sample size, for what value of $p$ is margin of error maximized? **[4 marks]**
 
-3.  Is there convincing evidence that those who sleep 10+ hours per day are more likely to strength train every day of the week? As always, write out the hypotheses for any tests you conduct and outline the status of the conditions for inference. If you find a significant difference, also quantify this difference with a confidence interval. **[10 marks]**
+3.  Is there convincing evidence that those who sleep 10+ hours per day are more likely to strength train every day of the week? As always, write out the hypotheses for any tests you conduct and outline the status of the conditions for inference. If you find a significant difference, also quantify this difference with a confidence interval. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[10 marks]**
 
 <!-- 4.  Let's say there has been no difference in likeliness to strength train every day of the week for those who sleep 10+ hours. What is the probability that you could detect a change (at a significance level of 0.05) simply by chance? *Hint:* Review the definition of the Type 1 error. **[5 marks]** -->
 
@@ -406,5 +406,5 @@ In such cases, you have a response variable that is categorical, and an explanat
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-This work is derivative of OpenIntro Labs and was modified by Eric Hall (2020). The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+This work is derivative of OpenIntro Labs and was modified by Eric Hall. The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
 
