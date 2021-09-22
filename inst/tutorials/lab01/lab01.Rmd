@@ -1,7 +1,7 @@
 ---
 title: "MA22004 Lab 1"
 subtitle: "Intro to `R` & RStudio"
-description: "Lab report consists of answers to exercises 1-3."
+description: "Lab report consists of answers to exercises 1-4."
 output:
   learnr::tutorial:
     progressive: true
