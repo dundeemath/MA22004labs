@@ -18,6 +18,8 @@ Below you will find instructions for steps 1, 2, and 3 above. You will also find
 
 Please work through this tutorial. 
 
+**If you have already installed** the `MA22004labs` package (for example in a previous semester), then please make sure that you are running **Version: 1.1.2021**. The tutorials and exercise questions might have changed.
+
 ## INSTALLING `R` and RStudio
 
 Please ensure that you have a current version of `R` (>= 4.0.2 "Taking Off Again" released on 2020/06/22). Older versions of `R` may work, but I have not been able to test them. `R` can be downloaded from *CRAN* at [https://cran.r-project.org/](https://cran.r-project.org/). 
