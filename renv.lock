@@ -324,18 +324,6 @@
       "Repository": "CRAN",
       "Hash": "4d243a9c10b00589889fe32314ffd902"
     },
-    "ggmosaic": {
-      "Package": "ggmosaic",
-      "Version": "0.3.4",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "haleyjeppson",
-      "RemoteRepo": "ggmosaic",
-      "RemoteRef": "master",
-      "RemoteSha": "7902468a310d42fcd79f263d3e1851480028ff6c",
-      "Hash": "9c8850f9a1cf0ee8af4f10dc04aac9bb"
-    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.3.5",
