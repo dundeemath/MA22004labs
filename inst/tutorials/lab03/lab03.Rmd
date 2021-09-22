@@ -157,10 +157,10 @@ library(knitr)
 tutorial_options(
   # code running in exercise times out after 30 seconds
   # if it is taking more than 30 s something is wrong 
-  exercise.timelimit = 30,
-  # use gradethis for checking
-  exercise.checker = gradethis::grade_learnr
+  exercise.timelimit = 30
   )
+# use gradethis for checking
+gradethis_setup()
 options(width = 60)
 
 # hide non-exercise code chunks
@@ -295,9 +295,12 @@ mean(`___`)
 ```
 
 ```{r mean-samp1-check}
-grade_result(
-  pass_if(~ .result == mean(samp1))
-)
+grade_this({
+  if(.result == mean(samp1)){
+    pass()
+  }
+  fail()
+})
 ```
 
 Depending on which 50 homes you selected, your estimate could be a bit above or a bit below the true population mean of 1499.69 square feet. In general, though, the sample mean turns out to be a pretty good estimate of the average living area, and we were able to get it by sampling less than 3\% of the population.

@@ -45,28 +45,35 @@ From the RStudio console run:
 devtools::install_github("dundeemath/MA22004labs")
 ```
 
+**If you are running Windows, this step may fail unless you also install RTools; if so see the special instructions below.**
+
 ### 3. Give permission to RStudio to install any required dependencies. You should not need to *update* any packages.
 
 The `MA22004labs` package includes a list of *dependencies* (these are packages that are used in one or more of the lab tutorials). RStudio will try to install all dependencies but will need to ask for your permission. Please give permission to *install* packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed. I would recommend first trying to install *without* updating anything by selecting "3 None". 
 
 ### 4. Restart RStudio
 
-Completely quit RStudio (**File > Quite Session**) and relaunch the application. 
+(This last step may not be necessary.) Completely quit RStudio (**File > Quite Session**) and relaunch the application.  
 
 The lab package can be run from the RStudio console by entering:
 ```
 library(MA22004labs)
 ```
 
-You should now be able to access the tutorials in the *Tutorial* pane, the template when creating a new Rmarkdown document, and all the data files for the module.
+You should now be able to access the tutorials in the RStudio *Tutorial* pane, the template when creating a new Rmarkdown document, and the data files for the module.
 
 There are also some "special install instructions" below that you should read if you run into trouble.
 
-### Special `MA22004labs` install instructions by operating system
+### Special instructions for installing `MA22004labs` by operating system
 
 #### Windows (General)
 
-- Download and install **RTools** from CRAN: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/). RTools enables you to update certain packages when the newest version must be compiled from source. 
+- Download and install **RTools** from CRAN: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/). RTools enables you to update certain packages when the newest version must be compiled from source. After installing **RTools** you will need to follow steps 1-4 in INSTALLING THE `MA22004labs` PACKAGE. 
+
+- On some Windows installs, several dependencies silently fail to install during `MA22004labs` installation. If you cannot launch the lab tutorials after installing **RTools** and `MA22004labs`, then:
+  - Delete the `gradethis` package through the *Packages* pane of RStudio.
+  - Re-install `gradethis` using `devtools::install_github("rstudio/gradethis")`. 
+  - When asked about updating dependencies, give option '1' (ALL). In particular, this might update to a newer version of `learnr` and `curl`. 
 
 - Some folks have run into problems when updating packages. They were successfully able to install the lab by simply *NOT* updating any packages, i.e., when prompted to *update* packages select "3 None".
 
@@ -130,7 +137,7 @@ This will open the tutorial in your favorite browser (tested with newer versions
 If you the installation of `MA22004labs` fails, the associated `.Rmd` files for each lab tutorial can be downloaded from GitHub (the are located within the directory `inst/tutorials/lab0n`). After opening the `.Rmd` file in RStudio, you should have the option to "Run" the file. If it comes to this, please contact me. 
 
 
-### Special instructions
+### Special instructions for running tutorials by operating system
 
 #### Windows 7
 

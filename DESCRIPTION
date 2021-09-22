@@ -17,7 +17,7 @@ Language: "en"
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    learnr,
+    learnr (>= 0.10.1),
     tidyverse (>= 1.3.0),
     gradethis (>= 0.2.4.9000),
     tinytex,

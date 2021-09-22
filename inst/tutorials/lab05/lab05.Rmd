@@ -156,10 +156,10 @@ library(knitr)
 tutorial_options(
   # code running in exercise times out after 30 seconds
   # if it is taking more than 30 s something is wrong 
-  exercise.timelimit = 30,
-  # use gradethis for checking
-  exercise.checker = gradethis::grade_learnr
+  exercise.timelimit = 30
   )
+# use gradethis for checking
+gradethis_setup()
 options(width = 60)
 
 # hide non-exercise code chunks

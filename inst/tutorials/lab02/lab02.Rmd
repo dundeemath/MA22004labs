@@ -157,10 +157,10 @@ library(knitr)
 tutorial_options(
   # code running in exercise times out after 30 seconds
   # if it is taking more than 30 s something is wrong 
-  exercise.timelimit = 30,
-  # use gradethis for checking
-  exercise.checker = gradethis::grade_learnr
+  exercise.timelimit = 30
   )
+# use gradethis for checking
+gradethis_setup()
 options(width = 60)
 
 # hide non-exercise code chunks
@@ -414,11 +414,18 @@ cdc[`___`, `___`]
 ```
 
 ```{r 6th-column-check}
-grade_result(
-  pass_if(~ .result[3] ==110),
-  fail_if(~ length(.result) != 100, "This vector doesn't seem to be the correct size."),
-  fail_if(~ .result[1] != 118, "This vector doesn't seem to start at the correct index.")
-)
+grade_this({
+  if (.result[3] == 110){
+    pass()
+  }
+  if (length(.result) != 100){
+    fail("This vector doesn't seem to be the correct size.")
+  }
+  if (.result[1] != 118){
+    fail("This vector doesn't seem to start at the correct index.")
+  }
+  fail()
+})
 ```
 
 Recall that column 6 represents respondents' weight, so the command above reported all of the weights in the data set. An alternative method to access the weight data is by referring to the name.  Previously, we typed `names(cdc)` to see all the variables contained in the cdc data set. We can use any of the variable names to select items in our data set. 
