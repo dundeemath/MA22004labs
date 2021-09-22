@@ -37,15 +37,28 @@ From the RStudio console run:
 ```
 install.packages("devtools")
 ```
+
 ### 2. Source the `MA22004labs` package from GitHub. 
 
 From the RStudio console run:
 ```
 devtools::install_github("dundeemath/MA22004labs")
 ```
+
 ### 3. Give permission to RStudio to install any required dependencies. You should not need to *update* any packages.
 
 The `MA22004labs` package includes a list of *dependencies* (these are packages that are used in one or more of the lab tutorials). RStudio will try to install all dependencies but will need to ask for your permission. Please give permission to *install* packages as required (you may update packages if you wish). RStudio will prompt you for permission in the console (either to enter a number "1"/"2"/"3" or "Yes") to proceed. I would recommend first trying to install *without* updating anything by selecting "3 None". 
+
+### 4. Restart RStudio
+
+Completely quit RStudio (**File > Quite Session**) and relaunch the application. 
+
+The lab package can be run from the RStudio console by entering:
+```
+library(MA22004labs)
+```
+
+You should now be able to access the tutorials in the *Tutorial* pane, the template when creating a new Rmarkdown document, and all the data files for the module.
 
 There are also some "special install instructions" below that you should read if you run into trouble.
 
