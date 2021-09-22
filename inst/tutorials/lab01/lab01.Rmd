@@ -165,7 +165,7 @@ tutorial_options(
   # if it is taking more than 30 s something is wrong 
   exercise.timelimit = 30,
   # use gradethis for checking
-  exercise.checker = gradethis::grade_learnr
+  exercise.checker = gradethis::gradethis_exercise_checker()
   )
 options(width = 60)
 
