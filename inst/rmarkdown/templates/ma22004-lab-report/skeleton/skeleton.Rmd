@@ -1,6 +1,6 @@
 ---
-title: "Lab NUMBER: TITLE"
-author: "TEST STUDENT --- ID-NUMBER"
+title: "Lab NUMBER: YOUR TITLE HERE"
+author: "YOUR NAME HERE"
 date: "`r Sys.Date()`"
 output:
   pdf_document: default
@@ -12,42 +12,72 @@ papersize: a4
 library(tidyverse)
 options(width = 80)
 theme_set(theme_bw(base_size = 10))
-knitr::opts_chunk$set(comment = "", fig.width = 5, fig.asp = 0.75, fig.align = "left",
-                      warning = FALSE, echo = TRUE, eval = TRUE)
+knitr::opts_chunk$set(comment = "", fig.width = 5, fig.asp = 0.75, fig.align = "left", warning = FALSE, echo = TRUE, eval = TRUE)
 ```
 
 To complete this lab report, we load the following packages and datasets.
 
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(MA22004labs)
-# ADD PACKAGES/DATASETS HERE
+# ADD YOUR PACKAGES/DATASETS BELOW
+
 ```
 
 ***
 
 ### Exercise 1
 
-Insert any text here (or below the `r` chunk if you like.)
+Update/change/delete the example text below as appropriate.
+
+Note the \#-signs before the text turn "Exercise 1" into a heading. \# for title, \#\# for heading, \#\#\# for sub-heading, \#\#\#\# for sub-sub-heading, etc. Only put one whitespace after a period; end a line with two spaces to start a new paragraph.
+
+Some formatting options: **Bold text**, *italic text*, ~~strikethrough text~~, superscript^2^, [link to google](www.google.com). 
+
+Ordered Lists can be made:
+
+1. endash --
+2. emdash ---
+3. ellipsis ...
+   1. Note the three spaces at the start of this line. 
+   2. neat?
+  
+Unordered lists:
+
+* one bullet
+* two bullet
+   * sub-item
+   * sub-item 
+
+> Here is a block quote.
+
+Here is some inline math $2+2=4$ and $x^2$ and $X_1, \dots, X_n$, and here is some display math:
+\[F(x) = \int_a^x f(t) dt \,.\]
+
+Within the `R` chunk, named "answer-1", below you can insert code that will run and produce output in your Knitted report. Note that each chunk must be assigned a different name. 
 
 ```{r answer-1}
-# Insert code for Exercise 1 here
+# Insert your code for here. 
+# Within a code chunk the # starts a comment line. 
+# Comments are not evaluated by R.
 ```
+
+Now for something fancy: the command `Sys.Date()` prints the date. The date is: `r Sys.Date()`.
 
 \newpage
 
-### Exercise 2
+### Exercise 2 
 
-Insert any text here.
+Insert your text here or below the `R` chunk if you like.
 
 ```{r answer-2}
-# Insert code for Exercise 2 here
+# Insert your code for Exercise 2 here
 ```
 
 \newpage
 
 ### Exercise 3
 
-Insert any text here.
+Insert your text here or below the `R` chunk if you like.
 
 ```{r answer-3}
 # Insert code for Exercise 3 here
@@ -57,8 +87,10 @@ Insert any text here.
 
 ### Exercise 4
 
-Insert any text here.
+Insert your text here or below the `R` chunk if you like.
 
 ```{r answer-4}
 # Insert code for Exercise 4 here
 ```
+
+Turn your Rmarkdown document into a PDF by clicking on the *Knit* button. 
