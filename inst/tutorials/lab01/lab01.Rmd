@@ -350,10 +350,12 @@ and return a result.  For example, try evaluating $5.7^{2}-2.57$. That is, fill 
 ```
 
 ```{r ex-input-basic-check}
-grade_result(
-  pass_if(~ identical(.result[1], 29.92)),
-  fail_if(~ TRUE)
-)
+grade_this({
+  if (identical(.result[1], 29.92)) {
+    pass()
+  }
+  fail()
+})
 ```
 
 You can also use standard mathematical functions and operations.  
@@ -383,12 +385,18 @@ alvin <- c(`___`, `___`, `___`)
 ```
 
 ```{r ex-input-array-check}
-grade_result(
-  pass_if(~ (length(.result) == 3) & identical(class(.result), "numeric"), 
-          "You entered a numeric array of length 3."),
-  fail_if(~ !(length(.result) == 3), "Either too many or too few elements."),
-  fail_if(~ !identical(class(.result), "numeric"), "Your array is not of type numeric.")
-)
+grade_this({
+  if ((length(.result) == 3) & identical(class(.result), "numeric")) {
+    pass("Great work! You entered a numeric array of length 3.")
+  }
+  if (!(length(.result) == 3)) {
+    fail("Either too many or too few elements.")
+  }
+  if (!identical(class(.result), "numeric")) {
+    fail("Your array is not of type numeric.")
+  }
+  fail()
+})
 ```
 
 You can also see the object by typing its name. Try running the code below.
@@ -413,10 +421,12 @@ bob[2]
 ```
 
 ```{r ex-input-array-bob2-check}
-grade_result(
-  pass_if(~ identical(.result,"b"), 
-          "Yes, the second element is \"b\".")
-)
+grade_this({
+  if (identical(.result,"b")){
+    pass("Yes, the second element is \"b\".")
+  }
+  fail()
+})
 ```
 
 You can use `R` to generate sequences of numbers. See what the following commands do by running the code. Note that for long-ish output, the bracketed numbers at the left correspond to the index of the element that follows.
