@@ -7,3 +7,4 @@ lab*.html
 inst/tutorials/lab06/lab06_files
 hello.R
 hello.Rd
+.DS_Store
