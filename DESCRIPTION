@@ -29,7 +29,7 @@ Imports:
     rmarkdown,
     shiny
 Remotes: 
-    rstudio/gradethis
+    rstudio/gradethis,
     rstudio/learnr
 Depends: 
     R (>= 2.10)
