@@ -1,0 +1,33 @@
+#' Unemployment rates for Scotland by ethnicity
+#'
+#' Estimated unemployment rates for people (aged 16 and older) in Scotland from
+#' 2012 Q4 through 2022 Q1 by ethnic group (white or minority) and by ethnic
+#' group and sex (male or female).
+#'
+#' These estimates are reported quarterly and refer to the preceding
+#' twelve-month period. Note that the unemployment rate here only relates to
+#' people in the labour force, i.e., who are "economically active". Unemployment
+#' refers to people without a job, who can start work within two weeks following
+#' their survey interview, and who had either looked for work in the previous
+#' four weeks or were waiting to start a job. People that have stopped looking
+#' for work are not included in this unemployment figure.
+#'
+#' @name aps_sco
+#' @docType data
+#' @format A tbl_df with with 38 rows and 8 variables:
+#' \describe{
+#'   \item{yq}{year and quarter, ranging from 2012 Q4 through 2022 Q1}
+#'   \item{total}{number of unemployed people (aged 16 and older) in Scotland (including individuals that did not identify as belonging to an ethnic group)}
+#'   \item{white}{number of unemployed people (aged 16 and older) in Scotland who identify as white}
+#'   \item{minority}{number of unemployed people (aged 16 and older) in Scotland who identify as a minority (non-white) including Black/ African/ Caribbean/ Black British, Indian, Pakistani, Bangladeshi, Chinese, Other (including Arab), and Mixed/multiple ethnic groups}
+#'   \item{white_male}{number of unemployed people (aged 16 and older) in Scotland who identify as white and male}
+#'   \item{white_female}{number of unemployed people (aged 16 and older) in Scotland who identify as white and female}
+#'   \item{minority_male}{number of unemployed people (aged 16 and older) in Scotland who identify as a minority (non-white) and male including Black/ African/ Caribbean/ Black British, Indian, Pakistani, Bangladeshi, Chinese, Other (including Arab), and Mixed/multiple ethnic groups}
+#'   \item{minority_female}{number of unemployed people (aged 16 and older) in Scotland who identify as a minority (non-white) and female including Black/ African/ Caribbean/ Black British, Indian, Pakistani, Bangladeshi, Chinese, Other (including Arab), and Mixed/multiple ethnic groups}
+#' }
+#' @source Source: Office for National Statistics. These data where extracted
+#' using NOMIS, 2022.08.18.
+#' @keywords datasets, unemployment, Scotland, ethnicity
+#' @examples
+#' data(aps_sco)
+"aps_Sco"
