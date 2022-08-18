@@ -8,7 +8,7 @@
 #' interview, and who had either looked for work in the previous four weeks or
 #' were waiting to start a job.
 #'
-#' @name aps_sco
+#' @name aps_sco_synth
 #' @docType data
 #' @format A tbl_df with with 38 rows and 8 variables:
 #' \describe{
