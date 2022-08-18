@@ -1,6 +1,6 @@
 #' Synthetic survey of Scottish labour force participation and ethnicity
 #'
-#' A data set of fictitious survey of Scottish labour force participation and ethnicity.
+#' A data set of fictitious results from a survey of Scottish labour force participation and ethnicity.
 #' The Scottish labour force refers to people in Scotland aged 16 and older who
 #' are economically active. Unemployment here only relates to people in the labour
 #' force, i.e., who are "economically active". Unemployment refers to people
@@ -10,7 +10,7 @@
 #'
 #' @name aps_sco_synth
 #' @docType data
-#' @format A tbl_df with with 38 rows and 8 variables:
+#' @format A tbl_df with with 26,137 rows and 2 variables:
 #' \describe{
 #'   \item{ethnicity}{identifies as belonging to white or minority (non-white) ethnic group}
 #'   \item{unemployed}{identifies as unemployed, i.e., someone (1) without a job,
@@ -19,7 +19,7 @@
 #' }
 #' @source Synthetic data created by Eric Hall \email{ehall001@@dundee.ac.uk},
 #' University of Dundee, 2022.08.18.
-#' @keywords datasets, unemployment, Scotland, ethnicity
+#' @keywords datasets, unemployment, Scotland, ethnicity, synthetic data
 #' @examples
 #' data(aps_sco_synth)
 "aps_sco_synth"

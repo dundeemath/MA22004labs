@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab06"
-  version: 1.1.2021
+  version: 2.0.2022
 ---
 
 ```{css, echo=FALSE}
@@ -147,10 +147,12 @@ div#license {
 # packages
 library(MA22004labs)
 library(tidyverse)
+library(janitor)
 library(infer)
 library(learnr)
 library(gradethis)
 library(knitr)
+library(zoo)
 
 # tutorial options
 tutorial_options(
@@ -167,7 +169,10 @@ knitr::opts_chunk$set(echo = FALSE, error = TRUE,
                       comment = "", fig.align = "center", fig.width = 6, 
                       fig.asp = 0.75, out.width = "100%")
 
-data(hfi)
+data(aps_sco)
+data(aps_sco_synth)
+set.seed(8675309)
+aps_sco_synth_tiny <- slice_sample(aps_sco_synth, prop=0.2) 
 ```
 
 ## Getting started
@@ -175,39 +180,71 @@ data(hfi)
 This lab considers inferences for categorical data. 
 
 :::{.noteblock}
-The report for Lab 6 consists of answers to exercises 1-3 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+The report for Lab 6 consists of answers to exercises 1-4 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
 :::
 
 ### Packages
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of packages, and perform statistical inference using **infer**.
+In this lab, we will explore and visualise the data using the **tidyverse** suite of packages and perform statistical inference using **infer**.
 
 Recall that all the necessary packages can be loaded using the `library` command. 
 
 ```{r load-packages, message=FALSE, echo = TRUE}
 library(MA22004labs)
 library(tidyverse)
+library(janitor)
 library(infer)
+library(zoo) # for time series
 ```
 
-### The **YRBSS Survey Data**
+### The **APS Unemployment in Scotland Data**
 
-You will be analyzing the same dataset as Lab 5, where you delved into a sample from the Youth Risk Behavior Surveillance System (YRBSS) survey, which uses data from high school aged youth to help discover health patterns. The **YRBSS Survey Data** is in a data frame called `yrbss`.
+:::{.tipblock}
+The Annual Population Survey (APS) is a continuous annual household survey of the UK population, with a sample size of 320,000, carried out by the Office of National Statistics (ONS). 
+:::
+
+Using the APS survey, the ONS estimates an unemployment rate for people (aged 16 and older) by ethnic group in Scotland. These estimates are reported quarterly and refer to the preceding twelve-month period. Note that the unemployment rate here only relates to people in the labour force, i.e., who are "economically active". Unemployment refers to people without a job, who can start work within two weeks following their survey interview, and who had either looked for work in the previous four weeks or were waiting to start a job. People that have stopped looking for work are not included in this unemployment figure. The **APS Unemployment in Scotland Data** in this lab covers the reporting period from 2012 Q4 through 2022 Q1 and is in a data frame named `aps_sco`. This data (and other ONS official census and labour market statistics) can be accessed through NOMIS ([www.nomisweb.co.uk](https://www.nomisweb.co.uk)).
+
+The **APS Unemployment in Scotland Data** reports the estimated number of people (aged 16 and over) unemployed in Scotland from 2012 Q4 through 2022 Q1. The total unemployment rate and the rate for two ethnic groups are given: white and minority (all ethnic groups excluding white). 
 
 :::{.exerciseblock}
-The **YRBSS Survey Data** contains the amount of days that the respondent texted while driving within the past 30 days. How many counts are within each category for the amount of days that the students texted while driving within the past 30 days? (Do not include `NA` in your count; a graphical representation is acceptable.)
+Take a peak at the data.
 
-```{r yrbss-counts-textdriving, exercise = TRUE}
+```{r aps-examine-data, exercise = TRUE}
 
 ```
 
-```{r yrbss-counts-textdriving-hint}
-ggplot(yrbss, aes(x=`___`)) + geom_bar()
+```{r aps-examine-data-hint}
+head(`___`)
 ```
 
-```{r yrbss-counts-textdriving-free}
+```{r aps-examine-data-solution}
+head(aps_sco)
+# examine variables, types, and the first few observations
+# also, try help(aps_sco)
+```
+:::
+
+Let's plot the estimated unemployment rates in Scotland over time by ethnicity. (Note that the APS also reports uncertainty estimates in their rate estimates; however, we exclude these from our investigation.)
+
+```{r apl-ts-plot, echo = TRUE, eval = TRUE}
+dat <- aps_sco %>%
+ select(yq, white, minority) %>%
+ pivot_longer(cols = !yq, names_to = "ethnicity", values_to = "rate")
+
+ggplot(dat, aes(x = yq)) + geom_line(aes(y = rate, color = ethnicity)) +
+ scale_x_yearqtr(format = "%Y Q%q", n = 6) + 
+ labs(x = "Date", y = "Unemployment rate (aged 16+)")
+```
+
+The ONS estimates that 3.7% of white and 6.9% of minority people were unemployed in Scotland for the year up to 2019 Q1. We would like to understand whether the difference in these estimated proportions is representative of a difference that would be observed if we could sample the whole of Scotland's labour force or whether the observed difference is due to chance variation (due to the individuals sampled). Is there a statistically significant difference between the unemployment rates of different ethnic groups in Scotland?
+
+:::{.exerciseblock}
+What additional information would you need to know to test this?
+
+```{r aps_sco-add-info-free}
 question_text(
-  "Enter your observations as free text below.",
+  "Note your thoughts on what additional information would be needed as free text below.",
   answer("C0rrect", correct = TRUE),
   incorrect = "Okay! [even if this button is red]",
   try_again_button = "Modify your answer",
@@ -216,120 +253,213 @@ question_text(
 ```
 :::
 
-:::{.exerciseblock}
-What is the proportion of people have texted while driving every day in the past 30 days and never wear helmets? 
-
-```{r proportion-nohelmet-texting, exercise = TRUE}
-
-```
-
-```{r proportion-nohelmet-texting-hint}
-# You can use `filter` to limit the dataset to just non-helmet wearers.
-# Here, we will name the dataset `no_helmet`
-
-no_helmet <- yrbss %>%
-  filter(`___` == "never")
-
-# Create a new yes/no variable that specifies whether the individual 
-# has texted  every day while driving over the past 30 days or not.
-# We will call this variable `text_ind`.
-no_helmet <- no_helmet %>%
-  mutate(text_ind = ifelse(`___` == "30", "yes", "no"))
-```
-
-```{r proportion-nohelmet-texting-solution}
-# You can use `filter` to limit the dataset to just non-helmet wearers.
-# Here, we will name the dataset `no_helmet`
-
-no_helmet <- yrbss %>%
-  filter(helmet_12m == "never")
-
-# Create a new yes/no variable that specifies whether the individual 
-# has texted  every day while driving over the past 30 days or not.
-# We will call this variable `text_ind`.
-no_helmet <- no_helmet %>%
-  mutate(text_ind = ifelse(text_while_driving_30d == "30", "yes", "no"))
-```
-:::
-
-
 ## Inference on proportions
 
-When summarizing the YRBSS, the Centers for Disease Control and Prevention seeks insight into the population *parameters*.
-To do this, you can answer the question, "What proportion of people in your sample reported that they have texted while driving each day for the past 30 days?" with a statistic; while the question "What proportion of people on earth have texted while driving each day for the past 30 days?" is answered with an estimate of the parameter.
+The ONS seeks insight into population *parameters* using survey data. 
 
-The inferential tools for estimating population proportion are analogous to those used for means in the last chapter: the confidence interval and the hypothesis test.
+For example, the ONS surveys a sample of people in Scotland and tries to infer the proportion of unemployed people in Scotland. The question "What proportion of people in your sample of the labour force are unemployed?" is answered by a statistic. However, the question "What proportion of people in the Scottish labour force are unemployed?" is answered with an estimate of the population parameter. Here the statistic is the sample proportion of people in the labour force who are unemployed, the parameter is the proportion of unemployed people, and where the population is the Scottish labour force. 
 
-```{r nohelmet-text-ci-pre}
-no_helmet <- yrbss %>%
-  filter(helmet_12m == "never") %>%
-  mutate(text_ind = ifelse(text_while_driving_30d == "30", "yes", "no"))
+The inferential tools for estimating population proportions are analogous to those used for means in the last chapter: the confidence interval and the hypothesis test.
+
+The ONS does not publish the full APS results or the number of people surveyed in Scotland; however, let us suppose that the survey samples 26,137 people aged 16 and older in the Scottish labour force, of which 24,884 identify as white and 1,253 identify as a (non-white) minority. A data set of fictitious results from a survey on Scottish labour force participation and ethnicity is available in `aps_sco_synth`.
+
+Is the Scottish labour force's unemployment rate statistically different for white and minority people?
+
+This question refers to a hypothesis test on the difference in proportions. Let \(p_m\) and \(p_w\) denote the proportions of, respectively, minority and white people aged 16 and over in Scotland who are unemployed. Our null hypothesis is then,
+\[H_0 : \quad p_m-p_w =0\,,\]
+and we test this against the alternative,
+\[H_a : \quad p_m-p_w \neq 0\,.\]
+One could also argue that from prior experience, e.g., citing evidence of similar analysis from other locations and contexts, that we anticipate the unemployment rate for minority people to exceed white people. In that case, it is also reasonable to test against the alternative,
+\[H_a : \quad p_m-p_w > 0\,.\]
+
+:::{.warningblock}
+The critical thing to remember is that the decision about which alternative to test against must be made honestly, e.g., before looking at the data and making calculations (why?).
+:::
+
+### Hypothesis testing "by hand"
+
+Consider the data set `aps_sco_synth`. 
+
+```{r aps_sco_synth-help, exercise = TRUE, warning = FALSE, error = FALSE}
+help(aps_sco_synth)
 ```
 
-```{r nohelmet-text-ci, exercise = TRUE, warning = FALSE, error = FALSE, exercise.setup = "nohelmet-text-ci-pre"}
-no_helmet %>%
-  specify(response = text_ind, success = "yes") %>%
-  generate(reps = 1000, type = "bootstrap") %>%
-  calculate(stat = "prop") %>%
-  get_ci(level = 0.95)
+To make calculating "by hand" easier, use the `tabyl` command from the `janitor` package can be used to summarise the data. For example, a table of sample proportions can be quickly obtained. 
+
+```{r aps_sco_synth-tabyl-perc, exercise = TRUE, warning = FALSE, error = FALSE}
+p <- aps_sco_synth %>% 
+ tabyl(ethnicity, unemployed) %>% 
+ adorn_percentages()
+p
 ```
-
-Note that since the goal is to construct an interval estimate for a proportion, it's necessary to both include the `success` argument within `specify`, which accounts for the proportion of non-helmet wearers than have consistently texted while driving the past 30 days, in this example, and that `stat` within `calculate` is here "prop", signaling that you are trying to infer something about a proportion.
-
-<!-- 1.  What is the margin of error for the estimate of the proportion of non-helmet wearers that have texted while driving each day for the past 30 days based on this survey? -->
+You can observe from the table generated above that the synthetic data was created to replicate the reported estimates from 2019 Q1. 
 
 :::{.exerciseblock}
-Using the `infer` package, calculate confidence intervals for two other categorical variables (i.e. not `helmet_12m` or `text_while_driving_30d`). You will need to decide which level to call "success" and report the associated margins of error. Interpret the intervals in context of the data. It may be helpful to create new datasets for each of the two variables first, and then use these datasets to construct the confidence intervals.
-
-```{r answer-1a, exercise = TRUE}
+Try using `tabyl` to create a summary of counts with totals. 
+```{r aps_sco_synth-tabyl-n, exercise = TRUE, warning = FALSE, error = FALSE}
 
 ```
 
-```{r answer-1b, exercise = TRUE}
+```{r aps_sco_synth-tabyl-n-hint}
+aps_sco_synth %>% tabyl(`___`, `___`) %>% 
+  `___`
+```
 
+```{r aps_sco_synth-tabyl-n-solution}
+n <- aps_sco_synth %>% 
+ tabyl(ethnicity, unemployed) %>% 
+ adorn_totals(where = c("row","col"))
+n
 ```
 :::
+
+:::{.exerciseblock}
+Recalling the procedure in [§4.3 of the lecture notes](https://dundeemath.github.io/MA22004/inference-two-samples.html#compare-proportions), calculate the test statistic and hence the \(P\)-value for a two-sided hypothesis test concerning the equality of the population proportions: 
+\[H_0 : \quad p_m-p_w =0\,,\]
+\[H_a : \quad p_m-p_w \neq 0\,.\]
+
+```{r aps_sco_synth-htest-hand-pre}
+n <- aps_sco_synth %>% tabyl(ethnicity, unemployed) %>% 
+  adorn_totals(where = c("row","col"))
+p <- aps_sco_synth %>% tabyl(ethnicity, unemployed) %>% 
+  adorn_percentages()
+```
+
+```{r aps_sco_synth-htest-hand, exercise = TRUE, warning = FALSE, error = FALSE, exercise.setup = "aps_sco_synth-htest-hand-pre"}
+
+```
+
+```{r aps_sco_synth-htest-hand-solution}
+phat <- (n$Total[1] * p$yes[1] + n$Total[2] * p$yes[2]) / n$Total[3]
+
+# test statistic
+z <- (p$yes[1] - p$yes[2]) / 
+  sqrt(phat*(1-phat)* (1/n$Total[1] + 1/n$Total[2]))
+
+# two-sided test
+Pval <- 2*(1-pnorm(z))
+```
+:::
+
+:::{.exerciseblock}
+Based on the \(P\)-value found above, would you accept or reject the null hypothesis? How would you place the result of the hypothesis test in the context of the problem and (synthetic) data? 
+
+```{r aps_sco-htest-context-free}
+question_text(
+  "Place the outcome of the hypothesis text in the context using free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+### The null distribution
+
+Now we will use the package `infer` to investigate the null distribution. 
+
+The `infer` workflow allows us to `specify` a statistic and `calculate` that statistic. In this instance, we are interested in whether or not the proportions \(p_m\) and \(p_w\) are equal (this is another way of writing the null hypothesis \(H_0 : \quad p_m - p_w =0\). In the infer package, this functional relationship between unemployment and ethnicity is specified using the notation `unemployed ~ ethnicity`. (You'll see this notation again when we consider linear models.) Note it's necessary to include a `success` argument within `specify` to indicate which response in `unemployed` we view as a "success". Putting this all together, we can calculate the observed difference in proportions \(\hat{p}_m - \hat{p}_w\). 
+
+```{r aps_sco_synth-infer-obs-diff, exercise = TRUE, warning = FALSE, error = FALSE}
+# calculate statistic
+obs_diff <- aps_sco_synth %>%
+  # unemployed is independent of ethnicity, since "yes" unemployed
+  specify(unemployed ~ ethnicity, success = "yes") %>% 
+  #specify p_minority - p_white
+  calculate(stat = "diff in props", order = c("minority", "white")) 
+obs_diff
+```
+
+To conduct a hypothesis test "by hand", you calculated a single realisation of the test statistic. Suppose we could survey other people in the Scottish labour force. In that case, we could use these repeated observations of the test statistic to build a histogram of the null distribution (the distribution of the test statistic, assuming the null hypothesis is true). We can use the `infer` package to generate realizations of the test statistic using sampling techniques (permutations and bootstrapping).
+
+```{r aps_sco-infer-null-dist, exercise = TRUE, warning = FALSE, error = FALSE}
+# calculate distribution of observed differences 
+null_dist <- aps_sco_synth %>% 
+  specify(unemployed ~ ethnicity, success = "yes") %>%
+  # null hypothesis is on independence, or p_minority - p_white = 0
+  hypothesise(null = "independence") %>%
+  # based on permuting samples 
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in props", order = c("minority", "white"))
+head(null_dist)
+```
+
+```{r aps_sco-infer-null-dist-stat-pre}
+obs_diff <- aps_sco_synth %>%
+  specify(unemployed ~ ethnicity, success = "yes") %>% 
+  calculate(stat = "diff in props", order = c("minority", "white")) 
+null_dist <- aps_sco_synth %>% 
+  specify(unemployed ~ ethnicity, success = "yes") %>%
+  hypothesise(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "diff in props", order = c("minority", "white"))
+```
+
+The null distribution can then be visualised and the \(P\)-value calculated. The visualisation is the histogram of the null distribution, that is, the histogram of repeated observations of the test statistic, assuming the null hypothesis is true.
+
+```{r aps_sco-infer-null-dist-vis, exercise = TRUE, warning = FALSE, error = FALSE, exercise.setup = "aps_sco-infer-null-dist-stat-pre"}
+# plot sampled/bootstrapped null distribution
+null_dist %>%
+ visualize() +
+ shade_p_value(obs_stat = obs_diff, direction = "two-sided")
+```
+
+```{r aps_sco-infer-null-dist-pval, exercise = TRUE, warning = FALSE, error = FALSE, exercise.setup = "aps_sco-infer-null-dist-stat-pre"}
+# calculate two-sided p-value (compare to p1)
+p_val <- null_dist %>%
+  get_p_value(obs_stat = obs_diff, direction = "two-sided")
+p_val
+```
+
+How does the \(P\)-value compare to the value computed "by hand"?
 
 ## Margin of error
 
-Imagine you've set out to survey 1000 people on two questions: are you at least 6-feet tall?
+Imagine you've set out to survey 1000 people on two questions: are you at least 6 feet tall?
 and are you left-handed?
-Since both of these sample proportions were calculated from the same sample size, they should have the same margin of error, right?
+Since both sample proportions were calculated from the same sample size, they should have the same margin of error, right?
 Wrong!
 While the margin of error does change with sample size, it is also affected by the proportion.
 
 The margin of error for a 95% confidence interval is given by, 
 \[\mathsf{ME} = 1.96 \cdot \mathsf{se} = 1.96 \cdot \sqrt{p(1-p)/n} \,,\]
 where $\mathsf{se}$ is the standard error.
-Since the population proportion $p$ is in this $\mathsf{ME}$ formula, it should make sense that the margin of error is in some way dependent on the population proportion.
-We can visualize this relationship by creating a plot of $\mathsf{ME}$ vs. $p$.
+Since the population proportion, $p$, is in this $\mathsf{ME}$ formula, it should make sense that the margin of error depends on the population proportion.
+We can visualise this relationship by creating a plot of $\mathsf{ME}$ vs $p$.
 
-Since sample size is irrelevant to this discussion, let's just set it to some value ($n = 1000$) and use this value in the following calculations:
-
-```{r n-for-me-plot, echo = TRUE, eval = TRUE}
-n <- 1000
-```
-
-The first step is to make a variable `p` that is a sequence from 0 to 1 with each number incremented by 0.01.
-You can then create a variable of the margin of error (`me`) associated with each of these values of `p` using the familiar approximate formula ($\mathsf{ME} = 2 \times \mathsf{se}$).
+Since the sample size is irrelevant to this discussion, let's just set it to some value ($n = 1000$) and use the fixed value in the following calculations. The first step is to make a variable `p` that is a sequence from 0 to 1 with each number incremented by 0.01. You can then create a variable of the margin of error (`me`) associated with each of these values of `p` using the familiar approximate formula ($\mathsf{ME} = 2 \times \mathsf{se}$).
 
 ```{r p-me, echo = TRUE, eval = TRUE}
+n <- 1000
 p <- seq(from = 0, to = 1, by = 0.01)
 me <- 2 * sqrt(p * (1 - p)/n)
 ```
 
 Lastly, you can plot the two variables against each other to reveal their relationship.
-To do so, we need to first put these variables in a data frame that you can call in the `ggplot` function.
+To do so, we need to first put these variables in a data frame (or `tibble`) that you can call in the `ggplot` function. Construct a plot of margin of error vs population proportion $p$.
 
-```{r me-plot, echo = TRUE, eval = TRUE}
-dd <- data.frame(p = p, me = me)
-ggplot(data = dd, aes(x = p, y = me)) + 
-  geom_line() +
+```{r me-plot, exercise =TRUE, echo = TRUE, eval = TRUE, exercise.setup = "p-me"}
+dd <- tibble(p = p, me = me)
+`___`
+```
+
+```{r me-plot-hint}
+dd <- tibble(p = p, me = me)
+ggplot(dd, aes(x = `___`, y = `___`)) + 
+  `___` +
   labs(x = "Population Proportion", y = "Margin of Error")
 ```
 
+```{r me-plot-solution}
+dd <- tibble(p = p, me = me)
+ggplot(dd, aes(x = p, y = me)) + 
+  geom_line() +
+  labs(x = "Population proportion", y = "Margin of error")
+```
+
 :::{.exerciseblock}
-Construct a plot of margin of error vs. population proportion $p$. Describe the relationship between a population proportion and the margin of error. For a given sample size, for which value of $p$ is margin of error maximized?
+Describe the relationship between a population proportion and the margin of error. For a given sample size, for which value of $p$ is the margin of error maximised?
 
 ```{r me-plot-free}
 question_text(
@@ -344,59 +474,97 @@ question_text(
 
 ## Success-failure condition
 
-We have emphasized that you must always check conditions before making an inference.
-For inference on proportions, the sample proportion can be assumed to be nearly normal if it is based upon a random sample of independent observations and if both $np \geq 10$ and $n(1 - p) \geq 10$.
-This rule of thumb is easy enough to follow, but it makes you wonder: what's so special about the number 10?
+We have emphasised that you must always check conditions before making an inference.
+For inference on the difference of two proportions \(\hat{p}_X - \hat{p}_Y\), the test statistic can be assumed to be nearly normal if it is based upon a random sample of independent observations and if  \(n_X \hat{p}_X \geq 10\),  \(n_X(1 - \hat{p}_X) \geq 10\), \(n_Y \hat{p}_Y \geq 10\), and \(n_Y(1 - \hat{p}_Y) \geq 10\).
+Similarly, for inferences about a single proportion, \(\hat{p}\) we required \(n \hat{p} \geq 10\) and  \(n(1 - \hat{p}) \geq 10\). 
+These *rules of thumb* are easy enough to follow, but it makes you wonder: what's so special about the number 10?
 
 The short answer is: nothing.
-You could argue that you would be fine with 9 or that you really should be using 11.
-What is the "best" value for such a rule of thumb is, at least to some degree, arbitrary.
-However, when $np$ and $n(1-p)$ reaches 10 the sampling distribution is sufficiently normal to use confidence intervals and hypothesis tests that are based on that approximation.
+You could argue that you would be fine with nine or that you really should be using 11.
+The "best" value for such a rule of thumb is, at least to some degree, arbitrary.
+However, when $n\hat{p}$ and $n(1-\hat{p})$ reach 10, the sampling distribution is sufficiently normal to use confidence intervals and hypothesis tests that are based on that approximation.
 
-You can investigate the interplay between $n$ and $p$ and the shape of the sampling distribution by using simulations.
-Play around with the following app to investigate how the shape, center, and spread of the distribution of $\hat{p}$ changes as $n$ and $p$ changes.
+You can investigate the interplay between \(n\) and \(p\) and the shape of the sampling distribution for \(\hat{p}\) by using simulations.
+Play around with the following app to investigate how the shape, centre, and spread of the distribution of $\hat{p}$ changes as $n$ and $p$ change. Try changing \(n\) and \(p\) individually. 
 
 
-```{r sf, exercise = TRUE, warning = FALSE}
+```{r sf, exercise = TRUE, warnings = FALSE, error = FALSE}
 # Change n and p then rerun code
-n <- 300     
+n <- 100     
 p <- 0.1    
 
 # Plot command (no need to change)
-pp <- data.frame(p_hat = rep(0, 5000))
+obs_dist <- tibble(p_hat = rep(0, 5000))
 for(i in 1:5000){
-  samp <- sample(c(TRUE, FALSE), n, replace = TRUE, 
-                   prob = c(p, 1 - p))
-  pp$p_hat[i] <- sum(samp == TRUE) / n
+ samp <- sample(c(TRUE, FALSE), n, replace = TRUE, 
+                prob = c(p, 1 - p))
+ obs_dist$p_hat[i] <- sum(samp == TRUE) / n
 }
-ggplot(data = pp, aes(x = p_hat)) +
-  geom_histogram(binwidth = 1.06*sd(pp$p_hat)*n^(-1/5)) + xlim(0,1) +
-  #xlim(min(pp$p_hat) - min(pp$p_hat)*.05, max(pp$p_hat) + max(pp$p_hat)*.05) +
-  ggtitle(paste0("Distribution of p_hat, drawn from p = ", p, ", n = ", n))
+ggplot(obs_dist, aes(x = p_hat)) +
+ geom_histogram(binwidth = 1.06*sd(obs_dist$p_hat)*n^(-1/5)) +
+ scale_x_continuous(limits = c(0,1)) + 
+ ggtitle(paste0("Simulated distribution of p_hat, for p = ", p, ", n = ", n))
 ```
 
+:::{.exerciseblock}
+Describe the sampling distribution of sample proportions at $n = 300$ and $p = 0.1$. Be sure to note the centre, spread, and shape.
 
--  Describe the sampling distribution of sample proportions at $n = 300$ and $p = 0.1$. Be sure to note the center, spread, and shape.
--  Keep $n$ constant and change $p$. How does the shape, center, and spread of the sampling distribution vary as $p$ changes? You might want to adjust min and max for the $x$-axis for a better view of the distribution.
--  Now also change $n$. How does $n$ appear to affect the distribution of $\hat{p}$?
+```{r sf-thoughts-1}
+question_text(
+  "Note your thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+:::{.exerciseblock}
+Keep $n$ constant and change $p$. How does the sampling distribution's shape, centre, and spread vary as $p$ changes? You might want to adjust the min and max for the $x$-axis for a better view of the distribution.
+
+```{r sf-thoughts-2}
+question_text(
+  "Note your thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
+
+:::{.exerciseblock}
+Now also change $n$. How does $n$ affect the distribution of $\hat{p}$?
+
+```{r sf-thoughts-3}
+question_text(
+  "Note your thoughts as free text below.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+:::
     
     
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
-The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 
+The following exercises refer to variables found in or derived from the **APS Unemployment in Scotland Data** in the data frames `aps_sco` and `aps_sco_synth` that are packaged with `MA22004labs`. 
 
-For some of the exercises below, you will conduct inference comparing two proportions.
-In such cases, you have a response variable that is categorical, and an explanatory variable that is also categorical, and you are comparing the proportions of success of the response variable across the levels of the explanatory variable. This means that when using `infer`, you need to include both variables within `specify`.
+1. The **APS Unemployment in Scotland Data** from 2022 Q1 estimates that 7.8% of white and 9.5% of minority people (aged 16 and older) in Scotland are unemployed. Based on the overall size of the survey and the proportion of the population who belong to each ethnic group, suppose that 22,623 white and 1,291 minority people were surveyed. Does the data support that unemployment rates for white and minority people in the Scottish labour force are significantly different at level 0.10?  Identify your hypothesis, place the outcome of your hypothesis test in the context of the problem, and check applicable rules of thumb for the inference you are conducting. **[7 marks]**
 
-1.  Using the `infer` package, calculate confidence intervals for two other categorical variables (i.e. not `helmet_12m` or `text_while_driving_30d`). You will need to decide which level to call "success" and report the associated margins of error. Interpret the intervals in context of the data. It may be helpful to create new datasets for each of the two variables first, and then use these datasets to construct the confidence intervals. **[6 marks]**
+2. Does the answer to exercise 1 prove that employers are biased? Justify your answer, for example, by considering what other factors might influence the difference in unemployment rates between white and minority people in Scotland. **[3 marks]**
 
-2.  Using `ggplot`, construct a plot of population proportion $p$ vs. margin of error for a fixed sample size. Remember to label your plot. Describe the relationship between a population proportion and the margin of error. For a given sample size, for what value of $p$ is margin of error maximized? **[4 marks]**
+3. Many factors could contribute to the difference in unemployment rates between ethnic groups. We can control for education level by looking at the unemployment rates among minority and white people with the same education level. 
+Suppose that among those with qualifications at or above degree level or equivalent, the unemployment rate is 1.9% for white and 3.9% for minority people. Based on the qualifications by ethnicity in Scotland, suppose that 5,722 white and 615 minority people were surveyed. Is the unemployment rate among people with a degree level qualification (or higher) significantly different at level 0.1 for white and minority people in Scotland? Identify your hypothesis, place the outcome of your hypothesis test in the context of the problem, and check applicable rules of thumb for the inference you are conducting. **[7 marks]**
 
-3.  Is there convincing evidence that those who sleep 10+ hours per day are more likely to strength train every day of the week? As always, write out the hypotheses for any tests you conduct and outline the status of the conditions for inference. If you find a significant difference, also quantify this difference with a confidence interval. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[10 marks]**
+4.  Using `ggplot`, construct a plot of population proportion $p$ vs margin of error for a fixed sample size. Remember to label your plot. Describe the relationship between a population proportion and the margin of error. For a given sample size, for what value of $p$ is the margin of error maximised? **[3 marks]**
 
 <!-- 4.  Let's say there has been no difference in likeliness to strength train every day of the week for those who sleep 10+ hours. What is the probability that you could detect a change (at a significance level of 0.05) simply by chance? *Hint:* Review the definition of the Type 1 error. **[5 marks]** -->
 
@@ -407,4 +575,6 @@ In such cases, you have a response variable that is categorical, and an explanat
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png){style="border-width:0"}</a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
 This work is derivative of OpenIntro Labs and was modified by Eric Hall of the University of Dundee Mathematics Division. The original labs were adapted for OpenIntro by Andrew Bray and Mine Çetinkaya-Rundel from labs written by Mark Hansen of UCLA Statistics.
+
+Ideas regarding the social justice component of this lab are taken from Abra Brisbin, *"I Need a Job!" Analyzing Unemployment Rates in College Algebra and Introductory Statistics*, in Mathematics for Social Justice (eds. Gizem Karaali and Lily S. Khadjavi), AMS/MAA, Providence, RI, 2021.
 

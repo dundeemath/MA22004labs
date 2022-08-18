@@ -5,7 +5,7 @@
 \alias{aps_sco_synth}
 \title{Synthetic survey of Scottish labour force participation and ethnicity}
 \format{
-A tbl_df with with 38 rows and 8 variables:
+A tbl_df with with 26,137 rows and 2 variables:
 \describe{
 \item{ethnicity}{identifies as belonging to white or minority (non-white) ethnic group}
 \item{unemployed}{identifies as unemployed, i.e., someone (1) without a job,
@@ -21,7 +21,7 @@ University of Dundee, 2022.08.18.
 aps_sco_synth
 }
 \description{
-A data set of fictitious survey of Scottish labour force participation and ethnicity.
+A data set of fictitious results from a survey of Scottish labour force participation and ethnicity.
 The Scottish labour force refers to people in Scotland aged 16 and older who
 are economically active. Unemployment here only relates to people in the labour
 force, i.e., who are "economically active". Unemployment refers to people
@@ -33,6 +33,8 @@ were waiting to start a job.
 data(aps_sco_synth)
 }
 \keyword{Scotland,}
+\keyword{data}
 \keyword{datasets,}
-\keyword{ethnicity}
+\keyword{ethnicity,}
+\keyword{synthetic}
 \keyword{unemployment,}
