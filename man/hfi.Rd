@@ -151,8 +151,6 @@ types of freedom - whether it's political, religious, economical or personal fre
 and other social and economic circumstances. The Human Freedom Index is an annually
 co-published report by the Cato Institute, the Fraser Institute, and the Liberales
 Institut at the Friedrich Naumann Foundation for Freedom.
-}
-\details{
 This dataset contains information from Human Freedom Index reports from 2008-2016.
 }
 \examples{

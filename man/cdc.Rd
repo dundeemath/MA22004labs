@@ -35,8 +35,6 @@ cdc
 While there are over 200 variables in the full BRFSS data set, here we look at
 9 measurements/responses across a random sample of 20,000 participants (date of
 responses unspecified).
-}
-\details{
 Conducted by the United States Centers for Disease Control and Prevention (CDC),
 the Behavioral Risk Factor Surveillance System (BRFSS) is an annual telephone
 survey of 350,000 people in the United States. As its name implies, the BRFSS

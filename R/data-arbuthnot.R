@@ -2,7 +2,6 @@
 #'
 #' Arbuthnot's data describes male and female christenings (births) for
 #' London from 1629-1710.
-#'
 #' John Arbuthnot (1710) used these time series data to carry out the first
 #' known significance test. During every one of the 82 years, there were more
 #' male christenings than female christenings. As Arbuthnot wondered,
