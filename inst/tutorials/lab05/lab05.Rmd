@@ -1,7 +1,7 @@
 ---
 title: "MA22004 Lab 5"
 subtitle: "Inference for Numerical Data"
-description: "An interactive lab exploring inferences for numerical data."
+description: "An interactive lab exploring inferences using behavioural health data."
 output:
   learnr::tutorial:
     progressive: true

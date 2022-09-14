@@ -1,7 +1,7 @@
 ---
 title: "MA22004 Lab 1"
 subtitle: "Intro to `R` & RStudio"
-description: "An interactive lab providing an intro to statistical programming."
+description: "An interactive lab providing an intro to statistical programming using the population timeseries data."
 output:
   learnr::tutorial:
     progressive: true
