@@ -27,33 +27,7 @@ library(MA22004labs)
 
 ### Exercise 1
 
-Update/change/delete the example text below as appropriate.
-
-Note the \#-signs before the text turn "Exercise 1" into a heading. \# for title, \#\# for heading, \#\#\# for sub-heading, \#\#\#\# for sub-sub-heading, etc. Only put one whitespace after a period; end a line with two spaces to start a new paragraph.
-
-Some formatting options: **Bold text**, *italic text*, ~~strikethrough text~~, superscript^2^, [link to google](www.google.com). 
-
-Ordered Lists can be made:
-
-1. endash --
-2. emdash ---
-3. ellipsis ...
-   1. Note the three spaces at the start of this line. 
-   2. neat?
-  
-Unordered lists:
-
-* one bullet
-* two bullet
-   * sub-item
-   * sub-item 
-
-> Here is a block quote.
-
-Here is some inline math $2+2=4$ and $x^2$ and $X_1, \dots, X_n$, and here is some display math:
-\[F(x) = \int_a^x f(t) dt \,.\]
-
-Within the `R` chunk, named "answer-1", below you can insert code that will run and produce output in your Knitted report. Note that each chunk must be assigned a different name. 
+Answer to exercise 1.
 
 ```{r answer-1}
 # Insert your code for here. 
@@ -61,36 +35,16 @@ Within the `R` chunk, named "answer-1", below you can insert code that will run 
 # Comments are not evaluated by R.
 ```
 
-Now for something fancy: the command `Sys.Date()` prints the date. The date is: `r Sys.Date()`.
-
 \newpage
 
 ### Exercise 2 
 
-Insert your text here or below the `R` chunk if you like.
+Answer to exercise 2.
 
 ```{r answer-2}
 # Insert your code for Exercise 2 here
 ```
 
 \newpage
-
-### Exercise 3
-
-Insert your text here or below the `R` chunk if you like.
-
-```{r answer-3}
-# Insert code for Exercise 3 here
-```
-
-\newpage
-
-### Exercise 4
-
-Insert your text here or below the `R` chunk if you like.
-
-```{r answer-4}
-# Insert code for Exercise 4 here
-```
 
 Turn your Rmarkdown document into a PDF by clicking on the *Knit* button. 

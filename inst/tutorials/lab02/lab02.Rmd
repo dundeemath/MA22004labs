@@ -1,7 +1,7 @@
 ---
 title: "MA22004 Lab 2"
 subtitle: "Intro to Data Analysis"
-description: "Lab report consists of answers to exercises 1-6."
+description: "An interactive lab introducing exploratory data analysis."
 output:
   learnr::tutorial:
     progressive: true

@@ -1,7 +1,7 @@
 ---
 title: "MA22004 Lab 7"
 subtitle: "Introduction to Linear Regression"
-description: "Lab report consists of answers to exercises 1-5."
+description: "An interactive lab exploring linear regression."
 output:
   learnr::tutorial:
     progressive: true

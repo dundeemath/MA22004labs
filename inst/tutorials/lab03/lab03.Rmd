@@ -1,7 +1,7 @@
 ---
 title: "MA22004 Lab 3"
 subtitle: "Sampling Distributions"
-description: "Lab report consists of answers to exercises 1-5."
+description: "An interactive lab exploring sampling distributions."
 output:
   learnr::tutorial:
     progressive: true
