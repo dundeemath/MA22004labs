@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab06"
-  version: 2.0.2022
+  version: 2.2.2022
 ---
 
 ```{css, echo=FALSE}
@@ -180,7 +180,7 @@ aps_sco_synth_tiny <- slice_sample(aps_sco_synth, prop=0.2)
 This lab considers inferences for categorical data. 
 
 :::{.noteblock}
-The report for Lab 6 consists of answers to exercises 1-4 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+The report for Lab 6 consists of answers to exercises 1-4 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown**, then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the first Section, "RStudio and lab reports", of Lab 1.
 :::
 
 ### Packages
@@ -257,7 +257,7 @@ question_text(
 
 The ONS seeks insight into population *parameters* using survey data. 
 
-For example, the ONS surveys a sample of people in Scotland and tries to infer the proportion of unemployed people in Scotland. The question "What proportion of people in your sample of the labour force are unemployed?" is answered by a statistic. However, the question "What proportion of people in the Scottish labour force are unemployed?" is answered with an estimate of the population parameter. Here the statistic is the sample proportion of people in the labour force who are unemployed, the parameter is the proportion of unemployed people, and where the population is the Scottish labour force. 
+For example, the ONS surveys a sample of people in Scotland and tries to infer the proportion of unemployed people in Scotland. The question "What proportion of people in your sample of the labour force are unemployed?" is answered by a statistic. However, the question "What proportion of people in the Scottish labour force are unemployed?" is answered with an estimate of the population parameter. Here the statistic is the sample proportion of unemployed people in the labour force, the parameter is the proportion of unemployed people, and the population is the Scottish labour force. 
 
 The inferential tools for estimating population proportions are analogous to those used for means in the last chapter: the confidence interval and the hypothesis test.
 
@@ -265,11 +265,11 @@ The ONS does not publish the full APS results or the number of people surveyed i
 
 Is the Scottish labour force's unemployment rate statistically different for white and minority people?
 
-This question refers to a hypothesis test on the difference in proportions. Let \(p_m\) and \(p_w\) denote the proportions of, respectively, minority and white people aged 16 and over in Scotland who are unemployed. Our null hypothesis is then,
+This question refers to a hypothesis test on the difference in proportions. Let \(p_m\) and \(p_w\) denote the proportions of unemployed minority and white people aged 16 and over in Scotland. Our null hypothesis is then,
 \[H_0 : \quad p_m-p_w =0\,,\]
 and we test this against the alternative,
 \[H_a : \quad p_m-p_w \neq 0\,.\]
-One could also argue that from prior experience, e.g., citing evidence of similar analysis from other locations and contexts, that we anticipate the unemployment rate for minority people to exceed white people. In that case, it is also reasonable to test against the alternative,
+One could also argue that from prior experience, e.g., citing evidence of similar analysis from other locations and contexts, we anticipate the unemployment rate for minority people to exceed white people. In that case, it is also reasonable to test against the alternative,
 \[H_a : \quad p_m-p_w > 0\,.\]
 
 :::{.warningblock}
@@ -371,10 +371,10 @@ obs_diff <- aps_sco_synth %>%
 obs_diff
 ```
 
-To conduct a hypothesis test "by hand", you calculated a single realisation of the test statistic. Suppose we could survey other people in the Scottish labour force. In that case, we could use these repeated observations of the test statistic to build a histogram of the null distribution (the distribution of the test statistic, assuming the null hypothesis is true). We can use the `infer` package to generate realizations of the test statistic using sampling techniques (permutations and bootstrapping).
+To conduct a hypothesis test "by hand", you calculated a single realisation of the test statistic. Suppose we could survey other people in the Scottish labour force. In that case, we could use these repeated observations of the test statistic to build a histogram of the null distribution (the distribution of the test statistic, assuming the null hypothesis is true). We can use the `infer` package to generate realisations of the test statistic using sampling techniques (permutations and bootstrapping).
 
 ```{r aps_sco-infer-null-dist, exercise = TRUE, warning = FALSE, error = FALSE}
-# calculate distribution of observed differences 
+# calculate the distribution of observed differences 
 null_dist <- aps_sco_synth %>% 
   specify(unemployed ~ ethnicity, success = "yes") %>%
   # null hypothesis is on independence, or p_minority - p_white = 0
@@ -420,7 +420,7 @@ Imagine you've set out to survey 1000 people on two questions: are you at least 
 and are you left-handed?
 Since both sample proportions were calculated from the same sample size, they should have the same margin of error, right?
 Wrong!
-While the margin of error does change with sample size, it is also affected by the proportion.
+While the margin of error changes with sample size, the proportion also affects the margin of error.
 
 The margin of error for a 95% confidence interval is given by, 
 \[\mathsf{ME} = 1.96 \cdot \mathsf{se} = 1.96 \cdot \sqrt{p(1-p)/n} \,,\]
@@ -428,7 +428,7 @@ where $\mathsf{se}$ is the standard error.
 Since the population proportion, $p$, is in this $\mathsf{ME}$ formula, it should make sense that the margin of error depends on the population proportion.
 We can visualise this relationship by creating a plot of $\mathsf{ME}$ vs $p$.
 
-Since the sample size is irrelevant to this discussion, let's just set it to some value ($n = 1000$) and use the fixed value in the following calculations. The first step is to make a variable `p` that is a sequence from 0 to 1 with each number incremented by 0.01. You can then create a variable of the margin of error (`me`) associated with each of these values of `p` using the familiar approximate formula ($\mathsf{ME} = 2 \times \mathsf{se}$).
+Since the sample size is irrelevant to this discussion, let's just set it to some value ($n = 1000$) and use the fixed value in the following calculations. The first step is to make a variable `p` that is a sequence from 0 to 1, with each number incremented by 0.01. You can then create a variable of the margin of error (`me`) associated with each of these values of `p` using the familiar approximate formula ($\mathsf{ME} = 2 \times \mathsf{se}$).
 
 ```{r p-me, echo = TRUE, eval = TRUE}
 n <- 1000
@@ -480,7 +480,7 @@ Similarly, for inferences about a single proportion, \(\hat{p}\) we required \(n
 These *rules of thumb* are easy enough to follow, but it makes you wonder: what's so special about the number 10?
 
 The short answer is: nothing.
-You could argue that you would be fine with nine or that you really should be using 11.
+You could argue that you would be fine with nine or should be using 11.
 The "best" value for such a rule of thumb is, at least to some degree, arbitrary.
 However, when $n\hat{p}$ and $n(1-\hat{p})$ reach 10, the sampling distribution is sufficiently normal to use confidence intervals and hypothesis tests that are based on that approximation.
 
@@ -489,7 +489,7 @@ Play around with the following app to investigate how the shape, centre, and spr
 
 
 ```{r sf, exercise = TRUE, warnings = FALSE, error = FALSE}
-# Change n and p then rerun code
+# Change n and p, then rerun code
 n <- 100     
 p <- 0.1    
 
@@ -550,12 +550,15 @@ question_text(
     
     
 ## Exercises
-
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **APS Unemployment in Scotland Data** in the data frames `aps_sco` and `aps_sco_synth` that are packaged with `MA22004labs`. 
+
+:::{.tipblock}
+The Annual Population Survey (APS) is a continuous annual household survey of the UK population, with a sample size of 320,000, carried out by the Office of National Statistics (ONS). 
+:::
 
 1. The **APS Unemployment in Scotland Data** from 2022 Q1 estimates that 7.8% of white and 9.5% of minority people (aged 16 and older) in Scotland are unemployed. Based on the overall size of the survey and the proportion of the population who belong to each ethnic group, suppose that 22,623 white and 1,291 minority people were surveyed. Does the data support that unemployment rates for white and minority people in the Scottish labour force are significantly different at level 0.10?  Identify your hypothesis, place the outcome of your hypothesis test in the context of the problem, and check applicable rules of thumb for the inference you are conducting. **[7 marks]**
 
@@ -568,7 +571,7 @@ Suppose that among those with qualifications at or above degree level or equival
 
 <!-- 4.  Let's say there has been no difference in likeliness to strength train every day of the week for those who sleep 10+ hours. What is the probability that you could detect a change (at a significance level of 0.05) simply by chance? *Hint:* Review the definition of the Type 1 error. **[5 marks]** -->
 
-<!-- 5.  Suppose you're hired by the local government to estimate the proportion of residents that attend a religious service on a weekly basis. According to the guidelines, the estimate must have a margin of error no greater than 1% with 95% confidence. You have no idea what to expect for $p$. How many people would you have to sample to ensure that you are within the guidelines? *Hint:* Refer to your plot of the relationship between $p$ and margin of error. This question does not require using a dataset. **[Bonus marks]** -->
+<!-- 5.  Suppose the Council hires you to estimate the proportion of residents that attend a religious service every week. According to the guidelines, the estimate must have a margin of error no greater than 1% with 95% confidence. You have no idea what to expect for $p$. How many people would you have to sample to ensure that you are within the guidelines? *Hint:* Refer to your plot of the relationship between $p$ and margin of error. This question does not require using a dataset. **[Bonus marks]** -->
 
 ------------------------------------------------------------------------
 
