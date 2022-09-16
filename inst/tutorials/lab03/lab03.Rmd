@@ -208,7 +208,7 @@ library(cowplot)
 ### The **Ames Housing Data**
 
 :::{.tipblock}
-In this lab, we will consider the **Ames Housing Data**: real estate data from the city of Ames, Iowa, USA.  The City Assessor's office records the details of every real estate transaction in Ames.  Our particular focus for this lab will be all residential home sales in Ames between 2006 and 2010.  This collection represents our population of interest.  In this lab, we would like to learn about these home sales by taking smaller samples from the entire population.
+The **Ames Housing Data**: real estate data from the city of Ames, Iowa, USA.  The City Assessor's office records the details of every real estate transaction in Ames.  Our particular focus for this lab will be all residential home sales in Ames between 2006 and 2010.  This collection represents our population of interest.  In this lab, we would like to learn about these home sales by taking smaller samples from the entire population.
 :::
 
 Load the **Ames Housing Data** data frame by calling `ames`.
@@ -515,6 +515,12 @@ question_text(
 Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
+The following exercises refer to variables found in or derived from the **Ames Housing Data**  in the data frame `ames` which is packaged with `MA22004labs`. In particular, we focus on two features: the above-ground living area of the house in square feet (`area`, i.e. `ames$area`) and the sale price (`price`, i.e. `ames$price`). Please use `ggplot` when creating plots and visualisations and use `tidy` methods for manipulating data. 
+
+:::{.tipblock}
+The **Ames Housing Data**: real estate data from the city of Ames, Iowa, USA.  The City Assessor's office records the details of every real estate transaction in Ames.  Our particular focus for this lab will be all residential home sales in Ames between 2006 and 2010.  This collection represents our population of interest.  In this lab, we would like to learn about these home sales by taking smaller samples from the entire population.
+:::
+
 :::{.tipblock}
 To fix a seed value in an `R` chunk (replace `n` by your favourite integer or your student ID):
 
@@ -522,8 +528,6 @@ To fix a seed value in an `R` chunk (replace `n` by your favourite integer or yo
 set.seed(n)
 ```
 :::
-
-The following exercises refer to variables found in or derived from the **Ames Housing Data**  in the data frame `ames` which is packaged with `MA22004labs`. In particular, we focus on two features: the above-ground living area of the house in square feet (`area`, i.e. `ames$area`) and the sale price (`price`, i.e. `ames$price`). Please use `ggplot` when creating plots and visualisations and use `tidy` methods for manipulating data. 
 
 1.  Describe the distribution of the sample `samp1 <- sample(ames$area, 50)`. How does it compare to the distribution of the population? **[2 mark]**
 

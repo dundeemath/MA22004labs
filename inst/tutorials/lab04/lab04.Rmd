@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab04"
-  version: 1.1.2021
+  version: 1.2.2021
 ---
 
 ```{css, echo=FALSE}
@@ -174,15 +174,15 @@ samp <- sample_n(ames, 60)
 
 ## Getting started
 
-If you have access to data on an entire population, say the size of every house in Ames, Iowa, it's straight forward to answer questions like, "How big is the typical house in Ames?" and "How much variation is there in sizes of houses?". If you have access to only a sample of the population, as is often the case, the task becomes more complicated. What is your best guess for the typical size if you only know the sizes of several dozen houses? This sort of situation requires that you use your sample to make inference on what your population looks like.
+If you have access to data on an entire population, say the size of every house in Ames, Iowa, it's straightforward to answer questions like, "How big is the typical house in Ames?" and "How much variation is there in sizes of houses?". If you have access to only a sample of the population, as is often the case, the task becomes more complicated. What is your best guess for the typical size if you only know the sizes of several dozen houses? This situation requires you to use your sample to make inferences about what your population looks like.
 
 :::{.noteblock}
-The report for Lab 4 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF; an `rmarkdown` template called *MA22004 Lab Report* is provided. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in Section "RStudio and lab reports" of Lab 1. 
+The report for Lab 4 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF; an `rmarkdown` template called *MA22004 Lab Report* is provided. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in Section "RStudio and lab reports" of Lab 1. 
 :::
 
 ### Packages 
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of packages, and perform statistical inference using **infer**.
+In this lab, we will explore and visualise the data using the **tidyverse** suite of packages and perform statistical inference using **infer**.
 
 Recall that all the necessary packages can be loaded using the `library` command. 
 
@@ -203,14 +203,14 @@ data(ames)
 ```
 :::
 
-In this lab we'll start with a simple random sample of size 60 from the population. Specifically, this is a random sample of 60 row (i.e. all the response variables) from the data frame `ames` (which we save as `population` for pedagogical purposes). Note that the data set has information on many housing variables, but for the first portion of the lab we'll focus on the size of the house, represented by the variable `area`.
+In this lab, we'll start with a simple random sample of size 60 from the population. Specifically, this is a random sample of 60 rows (i.e. all the response variables) from the data frame `ames` (which we save as `population` for pedagogical purposes). Note that the data set has information on many housing variables, but for the first portion of the lab, we'll focus on the size of the house, represented by the variable `area`.
 
 ```{r sample, echo = TRUE, eval = FALSE}
 population <- ames
 samp <- sample_n(population, 60)
 ```
 
-Explore the distribution for the population and the sample by plotting histograms and creating summary tables. 
+Explore the population and sample distributions by plotting histograms and creating summary tables. 
 
 ```{r sample-exploration, exercise = TRUE}
 
@@ -227,7 +227,7 @@ ggplot(samp, aes(x = area)) + geom_histogram()
 ```
 
 :::{.exerciseblock}
-Describe the distribution of your sample `samp$area`. What would you say is the "typical" size within your sample? Also state precisely what you interpreted "typical" to mean (e.g., reference a summary statistic).
+Describe the distribution of your sample `samp$area`. What would you say is the "typical" size within your sample? Also, state precisely what you interpreted "typical" to mean (e.g., reference a summary statistic).
 
 ```{r answer-1a, exercise = TRUE}
 
@@ -260,7 +260,7 @@ question_text(
 
 ## Confidence intervals
 
-One of the most common ways to describe the typical or central value of a distribution is to use the mean. Calculate the mean of the sample area using the `mean` function.
+One of the most common ways to describe a distribution's typical or central value is to use the mean. Calculate the mean of the sample area using the `mean` function.
 
 ```{r sample-mean, exercise = TRUE, exercise.warn_invisible = FALSE}
 
@@ -287,7 +287,7 @@ grade_this({
 sample_mean <- mean(samp$area)
 ```
 
-Return for a moment to the question that first motivated this lab: based on this sample, what can we infer about the population? Based only on this single sample, the best estimate of the average living area of houses sold in Ames would be the sample mean, usually denoted as $\bar{x}$ (here we're calling it `sample_mean`). That serves as a good *point estimate* but it would be useful to also communicate how uncertain we are of that estimate. This can be captured by using a *confidence interval*.
+Return to the question that first motivated this lab: based on this sample, what can we infer about the population? Based only on this single sample, the best estimate of the average living area of houses sold in Ames would be the sample mean, usually denoted as $\bar{x}$ (here, we're calling it `sample_mean`). That serves as a reasonable *point estimate* but it would be helpful also to communicate how uncertain we are of that estimate. This can be captured by using a *confidence interval*.
 
 ### Normality theory
 
@@ -331,7 +331,7 @@ upper <- sample_mean + 1.96 * se
 c(lower, upper)
 ```
 
-This is an important inference that we've just made: even though we don't know what the full population looks like, we're 95% confident that the true average size of houses in Ames lies between the values *lower* and *upper*. There are a few conditions that must be met for this interval to be valid.
+This is an important inference that we've just made: even though we don't know what the entire population looks like, we're 95% confident that the true average size of houses in Ames lies between the values *lower* and *upper*. A few conditions must be met for this interval to be valid.
 
 :::{.exerciseblock}
 For the confidence interval \[\overline{x} \pm 1.96 \frac{s}{\sqrt{m}}\] computed in Section "Confidence intervals" above to be valid, the sample mean must be normally distributed and have standard error $s / \sqrt{m}$ where $s$ is the sample standard deviation and $m$ is the sample size. What conditions must be met for this to be true?
@@ -349,9 +349,9 @@ question_text(
 
 ### Bootstrapping
 
-Another way of calculating a confidence interval for a parameter is using simulation, or to be more specific, using **bootstrapping**. The term bootstrapping comes from the phrase "pulling oneself up by one's bootstraps", which is a metaphor for accomplishing an impossible task without any outside help. In this case the impossible task is estimating a population parameter (e.g., the unknown population mean), and we'll accomplish it using data from only the given sample. Note that this notion of saying something about a population parameter using only information from an observed sample is the crux of statistical inference, it is not limited to bootstrapping.
+Another way of calculating a confidence interval for a parameter is using simulation, or more specifically, using **bootstrapping**. The term bootstrapping comes from the phrase "pulling oneself up by one's bootstraps", which is a metaphor for accomplishing an impossible task without outside help. In this case, the impossible task is estimating a population parameter (e.g., the unknown population mean), and we'll accomplish it using data from only the given sample. Note that this notion of saying something about a population parameter using only information from an observed sample is the crux of statistical inference; it is not limited to bootstrapping.
 
-In essence, bootstrapping assumes that there are more observations in the populations like the ones in the observed sample. So we "reconstruct" the population by resampling from our sample, with replacement. The bootstrapping scheme is as follows:
+In essence, bootstrapping assumes that there are more observations in the populations like the ones in the observed sample. So we "reconstruct" the population by resampling from our sample with replacement. The bootstrapping scheme is as follows:
 
 -   *Step 1.* Take a bootstrap sample - a random sample taken **with replacement** from the original sample, of the same size as the original sample.
 -   *Step 2.* Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples.
@@ -374,7 +374,7 @@ Below is an overview of the functions we will use to construct this confidence i
 | `get_ci`    | Find the confidence interval                                                                                                               |
 +-------------+--------------------------------------------------------------------------------------------------------------------------------------------+
 
-This code will find the 95% confidence interval for .
+This code will find the 95% confidence interval for the area.
 
 ```{r confidence-interval-infer, exercise = TRUE}
 samp %>%
@@ -384,11 +384,11 @@ samp %>%
  get_ci(level = 0.95)
 ```
 
--   In `specify` we specify the `response` variable (if the statistic of interest is a proportion, we would also give the level of that variable we are calling a `success` here).
--   In `generate` we provide the number of resamples we want from the population in the `reps` argument (this should be a reasonably large number) as well as the type of resampling we want to do, which is `"bootstrap"` in the case of constructing a confidence interval.
+-   In `specify`, we specify the `response` variable (if the statistic of interest is a proportion, we would also give the level of that variable we call a `success` here).
+-   In `generate`, we provide the number of resamples we want from the population in the `reps` argument (this should be a reasonably large number) as well as the type of resampling we want to do, which is `"bootstrap"` in the case of constructing a confidence interval.
 -   Then, we `calculate` the sample statistic of interest for each of these resamples, which is "mean" in this case (but could also be "median", "prop", "sd", "diff in means", ...).
 
-Feel free to test out the rest of the arguments for these functions, since these commands will be used together to calculate confidence intervals and solve inference problems for the rest of the semester. But we will also walk you through more examples in future chapters.
+Feel free to test out the rest of the arguments for these functions since these commands will be used to calculate confidence intervals and solve inference problems for the rest of the semester. But we will also walk you through more examples in future chapters.
 
 :::{.exerciseblock}
 Compare the confidence interval for the true mean area produced by bootstrapping (using the `infer` package) and the normality theory. 
@@ -405,20 +405,20 @@ question_text(
 :::
 
 :::{.tipblock}
-To recap: we have produced confident intervals for the true mean area of the **Ames Housing Data** using two different methods: (1) normality theory and (2) bootstrapping. If we didn't already know that the true population mean, then we would be 95% confident that the true population parameter lies within the computed interval estimates. 
+To recap: we have produced confident intervals for the true mean area of the **Ames Housing Data** using two methods: (1) normality theory and (2) bootstrapping. If we didn't already know the true population mean, then we would be 95% confident that the true population parameter lies within the computed interval estimates. 
 :::
 
 
 ## Confidence levels
 
-In this case we have the luxury of knowing the true population mean since we have data on the entire population. This value can be calculated using the following command:
+In this case, we have the luxury of knowing the true population mean since we have data on the entire population. This value can be calculated using the following command:
 
 ```{r pop-mean, eval = TRUE, echo = TRUE}
 mean(population$area)
 ```
 
 :::{.exerciseblock}
-What does "95% confidence" mean in relation to a confidence interval? If you're not sure, see [Section 2.2 of the Course Notes](https://dundeemath.github.io/MA22004/statistical-inference.html#confidence-intervals). Does your confidence interval capture the true average size of houses in Ames?
+What does "95% confidence" mean in relation to a confidence interval? If you're unsure, see [Section 2.2 of the Course Notes](https://dundeemath.github.io/MA22004/statistical-inference.html#confidence-intervals). Does your confidence interval capture the true average size of houses in Ames?
 
 ```{r answer-4}
 question_text(
@@ -516,7 +516,7 @@ lower_vector <- samp_mean - 1.96 * samp_sd / sqrt(m)
 upper_vector <- samp_mean + 1.96 * samp_sd / sqrt(m) 
 ```
 
-Included with the lab is a non-standard function called `plot_ci`; use the command `plot_ci(lower_vector, upper_vector, mean(population))` to plot fifty (50) 95% confidence intervals for the true mean area from the **Ames House Data**. This tutorial is set-up to rerun the loop above in the background every time you call the code chunk below; try rerunning the code.
+Included with the lab is a non-standard function called `plot_ci`; use the command `plot_ci(lower_vector, upper_vector, mean(population))` to plot fifty (50) 95% confidence intervals for the true mean area from the **Ames House Data**. This tutorial is set up to rerun the loop above in the background every time you call the code chunk below; try rerunning the code.
 
 ```{r plot-fifty-cis, exercise = TRUE, exercise.setup = "cififty-e"}
 plot_ci(lower_vector, upper_vector, mean(population$area))
@@ -544,37 +544,38 @@ question_text(
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
+:::
+
+The following exercises refer to variables found in or derived from the **Ames Housing Data**  in the data frame `ames` which is packaged with `MA22004labs`. In particular, we focus on two features: the above-ground living area of the house in square feet (`area`, i.e. `ames$area`) and the sale price (`price`, i.e. `ames$price`).  Please use `ggplot` when creating plots and visualisations and use `tidy` methods for manipulating data. 
+
+:::{.tipblock}
+The **Ames Housing Data**: real estate data from the city of Ames, Iowa, USA.  The City Assessor's office records the details of every real estate transaction in Ames.  Our particular focus for this lab will be all residential home sales in Ames between 2006 and 2010.  This collection represents our population of interest.  In this lab, we would like to learn about these home sales by taking smaller samples from the entire population.
 :::
 
 :::{.tipblock}
-To fix a seed value in an `R` chunk (replace `n` by your favorite integer or your student ID):
+To fix a seed value in an `R` chunk (replace `n` by your favourite integer or your student ID):
 
 ```{r setseed, echo = TRUE, eval = FALSE}
 set.seed(n)
 ```
 :::
 
-where you replace `n` by your favorite integer. 
-:::
-
-The following exercises refer to variables found in or derived from the **Ames Housing Data**  in the data frame `ames` which is packaged with `MA22004labs`. In particular, we focus on two features: the above ground living area of the house in square feet (`area` i.e. `ames$area`) and the sale price (`price` i.e. `ames$price`).  
-
-1.  Using `ggplot`, plot and describe the distribution of the sample `sample(ames$area, 60)`. What would you say is the "typical" size within your sample? Also state precisely what you interpreted "typical" to mean (e.g., reference a summary statistic). **[3 marks]**
+1.  Using `ggplot`, plot and describe the distribution of the sample `sample(ames$area, 60)`. What would you say is the "typical" size within your sample? Also, state precisely what you interpreted "typical" to mean (e.g., reference a summary statistic). **[3 marks]**
 
 2.  Would you expect another student's distribution for `sample(ames$area, 60)` to be identical to yours? Would you expect it to be similar? Why or why not? **[3 mark]**
 
-3.  In Section "Confidence intervals", the confidence interval \[\overline{x} \pm 1.96 \frac{s}{\sqrt{m}}\,,\] with sample standard deviation $s$ and sample size $m$, is used. What conditions must be met for this to confidence interval to be valid? **[3 marks]**
+3.  In Section "Confidence intervals", the confidence interval \[\overline{x} \pm 1.96 \frac{s}{\sqrt{m}}\,,\] with sample standard deviation $s$ and sample size $m$, is used. What conditions must be met for this confidence interval to be valid? **[3 marks]**
 
-<!-- 4.  What does "95% confidence" mean in relation to a confidence interval? If you're not sure, see [Section 2.2 of the Course Notes](https://dundeemath.github.io/MA22004/statistical-inference.html#confidence-intervals). **[3 marks]** -->
+<!-- 4.  What does "95% confidence" mean in relation to a confidence interval? If you're unsure, see [Section 2.2 of the Course Notes](https://dundeemath.github.io/MA22004/statistical-inference.html#confidence-intervals). **[3 marks]** -->
 
-4.  Included with the lab is a non-standard function called `plot_ci`; use `plot_ci` to plot fifty 90% confidence intervals for the true mean area from the **Ames House Data**. What proportion of your confidence intervals include the population mean? Is this proportion exactly equal to the confidence level? If not, explain why. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[5 marks]**
+4.  Included with the lab is a non-standard function called `plot_ci`; use `plot_ci` to plot fifty 90% confidence intervals for the true mean area from the **Ames House Data**. What proportion of your confidence intervals includes the population mean? Is this proportion exactly equal to the confidence level? If not, explain why. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[5 marks]**
 
 <!-- 5.  Pick a confidence level of your choosing, provided it is not 95%. What is the appropriate critical value? **[2 mark]** -->
 
 <!-- 5.  Calculate fifty new confidence intervals for the true mean area at the confidence level different from 95%. Using the `plot_ci` function, plot all intervals and calculate the proportion of intervals that include the true population mean. How does this percentage compare to the confidence level selected for the intervals? **[6 marks]** -->
 
-5.  Using code from the **infer** package and data from the one sample of size 60 from `ames`, find a confidence interval for the proportion of Ames residents that live in single family home with a 90% confidence level and interpret it. **[6 marks]**
+5.  Using code from the **infer** package and data from the one sample of size 60 from `ames`, find a confidence interval for the proportion of Ames residents that live in a single-family home with a 90% confidence level and interpret it. **[6 marks]**
 
 
 ------------------------------------------------------------------------
