@@ -9,7 +9,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab02"
-  version: 1.1.2021
+  version: 1.2.2021
 ---
 
 ```{css, echo=FALSE}
@@ -173,15 +173,15 @@ data(cdc)
 
 ## Getting Started
 
-Some define Statistics as the field that focuses on turning information into knowledge.  The first step in that process is to summarize and describe the raw information - the data. In this lab, you will gain insight into public health by generating simple graphical and numerical summaries of a data set collected by the Centers for Disease Control and Prevention (CDC). As this is a large data set, along the way you'll also learn the indispensable skills of data processing and subsetting.
+Some define Statistics as the field that focuses on turning information into knowledge.  The first step is to summarise and describe the raw data. In this lab, you will gain insight into public health by generating simple graphical and numerical summaries of a data set collected by the Centers for Disease Control and Prevention (CDC). As this is a large data set, you'll also learn indispensable data processing and subsetting skills.
 
 :::{.noteblock}
-The report for Lab 2 consists of answers to exercises 1-6 in the last section of this tutorial. Upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. Remember: to create your new lab report in RStudio go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+The report for Lab 2 consists of answers to exercises 1-6 in the last section of this tutorial. Upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. Remember: to create your new lab report in RStudio, go to **New File \> R Markdown**, then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the first Section, "RStudio and lab reports", of Lab 1.
 :::
 
 ### Packages 
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of packages.  The package **ggmosaic** provides the `geom_mosaic` geometry for producing mosaic plots with `ggplot`. The package **janitor** is for data cleaning and provides the function `tabyl` for summarizing data. 
+In this lab, we will explore and visualise the data using the **tidyverse** suite of packages.  The package **ggmosaic** provides the `geom_mosaic` geometry for producing mosaic plots with `ggplot`. The package **janitor** is for data cleaning and provides the function `tabyl` for summarising data. 
 
 Recall that all the necessary packages can be loaded using the `library` command. 
 
@@ -195,10 +195,10 @@ library(janitor)
 
 ### The **CDC Health Data**
 
-:::{.tipblock}
-This lab will look at the **CDC Health Data** which has been loaded in this tutorial under the data frame `cdc`. 
+This lab will look at the **CDC Health Data**, loaded in this tutorial under the data frame `cdc`. 
 
-The Behavioral Risk Factor Surveillance System (BRFSS) is an annual telephone survey of 350,000 people in the United States collected by the CDC. As its name implies, the BRFSS is designed to identify risk factors in the adult population and report emerging health trends. For example, respondents are asked about their diet and weekly physical activity, their HIV/AIDS status, possible tobacco use, and even their level of healthcare coverage. The BRFSS Web site ([http://www.cdc.gov/brfss](http://www.cdc.gov/brfss)) contains a complete description of the survey, including the research questions that motivate the study and many interesting results derived from the data.
+:::{.tipblock}
+The **CDC Health Data** contains an extract from the Behavioral Risk Factor Surveillance System (BRFSS). The BRFSS is an annual telephone survey of 350,000 people in the United States collected by the CDC. As its name implies, the BRFSS is designed to identify risk factors in the adult population and report emerging health trends. For example, respondents are asked about their diet and weekly physical activity, their HIV/AIDS status, possible tobacco use, and even their level of healthcare coverage. The BRFSS Web site ([http://www.cdc.gov/brfss](http://www.cdc.gov/brfss)) contains a complete description of the survey, including the research questions that motivate the study and many interesting results derived from the data.
 
 This data set contains a random sample of 20,000 people from the BRFSS survey conducted in 2000. While there are over 200  variables in this data set, we will work with a small subset. The data set of 20,000 observations can be loaded using the `data` command. 
 
@@ -207,7 +207,7 @@ data(cdc)
 ```
 :::
 
-The data set `cdc` that shows up in your workspace is a *data matrix*, with each row representing a *case* and each column representing a *variable*.  `R` calls this data format a *data frame*, which is a term that will be used throughout the labs.
+The data set `cdc` that shows up in your workspace is a *data matrix*, with each row representing a *case* and each column representing a *variable*.  `R` calls this data format a *data frame*, a term used throughout the labs.
 
 To view the names of the variables, one uses the `names` function.
 
@@ -219,9 +219,9 @@ names(`___`)
 names(cdc)
 ```
 
-This returns the names `genhlth`, `exerany`, `hlthplan`, `smoke100`, `height`, `weight`, `wtdesire`, `age`, and `gender`. Each one of these variables corresponds to a question that was asked in the survey. For example, for `genhlth`, respondents were asked to evaluate their general health, responding either excellent, very good, good, fair or poor. The `exerany` variable indicates whether the respondent exercised in the past month (1) or did not (0). Likewise, `hlthplan` indicates whether the respondent had some form of health coverage (1) or did not (0). The `smoke100` variable indicates whether the respondent had smoked at least 100 cigarettes in her lifetime. The other variables record the respondent's `height` in inches, `weight` in pounds as well as their desired weight, `wtdesire`, `age` in years, and `gender`.
+This returns the names `genhlth`, `exerany`, `hlthplan`, `smoke100`, `height`, `weight`, `wtdesire`, `age`, and `gender`. Each of these variables corresponds to a question in the survey. For `genhlth`, respondents were asked to evaluate their general health, responding either excellent, very good, good, fair or poor. The `exerany` variable indicates whether the respondent exercised in the past month (1) or did not (0). Likewise, `hlthplan` indicates whether the respondent had health coverage (1) or did not (0). The `smoke100` variable indicates whether the respondent had smoked at least 100 cigarettes in her lifetime. The other variables record the respondent's `height` in inches, `weight` in pounds as well as their desired weight, `wtdesire`, `age` in years, and `gender`.
 
-We can have a look at the first few entries (rows) of our data with the `head` function.
+We can look at our data's first few entries (rows) with the `head` function.
 
 ```{r head, exercise = TRUE}
 `___`(cdc)
@@ -231,7 +231,7 @@ We can have a look at the first few entries (rows) of our data with the `head` f
 head(cdc)
 ```
 
-Similarly we can look at the last few using the `tail` function.
+Similarly, we can look at the last few using the `tail` function.
 
 ```{r tail, exercise = TRUE}
 `___`(cdc)
@@ -247,7 +247,7 @@ You could also look at *all* of the data frame at once by typing its name into t
 
 ## Summary stats and tabyls
 
-The BRFSS questionnaire is a massive trove of information.  A good first step in any analysis is to distill all of that information into a few summary statistics and graphics.  As a simple example, the function `summary` returns a numerical summary: minimum, first quartile, median, mean, second quartile, and maximum. 
+The BRFSS questionnaire is a massive trove of information. An excellent first step in any analysis is distilling all that information into a few summary statistics and graphics.  As a simple example, the function `summary` returns a numerical summary: minimum, first quartile, median, mean, second quartile, and maximum. 
 
 Try producing a summary for the `weight` variable.
 
@@ -278,7 +278,7 @@ If you wanted to compute the interquartile range (difference between 3rd and 1st
 -   `min`
 -   `max`
 
-Note that each of these functions takes a single vector as an argument and returns a single value.
+Note that each function takes a single vector as an argument and returns a single value.
 :::
 
 While it makes sense to describe a quantitative variable like `weight` in terms of these statistics, what about categorical data?  We would instead consider the sample frequency or relative frequency distribution.  The function `tabyl` does this for you by counting the number of times each kind of response was given. 
@@ -289,9 +289,9 @@ Use the `tabyl` function to see the number of people who have smoked 100 cigaret
 cdc %>% tabyl(smoke100)
 ```
 
-The output of the `tabyl` function includes both the counts and the relative frequency distribution for each category of response to the question `smoke100` (in this case yes `1` or no `0`).
+The output of the `tabyl` function includes both the counts and the relative frequency distribution for each category of response to the question `smoke100` (in this case, yes `1` or no `0`).
 
-Next, make a bar plot of the entries in the `tabyl` data frame using `ggplot` with the `geom_bar` geometry. Here we must set the option `stat = "identity"` within the geometry (the default is `stat = count` but we've already summarized the data using `tabyl`; there are other ways to produce the plot below...).
+Next, make a bar plot of the entries in the `tabyl` data frame using `ggplot` with the `geom_bar` geometry. Here we must set the option `stat = "identity"` within the geometry (the default is `stat = count`, but we've already summarised the data using `tabyl`; there are other ways to produce the plot below...).
 
 ```{r table-smoke-barplot, exercise = TRUE}
 df <- cdc %>% tabyl(smoke100)
@@ -335,13 +335,13 @@ question_text(
 ```
 :::
 
-The `tabyl` command can be used to tabulate any number of variables that you provide. For example, to examine which participants have smoked across each gender, we could use the following.
+The `tabyl` command can be used to tabulate any number of variables that you provide. For example, we could use the following to examine which participants have smoked across each gender.
 
 ```{r table-smoke-gender, eval = TRUE, echo = TRUE}
 cdc %>% tabyl(smoke100, gender)
 ```
 
-Here, the first column named `smoke100` contains the categories (levels) 0 and 1. Recall that 1 indicates a respondent has smoked at least 100 cigarettes. The columns named `m` and `f` then refer to gender (m for male or f for female) and the numbers correspond to totals in each category. 
+Here, the first column named `smoke100` contains the categories (levels) 0 and 1. Recall that 1 indicates a respondent has smoked at least 100 cigarettes. The columns `m` and `f` then refer to gender (m for male or f for female), and the numbers correspond to totals in each category. 
 
 Creating a mosaic plot of this table (`gender` vs `smoke100`) can be done using `ggplot` and working directly from the original `cdc` data frame by setting the aesthetic for `x` in `geom_mosaic` to `product(X,Y)`. 
 
@@ -350,7 +350,7 @@ ggplot(cdc) + geom_mosaic(aes(x = product(smoke100, gender)))
 ```
 
 :::{.exerciseblock}
-Generate a mosaic plot of `gender` vs `smoke100` from the **CDC Health Data**. What does the mosaic plot of reveal about smoking habits and gender? 
+Generate a mosaic plot of `gender` vs `smoke100` from the **CDC Health Data**. What does the mosaic plot reveal about smoking habits and gender? 
 
 ```{r answer-5a, exercise = TRUE}
 
@@ -369,7 +369,7 @@ question_text(
 
 ## Interlude: How `R` thinks about data
 
-We mentioned that `R` stores data in data frames, which you might think of as a type of spreadsheet. Each row is a different observation (a different respondent) and each column is a different variable (the first is `genhlth`, the second `exerany` and so on). Use the `dim` function to view the size of the `cdc` data frame; this will return the number of rows and columns. (In RStudio, you can see this information by simply looking next to the object name in the *Environment* pane in the upper right-hand corner).
+We mentioned that `R` stores data in data frames, which you might think of as a spreadsheet. Each row is a different observation (a different respondent), and each column is a separate variable (the first is `genhlth`, the second `exerany` and so on). Use the `dim` function to view the size of the `cdc` data frame; this will return the number of rows and columns. (In RStudio, you can see this information by simply looking next to the object name in the *Environment* pane in the upper right-hand corner).
 
 ### Subsetting (Base `R`)
 
@@ -393,7 +393,7 @@ which means we want the element of our data set that is in the 567<sup>th</sup> 
 names(cdc)
 ```
 
-To see the weights for the first 10 respondents we can type
+To see the weights for the first ten respondents, we can type
 
 ```{r first-10-rows-sixth-column, eval = FALSE, echo = TRUE}
 cdc[1:10,6]
@@ -401,13 +401,13 @@ cdc[1:10,6]
 
 In this expression, we have asked just for rows in the range 1 through 10.  `R` uses the `:` to create a range of values, so 1:10 expands to 1, 2, 3, 4, 5, 6, 7, 8, 9, 10. 
 
-Finally, if we want all of the data for the first 10 respondents, type
+Finally, if we want all of the data for the first ten respondents, type
 
 ```{r first-10-rows, eval = FALSE, echo = TRUE}
 cdc[1:10,]
 ```
 
-By leaving out an index or a range (we didn't type anything between the comma and the square bracket), we get all the columns. When starting out in `R`, this is a bit counterintuitive. As a rule, we omit the column number to see all columns in a data frame. Similarly, if we leave out an index or range for the rows, we would access all the observations, not just the 567<sup>th</sup>, or rows 1 through 10. Display the weights of the second batch of 100 respondents.
+We get all the columns by leaving out an index or a range (we didn't type anything between the comma and the square bracket). When starting out in `R`, this is a bit counterintuitive. As a rule, we omit the column number to see all columns in a data frame. Similarly, if we leave out an index or range for the rows, we would access all the observations, not just the 567<sup>th</sup>, or rows 1 through 10. Display the weights of the second batch of 100 respondents.
 
 ```{r 6th-column, exercise = TRUE}
 cdc[`___`, `___`]
@@ -428,29 +428,29 @@ grade_this({
 })
 ```
 
-Recall that column 6 represents respondents' weight, so the command above reported all of the weights in the data set. An alternative method to access the weight data is by referring to the name.  Previously, we typed `names(cdc)` to see all the variables contained in the cdc data set. We can use any of the variable names to select items in our data set. 
+Recall that column 6 represents respondents' weight, so the above command reported all the weights in the data set. An alternative method to access the weight data is by referring to the name.  Previously, we typed `names(cdc)` to see all the variables in the **CDC Health Data**. We can use variable names to select items in our data set. 
 
 ```{r weight, eval = FALSE, echo = TRUE}
 cdc$weight
 ```
 
-The dollar-sign tells `R` to look in data frame `cdc` for the column called `weight`.  Since that's a single vector, we can subset it with just a single index inside square brackets.  We see the weight for the 567<sup>th</sup> respondent by typing
+The dollar sign tells `R` to look in data frame `cdc` for the column called `weight`.  Since that's a single vector, we can subset it with just a single index inside square brackets.  We see the weight for the 567<sup>th</sup> respondent by typing
 
 ```{r weight-567, eval = FALSE, echo = TRUE}
 cdc$weight[567]
 ```
 
-Write a code to retrieve the weights of the first 10 respondents using the dollar-sign notation. 
+Write a code to retrieve the weights of the first ten respondents using the dollar-sign notation. 
 
 ```{r weight-first10, exercise = TRUE}
 `___`
 ```
 
-The command above returns the same result as the `cdc[1:10,6]` command. Both row-and-column notation and dollar-sign notation are widely used, which one you choose to use depends on your personal preference.
+The command above returns the same result as the `cdc[1:10,6]` command. Both row-and-column notation and dollar-sign notation are widely used; which one you choose to use depends on your personal preference.
 
 ### A little more on subsetting (the `tidy` way)
 
-It's often useful to extract all individuals (cases) in a data set that have specific characteristics. We accomplish this through *conditioning* commands. First, consider expressions like
+It's often helpful to extract all individuals (cases) in a data set with specific characteristics. We accomplish this through *conditioning* commands. First, consider expressions like
 
 ```{r true-male, eval = FALSE, echo = TRUE}
 cdc$gender == "m"
@@ -464,7 +464,7 @@ cdc$age > 30
 
 These commands produce a series of `TRUE` and `FALSE`  values. There is one value for each respondent, where `TRUE` indicates that the person was male (via the first command) or older than 30 (second command).
 
-Suppose we want to extract just the data for the men in the sample, or just for those over 30. We can pipe the `cdc` data frame to the `filter` function to do that for us. For example, the command
+Suppose we want to extract just the data for the men in the sample or just for those over 30. We can pipe the `cdc` data frame to the `filter` function to do that for us. For example, the command
 
 <!-- ```{r males, exercise = TRUE} -->
 <!-- mdata <- subset(cdc, gender == "m") -->
@@ -475,7 +475,7 @@ mdata <- cdc %>% filter(gender == "m")
 glimpse(mdata)
 ```
 
-will create a new data set called `mdata` that contains only the men from the `cdc` data set. This new data set contains all the same variables but just under half the rows. The important thing is that we can carve up the data based on values of one or more variables.
+will create a new data set called `mdata` that contains only the men from the `cdc` data set. This new data set contains all the same variables but just under half the rows. The important thing is that we can carve up the data based on the values of one or more variables.
 
 :::{.noteblock}
 **Logical operators:** Filtering for certain observations (e.g. response by gender or age) is often of interest in data frames where we might want to examine observations with certain characteristics separately from the rest of the data.
@@ -509,7 +509,7 @@ m_and_over30
 <!-- ) -->
 <!-- ``` -->
 
-Note that you can separate `filter` conditions using commas if you want responses that are both from males **and** over 30.
+Note that you can separate `filter` conditions using commas if you want responses from males **and** over 30.
 If you are interested in either men **or** over 30, then you can use the `|` instead of the comma.
 
 Create a subset of the health data of mean or people over thirty. 
@@ -528,12 +528,12 @@ m_or_over30
 <!-- grade_result( -->
 <!--   pass_if(~ all((dim(.result) == c(17591, 9)) & ((.result['age'] > 30) | (.result['gender'] == 'm')))), -->
 <!--   fail_if(~ !all(.result['age'] > 30), "The ages are not above 30."), -->
-<!--   fail_if(~ all(.result['gender'] == "m"), "All of the respondents are male. You should be females over thrity too."), -->
+<!--   fail_if(~ all(.result['gender'] == "m"), "All of the respondents are male. You should be females over thirty too."), -->
 <!--   fail_if(~ !all(dim(.result) == c(17591, 9)), "This vector doesn't seem to be the correct size.") -->
 <!-- ) -->
 <!-- ``` -->
 
-In principle, you may use as many "and" and "or" clauses as you like when filtering data.
+You may use as many "and" and "or" clauses as you like when filtering data.
 
 :::{.exerciseblock}
 Using the **CDC Health Data**, create a new object called `under23_and_smoke` that contains all observations of respondents under the age of 23 that have smoked 100 cigarettes in their lifetime. Write the command you used to create the new object as the answer to this exercise.
@@ -552,41 +552,41 @@ under23_and_smoke
 
 ## Quantitative data
 
-With our subsetting tools in hand, we'll now return to the task of the day: making basic summaries of the **CDC Health Data**.  We've already looked at categorical data such as `smoke` and `gender` so now let's turn our attention to quantitative data.  Two common ways to visualize quantitative data are with box plots and histograms.  We can construct a box plot for a single variable with the following command.
+With our subsetting tools, we'll return to the day's task: making basic summaries of the **CDC Health Data**.  We've already looked at categorical data such as `smoke` and `gender`, so let's turn our attention to quantitative data.  Two common ways to visualise quantitative data are with box plots and histograms.  We can construct a box plot for a single variable with the following command.
 
 ```{r boxplot-height, exercise = TRUE}
 ggplot(cdc, aes(x = height)) + geom_boxplot()
 ```
 
-You can compare the locations of the components of the box by examining the summary statistics.
+You can compare the locations of the box components by examining the summary statistics.
 
 ```{r summary-height, exercise = TRUE}
 summary(cdc$height)
 ```
 
-Confirm that the median and upper and lower quartiles reported in the numerical summary match those in the graph. The purpose of a box plot is to provide a thumbnail sketch of a variable for the purpose of comparing across the categories (levels or qualitative characteristics) of a categorical variable. We can do this with `ggplot` by adding a `y` aesthetic to the mix.
+Confirm that the median and upper and lower quartiles reported in the numerical summary match those in the graph. The purpose of a box plot is to provide a thumbnail sketch of a variable to compare across the categories (levels or qualitative characteristics) of a categorical variable. We can do this with `ggplot` by adding a `y` aesthetic to the mix.
 
 ```{r boxplot-height-gender, exercise = TRUE}
 ggplot(cdc, aes(x = height, y = gender)) + geom_boxplot()
 ```
 
-Next let's consider a new variable that doesn't show up directly in this data set: Body Mass Index (BMI) [[W]](http://en.wikipedia.org/wiki/Body_mass_index). BMI is a weight to height ratio and can be calculated as:
+Next, let's consider a new variable that doesn't show up directly in this data set: Body Mass Index (BMI) [[W]](http://en.wikipedia.org/wiki/Body_mass_index). BMI is a weight-to-height ratio and can be calculated as:
 
 \[ \text{BMI} = \frac{\text{weight}~(lb)}{\text{height}~(in)^2} \cdot 703 \]
 
 The multiplicative factor of 703 is the approximate conversion to change units from metric (meters and kilograms) to imperial (inches and pounds).
 
-To create a new variable called `bmi` we use the `mutate` function. Then we can create a box plot of `bmi` by `genhlth`.
+To create a new variable called `bmi`, we use the `mutate` function. Then we can create a box plot of `bmi` by `genhlth`.
 
 ```{r boxplot-bmi, exercise = TRUE}
 cdc <- cdc %>% mutate(bmi = 703 * weight / height^2)
 ggplot(cdc, aes(x = genhlth, y = bmi)) + geom_boxplot()
 ```
 
-Notice that the first line above is just some arithmetic, but it's applied to all 20,000 numbers in the `cdc` data set. That is, for each of the 20,000 participants, we take their weight, divide by their height-squared and then multiply by 703. The result is 20,000 BMI values, one for each respondent. This is one reason why we like R: it lets us perform computations like this using very simple expressions.
+Notice that the first line above is just some arithmetic, but it's applied to all 20,000 numbers in the `cdc` data set. For each of the 20,000 participants, we take their weight, divide by their height-squared and then multiply by 703. The result is 20,000 BMI values, one for each respondent. We like R because it lets us perform computations like this using straightforward expressions.
 
 :::{.exerciseblock}
-Using the **CDC Health Data**, create a box plot of `bmi` by `genhlth`. What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would have a relationship to BMI, and indicate what the figure seems to suggest. 
+Using the **CDC Health Data**, create a box plot of `bmi` by `genhlth`. What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would be associated with BMI and indicate what the figure suggests. 
 
 ```{r answer-7a, exercise = TRUE}
 cdc <- `___` %>% mutate(bmi = 703 * `___` / `___`)
@@ -610,7 +610,7 @@ Finally, let's make some histograms using the command `hist`. Create a histogram
 ggplot(cdc, aes(x = age)) + geom_histogram()
 ```
 
-Histograms are generally a very good way to see the shape of a single distribution, but that shape can change depending on how the data is split between the different bins.  You can control the number of bins by adding an argument to the command `geom_histogram`. Experiment with changing the number of `bin` (e.g., replace the 30 below with something smaller and then something bigger). 
+Histograms are generally an excellent way to see the shape of a single distribution, but that shape can change depending on how the data is split between the different bins.  You can control the number of bins by adding an argument to the command `geom_histogram`. Experiment with changing the number of `bin` (e.g., replace the 30 below with a smaller and larger number). 
 
 ```{r hist-bmi, exercise = TRUE}
 ggplot(cdc, aes(x = age)) + geom_histogram(bins = 30)
@@ -628,15 +628,21 @@ question_text(
 )
 ```
 
-At this point, we've done a good first pass at analyzing the information in the BRFSS questionnaire.  We've found an interesting association between smoking and gender, and we can say something about the relationship between people's assessment of their general health and their own BMI.  We've also picked up essential computing tools -- summary statistics, subsetting, and plots -- that will serve us well throughout this course.
+We've done a good first pass at analysing the BRFSS questionnaire.  We've found an interesting association between smoking and gender, and we can say something about the relationship between people's assessment of their general health and BMI.  We've also picked up essential computing tools -- summary statistics, subsetting, and plots -- that will serve us well throughout this course.
 
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
-The following exercises refer to variables found in or derived from the **CDC Health Data**  in the data frame `cdc` which is packaged with `MA22004labs`. 
+The following exercises refer to variables found in or derived from the **CDC Health Data**  in the data frame `cdc`, which is packaged with `MA22004labs`.
+
+:::{.tipblock}
+The **CDC Health Data** contains an extract from the Behavioral Risk Factor Surveillance System (BRFSS). The BRFSS is an annual telephone survey of 350,000 people in the United States collected by the CDC. As its name implies, the BRFSS is designed to identify risk factors in the adult population and report emerging health trends. For example, respondents are asked about their diet and weekly physical activity, their HIV/AIDS status, possible tobacco use, and even their level of healthcare coverage. The BRFSS Web site ([http://www.cdc.gov/brfss](http://www.cdc.gov/brfss)) contains a complete description of the survey, including the research questions that motivate the study and many interesting results derived from the data.
+
+This data set contains a random sample of 20,000 people from the BRFSS survey conducted in 2000. While there are over 200  variables in this data set, we will work with a small subset.
+:::
 
 <!-- 1.  Using the **CDC Data**, create a numerical summary for `height` and `age`, and compute the interquartile range for each. Compute the relative frequency distribution for `gender` using `tabyl`. How many males are in the sample? What proportion of the sample reports being in excellent health?  **[5 marks]** -->
 
@@ -644,17 +650,17 @@ The following exercises refer to variables found in or derived from the **CDC He
 
 <!-- 2.  Using the **CDC Health Data**, create a new object called `under23_and_smoke` that contains all observations of respondents under the age of 23 that have smoked 100 cigarettes in their lifetime. Write the command you used to create the new object as the answer to this exercise. **[1 mark]** -->
 
-2.  List the categorical variables from the **CDC Health Data**. Create a box plot to compare BMI across a categorical variable from `cdc` (you may not use `genhlth`) using `ggplot` and `mutate`. List the variable you chose, why you might think it would have a relationship to BMI, and indicate what the figure seems to suggest. **[4 marks]**
+2.  List the categorical variables from the **CDC Health Data**. Create a box plot to compare BMI across a categorical variable from `cdc` (you may not use `genhlth`) using `ggplot` and `mutate`. List the variable you chose, why you might think it would be associated with BMI and indicate what the figure suggests. **[4 marks]**
 
 3.  Using the **CDC Health Data**, make a scatter plot of weight versus desired weight using `ggplot`. Describe the relationship between these two variables. **[3 marks]**
 
-4.  Using the **CDC Health Data**, consider a new variable `wdiff` that is the difference between desired weight and current weight. Provide a code to create `wdiff` using commands from `tidyverse`. What type of data is `wdiff`? If an observation `wdiff` is 0, what does this mean about the person's weight and desired weight? What if `wdiff` is positive or negative? **[3 marks]**
+4.  Using the **CDC Health Data**, consider a new variable, `wdiff`, the difference between desired and current weight. Provide a code to create `wdiff` using commands from `tidyverse`. What type of data is `wdiff`? If an observation `wdiff` is 0, what does this mean about the person's weight and desired weight? What if `wdiff` is positive or negative? **[3 marks]**
 
-5.  By using appropriate numerical summaries and `ggplot` plots, describe the distribution of `wdiff`, created in Exercise 4, in terms of its center, shape, and spread, including any plots you use. What does this tell us about how people feel about their current weight? **[4 marks]**
+5. Using appropriate numerical summaries and `ggplot` plots, describe the distribution of `wdiff`, created in Exercise 4, in terms of its centre, shape, and spread, including any plots you use. What does this tell us about how people feel about their current weight? **[4 marks]**
 
 6.  Using numerical summaries and a side-by-side box plot, determine if men tend to view their weight differently than women (use `ggplot`).  **[4 marks]**
 
-<!-- 7.  Find the mean and standard deviation of `weight` in `cdc` and determine what proportion of the weights are within one standard deviation of the mean. Give a box plot for the values of `wdiff` for the subset of individuals whose weight is  within one standard deviation of the mean weight. How does the distribution of `wdiff` vary for this subset? **[6 marks]** -->
+<!-- 7.  Find the mean and standard deviation of `weight` in `cdc` and determine what proportion of the weights are within one standard deviation of the mean. Give a box plot for the values of `wdiff` for the subset of individuals whose weight is within one standard deviation of the mean weight. How does the distribution of `wdiff` vary for this subset? **[6 marks]** -->
 
 
 ------------------------------------------------------------------------
