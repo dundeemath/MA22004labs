@@ -169,17 +169,30 @@ knitr::opts_chunk$set(echo = FALSE, error = TRUE,
 
 data(yrbss)
 
+obs_stat <- yrbss %>% 
+  specify(response = weight) %>% 
+  calculate(stat = "mean")
+
+null_dist1 <- yrbss %>% 
+  specify(response = weight) %>% 
+  hypothesise(null = "point", mu = 68) %>%
+  generate(reps = 200, type = "bootstrap") %>%
+  calculate(stat = "mean") 
+
 yrbss_exercise <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(weight)) %>% filter(!is.na(physically_active_7d))
+
+yrbss_exercise$physical_3plus <- factor(yrbss_exercise$physical_3plus)
 
 obs_diff <- yrbss_exercise %>%
   specify(weight ~ physical_3plus) %>%
   calculate(stat = "diff in means", order = c("yes", "no"))
 
-null_dist <- yrbss_exercise %>%
+null_dist2 <- yrbss_exercise %>%
   specify(weight ~ physical_3plus) %>%
   hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
+  generate(reps = 200, type = "permute") %>%
   calculate(stat = "diff in means", order = c("yes", "no"))
 
 data(yrbss_samp)
@@ -190,12 +203,12 @@ data(yrbss_samp)
 This lab considers inferences for numerical data. 
 
 :::{.noteblock}
-The report for Lab 5 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown** then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the first Section "RStudio and lab reports" of Lab 1.
+The report for Lab 5 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown**, then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the first Section, "RStudio and lab reports", of Lab 1.
 :::
 
 ### Packages
 
-In this lab, we will explore and visualize the data using the **tidyverse** suite of packages, and perform statistical inference using **infer**.
+In this lab, we will explore and visualise the data using the **tidyverse** suite of packages and perform statistical inference using **infer**.
 
 Recall that all the necessary packages can be loaded using the `library` command. 
 
@@ -208,9 +221,9 @@ library(infer)
 ### The **YRBSS Survey Data**
 
 :::{.tipblock}
-Every two years, the Centers for Disease Control and Prevention in the United States conduct the Youth Risk Behavior Surveillance System (YRBSS) survey, where it collects response data from high school aged youth (ca. 14-18 year olds). The YRBSS survey is carried out with the intention of analyzing health patterns.
+Every two years, the Centers for Disease Control and Prevention in the United States conduct the Youth Risk Behavior Surveillance System (YRBSS) survey, which collects response data from high school-aged youth (ca. 14 to 18-year-olds). The YRBSS survey is carried out to analyse health patterns.
 
-The **YRBSS Survey Data** includes a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted. The data frame `yrbss` contains observations for 13 different variables, some categorical and some numerical. The meaning of each variable can be found by bringing up the help file `?yrbss`.
+The **YRBSS Survey Data** includes a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted. The data frame `yrbss` contains observations for 13 variables, some categorical and some numerical. The meaning of each variable can be found by bringing up the help file `?yrbss`.
 :::
 
 Load the `yrbss` data set into your workspace by calling the `data` command. 
@@ -245,10 +258,10 @@ question_text(
 
 ## Exploratory data analysis
 
-You will first start with analyzing the weight of the participants in kilograms: `weight`.
+You will first start with analysing the weight of the participants in kilograms: `weight`.
 
-Using visualization and summary statistics, describe the distribution of weights.
-The `summary` function can be useful.
+Using visualisation and summary statistics, describe the distribution of weights.
+The `summary` function can be helpful.
 
 ```{r summary, eval = TRUE, echo = TRUE}
 summary(yrbss$weight)
@@ -267,19 +280,19 @@ question(
 )
 ```
 
+Next, consider the possible relationship between a youth's weight and physical activity.
+Plotting the data is an excellent first step because it helps us quickly visualise trends, identify strong associations, and develop research questions.
 
-Next, consider the possible relationship between a youth's weight and their physical activity.
-Plotting the data is a useful first step because it helps us quickly visualize trends, identify strong associations, and develop research questions.
-
-First, let's create a new variable `physical_3plus`, which will be coded as either "yes" if they are physically active for at least 3 days a week, and "no" if not. This can be done using the following code (note: since the variable `physical_3plus` is not part of the `yrbss`, you will need to recreate this variable if used in your lab report). 
+First, let's create a new variable, `physical_3plus`, which will be coded as either "yes" if they are physically active for at least three days a week and "no" if not. This can be done using the following code (note: since the variable `physical_3plus` is not part of the `yrbss`, you will need to recreate this variable if used in your lab report). 
 
 ```{r create-new-var, echo = TRUE}
 yrbss_exercise <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no"))
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
+  filter(!is.na(weight)) %>% filter(!is.na(physically_active_7d))
 ```
 
 :::{.exerciseblock}
-Make a boxplot (using `geom_boxplot()`) of `weight` by the new categorical variable `physical_3plus`. Is there a relationship between engaging in physical activity for at least 3 days a week and weight? What did you expect and why?
+Make a boxplot (using `geom_boxplot()`) of `weight` by the new categorical variable `physical_3plus`. Is there a relationship between engaging in physical activity for at least three days a week and weight? What did you expect and why?
 
 ```{r answer-1a, exercise = TRUE}
 
@@ -300,7 +313,7 @@ question_text(
 ```
 :::
 
-The box plots show how the medians of the two distributions compare, but we can also compare the means of the distributions using the following to first group the data by the `physical_3plus` variable, and then calculate the mean `weight` in these groups using the `mean` function while ignoring missing values by setting the `na.rm` argument to `TRUE`.
+The box plots show how the medians of the two distributions compare. Still, we can also compare the means of the distributions using the following to first group the data by the `physical_3plus` variable and then calculate the mean `weight` in these groups using the `mean` function while ignoring missing values by setting the `na.rm` argument to `TRUE`.
 
 ```{r by-means, exercise = TRUE}
 yrbss_exercise %>%
@@ -308,12 +321,15 @@ yrbss_exercise %>%
   summarise(mean_weight = mean(weight, na.rm = TRUE))
 ```
 
-The summary above indicates an observed difference in the mean weight, but is this difference statistically significant? In order to answer this question we will conduct a hypothesis test.
+The summary above indicates an observed difference in the mean weight, but is this difference statistically significant? To answer this question, we will conduct a hypothesis test.
+
 
 ## Inference
 
+In our lecture notes, we considered a process for determining which of two contradictory claims, or hypotheses, about a population parameter is correct. The decision to reject or fail to reject the null hypothesis involved computing a test statistic that was then compared to a critical value from a reference distribution. Choosing the reference distribution for the test relies on some conditions being satisfied. 
+
 :::{.exerciseblock}
-Consult the sections of the lecture notes on hypothesis testing (or your favorite statistics text). Are all conditions necessary for making an inference satisfied? Comment on each. You can compute the group sizes with the `summarize` command as above by defining a new variable with the definition `n()`.
+Consult the sections of the lecture notes on hypothesis testing (or your favourite statistics text). Are all conditions necessary for making an inference satisfied? Comment on each. You can compute the group sizes with the `summarise` command as above by defining a new variable with the definition `n()`.
 
 ```{r by-means-eg, exercise = TRUE}
 
@@ -341,10 +357,16 @@ question_text(
 )
 ```
 :::
-    
-Write the hypotheses for testing if the average weights are different for those who exercise at least times a week and those who don't.
 
-```{r null-hypoth}
+If we are satisfied that the sample satisfies the conditions, we may carry out the inference procedures we learned in class. However, are there more flexible approaches? 
+
+Simulation methods, such as bootstrapping and permutation, do not assume any underlying data distribution. With the help of computers, these methods can be used to construct the null distribution, that is, the probability distribution of the test statistic, assuming the null hypothesis is true. The null distribution can then be used to conclude the hypothesis test.
+
+### Example Test 1: Is the true mean weight different from 68 kg?
+
+Write the hypotheses for testing if the true mean weight differs from 68 kg.
+
+```{r null-hypoth-1}
 question_text(
   "Enter the null hypothesis.",
   answer("C0rrect", correct = TRUE),
@@ -354,7 +376,7 @@ question_text(
 )
 ```
 
-```{r alt-hypoth}
+```{r alt-hypoth-1}
 question_text(
   "Enter the alternative hypothesis.",
   answer("C0rrect", correct = TRUE),
@@ -364,42 +386,104 @@ question_text(
 )
 ```
 
-Next, we will introduce a new function, `hypothesize`, that falls into the `infer` workflow.
-You will use this method for conducting hypothesis tests.
+We will use a new function, `hypothesise`, from the `infer` package. Recall the `infer` package is a pedagogical tool. The `infer` workflow can calculate test statistics, build the null distribution using sampling, and visualise associated objects. 
 
-But first, we need to initialize the test, which we will save as `obs_diff`.
+To conduct the hypothesis test using `infer`, we first need to initialise the test by calculating the observed statistic `obs_stat`.
+
+```{r inf-weight-initial, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
+# calculating the observed mean from the sample
+obs_stat <- yrbss %>% 
+  specify(response = weight) %>% 
+  calculate(stat = "mean")
+```
+
+Notice how you can use the functions `specify` and `calculate` again as you did for calculating confidence intervals.
+
+Next, we use bootstrapping to simulate the null distribution. A bootstrap sample is drawn from the input sample data for each replicate, with replacement. 
+
+```{r inf-weight-null-1, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
+# use bootstrapping to calculate the 
+# null distribution of weight, under the null hypothesis 
+# that the mean weight is 68
+null_dist1 <- yrbss %>% 
+  specify(response = weight) %>% 
+  hypothesise(null = "point", mu = 68) %>%
+  generate(reps = 200, type = "bootstrap") %>%
+  calculate(stat = "mean") 
+```
+
+The null distribution can be compared to the observed statistic.
+
+```{r inf-weight-null-1-vis, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
+# visualise the simulation-based null distribution
+null_dist1 %>%
+  visualise() + shade_p_value(obs_stat, direction = "two-sided")
+```
+
+$P$-values can also be extracted from the null distribution. 
+
+```{r inf-weight-null-1-getp, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
+# visualise the simulation-based null distribution
+null_dist1 %>%
+  get_p_value(obs_stat, direction = "two-sided")
+```
+
+Since the $P$-value is large, the data provide weak evidence against the null hypothesis. We fail to reject the null hypothesis that the mean is different from 68 kg. We reasonably retain the view that true mean weight is 68 kg. 
+
+### Example Test 2: Are mean weights are different for those who exercise at least times a week and those who do not?
+    
+Now consider testing if the mean weights are different for those who exercise at least times a week and those who do not. Record the hypotheses for this test.
+
+```{r null-hypoth-2}
+question_text(
+  "Enter the null hypothesis.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r alt-hypoth-2}
+question_text(
+  "Enter the alternative hypothesis.",
+  answer("C0rrect", correct = TRUE),
+  incorrect = "Okay! [even if this button is red]",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+To conduct the hypothesis test using `infer`, we first calculate the observed statistic, in this case, the difference in means `obs_diff` between the two groups.
 
 ```{r inf-weight-habit-ht-initial, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
 obs_diff <- yrbss_exercise %>%
   specify(weight ~ physical_3plus) %>%
   calculate(stat = "diff in means", order = c("yes", "no"))
-obs_diff$stat
+obs_diff
 ```
 
-Notice how you can use the functions `specify` and `calculate` again like you did for calculating confidence intervals.
-Here, though, the statistic you are searching for is the difference in means, with the order being `yes - no != 0`.
+Here, the statistic you are searching for is the difference in means, $\mu_{yes} - \mu_{no} \neq 0$, and it is necessary to indicate the order as being `"yes"` and then `"no"`.
 
-After you have initialized the test, you need to simulate the test on the null distribution, which we will save as `null_dist`.
+After initialising the test, you can use `infer` to simulate the null distribution. Below, we use permutation to simulate the null distribution. In permutation, for each replicate, each input value is randomly reassigned (without replacement) to a new output value in the sample.
 
 ```{r inf-weight-habit-ht-null, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
-null_dist <- yrbss_exercise %>%
+null_dist2 <- yrbss_exercise %>%
   specify(weight ~ physical_3plus) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
+  hypothesise(null = "independence") %>%
+  generate(reps = 200, type = "permute") %>%
   calculate(stat = "diff in means", order = c("yes", "no"))
 ```
 
-Here, `hypothesize` is used to set the null hypothesis as a test for independence.
-In one sample cases, the `null` argument can be set to "point" to test a hypothesis relative to a point estimate.
+Here, `hypothesise` is used to set the null hypothesis as a test for independence. Compare this to the previous example, where the `null` argument was set to "point" to test a hypothesis relative to a point estimate.
 
-Also, note that the `type` argument within `generate` is set to `permute`, which is the argument when generating a null distribution for a hypothesis test.
-
-We can visualize this null distribution with the following code:
+We can visualise this null distribution with the following code:
 
 ```{r vis-null-dist, exercise = TRUE}
-ggplot(data = null_dist, aes(x = stat)) +
-  geom_histogram()
+null_dist2 %>%
+   visualise() + shade_p_value(obs_diff, direction = "two-sided")
 ```
+
 
 How many of these `null` permutations have a difference of at least `obs_diff$stat`?
 
@@ -408,25 +492,26 @@ How many of these `null` permutations have a difference of at least `obs_diff$st
 ```
 
 ```{r null-v-obs_stat-hint}
-null_dist$stat >= obs_diff$stat
+null_dist2$stat >= obs_diff$stat
 ```
 
 ```{r null-v-obs_stat-solution}
-sum(null_dist$stat >= obs_diff$stat)
+sum(null_dist2$stat >= obs_diff$stat)
 ```
 
-Now that the test is initialized and the null distribution formed, you can calculate the $P$-value for your hypothesis test using the function `get_p_value`.
+Now that the test is initialised and the null distribution formed, you can calculate the $P$-value for your hypothesis test using the function `get_p_value`.
 
 ```{r inf-weight-habit-ht-pvalue, exercise = TRUE}
-null_dist %>%
+null_dist2 %>%
   get_p_value(obs_stat = obs_diff, direction = "two_sided")
 ```
 
-This the standard workflow for performing hypothesis tests!
+The $P$-value is vanishingly small! The data provide strong evidence to reject the null hypothesis on independence. The mean weight among the two groups, those that exercise three or more times a week and those that do not, differ; this difference is statistically significant at any reasonable level.  
 
+This is the standard workflow for performing hypothesis tests using simulation!
 
 :::{.exerciseblock}
-Construct and record a confidence interval for the difference between the weights of those who exercise at least three times a week and those who do not. Interpret this interval estimate in context of the data.
+Construct and record a confidence interval for the difference between the weights of those who exercise at least three times a week and those who do not. Interpret this interval estimate in the context of the data.
 
 ```{r ci-weight-exercise, exercise = TRUE}
 
@@ -436,22 +521,28 @@ Construct and record a confidence interval for the difference between the weight
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. Please answer the exercises in full sentences and be mindful of appropriate usage, spelling, and grammar and use $\LaTeX$ for mathematics where appropriate. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing both data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
-The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss` which is packaged with `MA22004labs`. 
+The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss`, which is packaged with `MA22004labs`. 
 
-1.  Create a new categorical variable `physical_3plus` denoting those who engaging in physical activity for at least 3 days a week (e.g., appropriate levels would be "no", "yes", and "NA"). Using `ggplot`, make a boxplot of `height` by `physical_3plus`. Is there a relationship between engaging in physical activity for at least 3 days a week and height? What did you expect and why? **[3 marks]**
+:::{.tipblock}
+Every two years, the Centers for Disease Control and Prevention in the United States conduct the Youth Risk Behavior Surveillance System (YRBSS) survey, which collects response data from high school-aged youth (ca. 14 to 18-year-olds). The YRBSS survey is carried out to analyse health patterns.
 
-2.  Calculate a 90% confidence interval for the average respondent height in meters (`height`) and interpret it in context. Use both the `infer` package and normality theory and compare the two interval estimates.  **[5 mark]**
+The **YRBSS Survey Data** includes a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted. The data frame `yrbss` contains observations for 13 variables, some categorical and some numerical. The meaning of each variable can be found by bringing up the help file `?yrbss`.
+:::
+
+1.  Create a new categorical variable, `physical_3plus`, denoting those who engage in physical activity for at least three days a week (e.g., appropriate levels would be "no", "yes", and "NA"). Using `ggplot`, make a boxplot of `height` by `physical_3plus`. Is there a relationship between engaging in physical activity for at least three days a week and height? What did you expect and why? **[3 marks]**
+
+2.  Calculate a 90% confidence interval for the average respondent height in meters (`height`) and interpret it in context. Use both the `infer` package and normality theory to generate interval estimates. Compare the two interval estimates.  **[5 mark]**
 
 <!-- 3.  Calculate a new confidence interval for the same parameter at the 90% confidence level. Comment on the width of this interval versus the one obtained in the previous exercise. **[2 marks]** -->
 
-3.  Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who don't at confidence level $0.01$. Please use the `infer` package to conduct the test.  **[5 marks]**
+3.  Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who do not, at a confidence level of $0.01$. Please use the `infer` package to conduct the test.  **[5 marks]**
 
 4.  Now, a non-inference task: determine the number of different levels or categories for the categorical variable `hours_tv_per_school_day`. **[2 marks]**
 
-5.  Come up with a research question evaluating the relationship between height (or weight) and sleep. Formulate the question in a way that it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results, and also provide an explanation in plain language. Be sure to check all assumptions, state your confidence level (i.e., $\alpha$), and place your conclusion in context. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[5 marks]**
+5.  Come up with a research question evaluating the relationship between height (or weight) and sleep. Formulate the question so it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results and also explain in plain language. Be sure to check all assumptions, state your confidence level (i.e., $\alpha$), and place your conclusion in context. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[5 marks]**
 
 ------------------------------------------------------------------------
 
