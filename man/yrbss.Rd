@@ -35,6 +35,7 @@ get on a school night?}
 yrbss
 }
 \description{
+This data set is for teaching and training purposes.
 Select variables from YRBSS.
 }
 \examples{

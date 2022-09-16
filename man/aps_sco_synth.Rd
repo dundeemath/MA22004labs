@@ -21,6 +21,7 @@ University of Dundee, 2022.08.18.
 aps_sco_synth
 }
 \description{
+This data set is for teaching and training purposes.
 A data set of fictitious results from a survey of Scottish labour force participation and ethnicity.
 The Scottish labour force refers to people in Scotland aged 16 and older who
 are economically active. Unemployment here only relates to people in the labour

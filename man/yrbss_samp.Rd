@@ -36,6 +36,7 @@ Youth Risk Behavior Surveillance System (YRBSS)}
 yrbss_samp
 }
 \description{
+This data set is for teaching and training purposes.
 A sample of 100 observations of the \code{\link{yrbss}} data set.
 }
 \examples{

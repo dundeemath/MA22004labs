@@ -27,6 +27,7 @@ University of Dundee using NOMIS \url{https://www.nomisweb.co.uk/}, 2022.08.18.
 aps_sco
 }
 \description{
+This data set is for teaching and training purposes.
 Estimated unemployment rates for people (aged 16 and older) in Scotland from
 2012 Q4 through 2022 Q1 by ethnic group (white or minority) and by ethnic
 group and sex (male or female). These estimates are reported quarterly and

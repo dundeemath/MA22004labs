@@ -20,6 +20,7 @@ data set in the HistData package.
 arbuthnot
 }
 \description{
+This data set is for teaching and training purposes.
 Arbuthnot's data describes male and female christenings (births) for
 London from 1629-1710.
 John Arbuthnot (1710) used these time series data to carry out the first
