@@ -1,5 +1,6 @@
 #' Unemployment rates for Scotland by ethnicity
 #'
+#' This data set is for teaching and training purposes.
 #' Estimated unemployment rates for people (aged 16 and older) in Scotland from
 #' 2012 Q4 through 2022 Q1 by ethnic group (white or minority) and by ethnic
 #' group and sex (male or female). These estimates are reported quarterly and

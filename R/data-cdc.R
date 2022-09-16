@@ -1,5 +1,6 @@
 #' Behavioral Risk Factor Surveillance System (BRFSS) data
 #'
+#' This data set is for teaching and training purposes.
 #' While there are over 200 variables in the full BRFSS data set, here we look at
 #' 9 measurements/responses across a random sample of 20,000 participants (date of
 #' responses unspecified).

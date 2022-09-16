@@ -1,5 +1,6 @@
 #' Human Freedom Index data
 #'
+#' This data set is for teaching and training purposes.
 #' The Human Freedom Index is a report that attempts to summarize the idea of "freedom"
 #' through a bunch of different variables for many countries around the globe.
 #' It serves as a rough objective measure for the relationships between the different

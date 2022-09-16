@@ -1,5 +1,6 @@
 #' Youth Risk Behavior Surveillance System (YRBSS)
 #'
+#' This data set is for teaching and training purposes.
 #' Select variables from YRBSS.
 #'
 #'
