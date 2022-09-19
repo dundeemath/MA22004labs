@@ -28,6 +28,7 @@ Imports:
     knitr,
     rmarkdown,
     shiny
+    rlang (>= 1.0.1)
 Remotes: 
     rstudio/gradethis,
     rstudio/learnr
