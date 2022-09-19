@@ -27,7 +27,7 @@ Imports:
     infer (>= 1.0.3),
     knitr,
     rmarkdown,
-    shiny
+    shiny,
     rlang (>= 1.0.1)
 Remotes: 
     rstudio/gradethis,
