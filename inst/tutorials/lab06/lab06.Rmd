@@ -1,7 +1,6 @@
 ---
-title: "MA22004 Lab 6"
-subtitle: "Inference for Categorical Data"
-description: "An interactive lab exploring inferences for categorical data using labour participation data."
+title: "MA22004 Lab 6: Inference for categorical data"
+description: "An interactive lab exploring inferences for categorical data using labour participation data and the `infer` package."
 output:
   learnr::tutorial:
     progressive: true

@@ -1,7 +1,6 @@
 ---
-title: "MA22004 Lab 7"
-subtitle: "Introduction to Linear Regression"
-description: "An interactive lab exploring linear regression using human freedom data."
+title: "MA22004 Lab 7:  Introduction to linear regression"
+description: "An interactive lab exploring linear regression using human freedom index data."
 output:
   learnr::tutorial:
     progressive: true

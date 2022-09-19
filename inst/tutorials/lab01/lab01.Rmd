@@ -1,6 +1,5 @@
 ---
-title: "MA22004 Lab 1"
-subtitle: "Intro to `R` & RStudio"
+title: "MA22004 Lab 1: Intro to `R` & RStudio"
 description: "An interactive lab providing an intro to statistical programming using various data sets including: measurments from physical systems, population time series, and household income data."
 output:
   learnr::tutorial:

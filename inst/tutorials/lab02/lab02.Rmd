@@ -1,6 +1,5 @@
 ---
-title: "MA22004 Lab 2"
-subtitle: "Intro to Data Analysis"
+title: "MA22004 Lab 2: Intro to exploratory data analysis"
 description: "An interactive lab introducing exploratory data analysis using health data."
 output:
   learnr::tutorial:

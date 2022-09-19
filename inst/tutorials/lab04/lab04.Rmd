@@ -1,7 +1,6 @@
 ---
-title: "MA22004 Lab 4"
-subtitle: "Confidence Intervals"
-description: "An interactive lab exploring confidence intervals using housing data."
+title: "MA22004 Lab 4: Confidence intervals"
+description: "An interactive lab exploring confidence intervals using housing data and the `infer` package."
 output:
   learnr::tutorial:
     progressive: true
