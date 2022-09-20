@@ -541,7 +541,7 @@ The **YRBSS Survey Data** includes a selected group of variables from a random s
 
 4.  Now, a non-inference task: determine the number of different levels or categories for the categorical variable `hours_tv_per_school_day`. **[2 marks]**
 
-5.  Come up with a research question evaluating the relationship between height (or weight) and sleep. Formulate the question so it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results and also explain in plain language. Be sure to check all assumptions, state your confidence level (i.e., $\alpha$), and place your conclusion in context. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[5 marks]**
+5.  Come up with a research question evaluating the relationship between height (or weight) and sleep. Formulate the question so it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results and also explain in plain language. Be sure to check all assumptions, state your confidence level (i.e., $\alpha$), and place your conclusion in context. **[5 marks]**
 
 ------------------------------------------------------------------------
 

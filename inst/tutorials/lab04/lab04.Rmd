@@ -568,7 +568,7 @@ set.seed(n)
 
 <!-- 4.  What does "95% confidence" mean in relation to a confidence interval? If you're unsure, see [Section 2.2 of the Course Notes](https://dundeemath.github.io/MA22004/statistical-inference.html#confidence-intervals). **[3 marks]** -->
 
-4.  Included with the lab is a non-standard function called `plot_ci`; use `plot_ci` to plot fifty 90% confidence intervals for the true mean area from the **Ames House Data**. What proportion of your confidence intervals includes the population mean? Is this proportion exactly equal to the confidence level? If not, explain why. *Your solution to this question may be circulated among the class for peer feedback; please make sure it appears on a separate page.* **[5 marks]**
+4.  Included with the lab is a non-standard function called `plot_ci`; use `plot_ci` to plot fifty 90% confidence intervals for the true mean area from the **Ames House Data**. What proportion of your confidence intervals includes the population mean? Is this proportion exactly equal to the confidence level? If not, explain why. **[5 marks]**
 
 <!-- 5.  Pick a confidence level of your choosing, provided it is not 95%. What is the appropriate critical value? **[2 mark]** -->
 
