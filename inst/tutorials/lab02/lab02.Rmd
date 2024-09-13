@@ -285,7 +285,7 @@ While it makes sense to describe a quantitative variable like `weight` in terms 
 Use the `tabyl` function to see the number of people who have smoked 100 cigarettes in their lifetime (`smoke100`).
 
 ```{r table-smoke, exercise = TRUE}
-cdc %>% tabyl(smoke100)
+cdc |> tabyl(smoke100)
 ```
 
 The output of the `tabyl` function includes both the counts and the relative frequency distribution for each category of response to the question `smoke100` (in this case, yes `1` or no `0`).
@@ -293,12 +293,12 @@ The output of the `tabyl` function includes both the counts and the relative fre
 Next, make a bar plot of the entries in the `tabyl` data frame using `ggplot` with the `geom_bar` geometry. Here we must set the option `stat = "identity"` within the geometry (the default is `stat = count`, but we've already summarised the data using `tabyl`; there are other ways to produce the plot below...).
 
 ```{r table-smoke-barplot, exercise = TRUE}
-df <- cdc %>% tabyl(smoke100)
+df <- cdc |> tabyl(smoke100)
 ggplot(`___`, aes(x = smoke100, y = `___`)) + geom_bar(stat = "identity")
 ```
 
 ```{r table-smoke-barplot-hint}
-df <- cdc %>% tabyl(smoke100)
+df <- cdc |> tabyl(smoke100)
 ggplot(df, aes(x = smoke100, y = `___`)) + geom_bar(stat = "identity") 
 # you can set `y` to `n` or `percentage` as you please
 ```
@@ -319,8 +319,8 @@ summary(cdc$age)
 IQR(cdc$height)
 IQR(cdc$age)
 
-cdc %>% tabyl(gender)
-cdc %>% tabyl(genhlth)
+cdc |> tabyl(gender)
+cdc |> tabyl(genhlth)
 ```
 
 ```{r answer-4-free}
@@ -337,7 +337,7 @@ question_text(
 The `tabyl` command can be used to tabulate any number of variables that you provide. For example, we could use the following to examine which participants have smoked across each gender.
 
 ```{r table-smoke-gender, eval = TRUE, echo = TRUE}
-cdc %>% tabyl(smoke100, gender)
+cdc |> tabyl(smoke100, gender)
 ```
 
 Here, the first column named `smoke100` contains the categories (levels) 0 and 1. Recall that 1 indicates a respondent has smoked at least 100 cigarettes. The columns `m` and `f` then refer to gender (m for male or f for female), and the numbers correspond to totals in each category. 
@@ -470,7 +470,7 @@ Suppose we want to extract just the data for the men in the sample or just for t
 <!-- ``` -->
 
 ```{r males, exercise = TRUE}
-mdata <- cdc %>% filter(gender == "m")
+mdata <- cdc |> filter(gender == "m")
 glimpse(mdata)
 ```
 
@@ -490,12 +490,12 @@ The most commonly used logical operators for data analysis are as follows:
 Create a subset of the health data of men over thirty. 
 
 ```{r males-and-over30, exercise = TRUE}
-m_and_over30 <- `___` %>% filter(`___`, `___`)
+m_and_over30 <- `___` |> filter(`___`, `___`)
 m_and_over30
 ```
 
 ```{r males-and-over30-solution}
-m_and_over30 <- cdc %>% filter(gender == "m", age > 30)
+m_and_over30 <- cdc |> filter(gender == "m", age > 30)
 m_and_over30
 ```
 
@@ -514,12 +514,12 @@ If you are interested in either men **or** over 30, then you can use the `|` ins
 Create a subset of the health data of mean or people over thirty. 
 
 ```{r males-or-over30, exercise = TRUE}
-m_or_over30 <- `___` %>% `___`
+m_or_over30 <- `___` |> `___`
 m_or_over30
 ```
 
 ```{r males-or-over30-solution}
-m_or_over30 <- cdc %>% filter(gender == "m" | age > 30)
+m_or_over30 <- cdc |> filter(gender == "m" | age > 30)
 m_or_over30
 ```
 
@@ -543,7 +543,7 @@ under23_and_smoke
 ```
 
 ```{r answer-6-solution}
-under23_and_smoke <- cdc %>% filter(age < 23, smoke100 == 1)
+under23_and_smoke <- cdc |> filter(age < 23, smoke100 == 1)
 under23_and_smoke
 ```
 :::
@@ -578,7 +578,7 @@ The multiplicative factor of 703 is the approximate conversion to change units f
 To create a new variable called `bmi`, we use the `mutate` function. Then we can create a box plot of `bmi` by `genhlth`.
 
 ```{r boxplot-bmi, exercise = TRUE}
-cdc <- cdc %>% mutate(bmi = 703 * weight / height^2)
+cdc <- cdc |> mutate(bmi = 703 * weight / height^2)
 ggplot(cdc, aes(x = genhlth, y = bmi)) + geom_boxplot()
 ```
 
@@ -588,7 +588,7 @@ Notice that the first line above is just some arithmetic, but it's applied to al
 Using the **CDC Health Data**, create a box plot of `bmi` by `genhlth`. What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would be associated with BMI and indicate what the figure suggests. 
 
 ```{r answer-7a, exercise = TRUE}
-cdc <- `___` %>% mutate(bmi = 703 * `___` / `___`)
+cdc <- `___` |> mutate(bmi = 703 * `___` / `___`)
 ggplot(`___`) + `___`
 ```
 

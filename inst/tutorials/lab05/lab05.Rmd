@@ -168,30 +168,30 @@ knitr::opts_chunk$set(echo = FALSE, error = TRUE,
 
 data(yrbss)
 
-obs_stat <- yrbss %>% 
-  specify(response = weight) %>% 
+obs_stat <- yrbss |> 
+  specify(response = weight) |> 
   calculate(stat = "mean")
 
-null_dist1 <- yrbss %>% 
-  specify(response = weight) %>% 
-  hypothesise(null = "point", mu = 68) %>%
-  generate(reps = 200, type = "bootstrap") %>%
+null_dist1 <- yrbss |> 
+  specify(response = weight) |> 
+  hypothesise(null = "point", mu = 68) |>
+  generate(reps = 200, type = "bootstrap") |>
   calculate(stat = "mean") 
 
-yrbss_exercise <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
-  filter(!is.na(weight)) %>% filter(!is.na(physically_active_7d))
+yrbss_exercise <- yrbss |> 
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) |>
+  filter(!is.na(weight)) |> filter(!is.na(physically_active_7d))
 
 yrbss_exercise$physical_3plus <- factor(yrbss_exercise$physical_3plus)
 
-obs_diff <- yrbss_exercise %>%
-  specify(weight ~ physical_3plus) %>%
+obs_diff <- yrbss_exercise |>
+  specify(weight ~ physical_3plus) |>
   calculate(stat = "diff in means", order = c("yes", "no"))
 
-null_dist2 <- yrbss_exercise %>%
-  specify(weight ~ physical_3plus) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 200, type = "permute") %>%
+null_dist2 <- yrbss_exercise |>
+  specify(weight ~ physical_3plus) |>
+  hypothesize(null = "independence") |>
+  generate(reps = 200, type = "permute") |>
   calculate(stat = "diff in means", order = c("yes", "no"))
 
 data(yrbss_samp)
@@ -285,9 +285,9 @@ Plotting the data is an excellent first step because it helps us quickly visuali
 First, let's create a new variable, `physical_3plus`, which will be coded as either "yes" if they are physically active for at least three days a week and "no" if not. This can be done using the following code (note: since the variable `physical_3plus` is not part of the `yrbss`, you will need to recreate this variable if used in your lab report). 
 
 ```{r create-new-var, echo = TRUE}
-yrbss_exercise <- yrbss %>% 
-  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) %>%
-  filter(!is.na(weight)) %>% filter(!is.na(physically_active_7d))
+yrbss_exercise <- yrbss |> 
+  mutate(physical_3plus = ifelse(yrbss$physically_active_7d > 2, "yes", "no")) |>
+  filter(!is.na(weight)) |> filter(!is.na(physically_active_7d))
 ```
 
 :::{.exerciseblock}
@@ -315,8 +315,8 @@ question_text(
 The box plots show how the medians of the two distributions compare. Still, we can also compare the means of the distributions using the following to first group the data by the `physical_3plus` variable and then calculate the mean `weight` in these groups using the `mean` function while ignoring missing values by setting the `na.rm` argument to `TRUE`.
 
 ```{r by-means, exercise = TRUE}
-yrbss_exercise %>%
-  group_by(physical_3plus) %>%
+yrbss_exercise |>
+  group_by(physical_3plus) |>
   summarise(mean_weight = mean(weight, na.rm = TRUE))
 ```
 
@@ -335,14 +335,14 @@ Consult the sections of the lecture notes on hypothesis testing (or your favouri
 ```
 
 ```{r by-means-eg-hint}
-yrbss_exercise %>%
-  group_by(`___`) %>%
+yrbss_exercise |>
+  group_by(`___`) |>
   summarise(mean_weight = `___`, samp_size = `___`)
 ```
 
 ```{r by-means-eg-solution}
-yrbss_exercise %>%
-  group_by(physical_3plus) %>%
+yrbss_exercise |>
+  group_by(physical_3plus) |>
   summarise(mean_weight = mean(weight, na.rm = TRUE), samp_size = n())
 ```
 
@@ -391,8 +391,8 @@ To conduct the hypothesis test using `infer`, we first need to initialise the te
 
 ```{r inf-weight-initial, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
 # calculating the observed mean from the sample
-obs_stat <- yrbss %>% 
-  specify(response = weight) %>% 
+obs_stat <- yrbss |> 
+  specify(response = weight) |> 
   calculate(stat = "mean")
 ```
 
@@ -404,10 +404,10 @@ Next, we use bootstrapping to simulate the null distribution. A bootstrap sample
 # use bootstrapping to calculate the 
 # null distribution of weight, under the null hypothesis 
 # that the mean weight is 68
-null_dist1 <- yrbss %>% 
-  specify(response = weight) %>% 
-  hypothesise(null = "point", mu = 68) %>%
-  generate(reps = 200, type = "bootstrap") %>%
+null_dist1 <- yrbss |> 
+  specify(response = weight) |> 
+  hypothesise(null = "point", mu = 68) |>
+  generate(reps = 200, type = "bootstrap") |>
   calculate(stat = "mean") 
 ```
 
@@ -415,7 +415,7 @@ The null distribution can be compared to the observed statistic.
 
 ```{r inf-weight-null-1-vis, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
 # visualise the simulation-based null distribution
-null_dist1 %>%
+null_dist1 |>
   visualise() + shade_p_value(obs_stat, direction = "two-sided")
 ```
 
@@ -423,7 +423,7 @@ $P$-values can also be extracted from the null distribution.
 
 ```{r inf-weight-null-1-getp, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
 # visualise the simulation-based null distribution
-null_dist1 %>%
+null_dist1 |>
   get_p_value(obs_stat, direction = "two-sided")
 ```
 
@@ -456,8 +456,8 @@ question_text(
 To conduct the hypothesis test using `infer`, we first calculate the observed statistic, in this case, the difference in means `obs_diff` between the two groups.
 
 ```{r inf-weight-habit-ht-initial, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
-obs_diff <- yrbss_exercise %>%
-  specify(weight ~ physical_3plus) %>%
+obs_diff <- yrbss_exercise |>
+  specify(weight ~ physical_3plus) |>
   calculate(stat = "diff in means", order = c("yes", "no"))
 obs_diff
 ```
@@ -467,10 +467,10 @@ Here, the statistic you are searching for is the difference in means, $\mu_{yes}
 After initialising the test, you can use `infer` to simulate the null distribution. Below, we use permutation to simulate the null distribution. In permutation, for each replicate, each input value is randomly reassigned (without replacement) to a new output value in the sample.
 
 ```{r inf-weight-habit-ht-null, tidy = FALSE, error = FALSE, warning = FALSE, echo = TRUE, eval = TRUE}
-null_dist2 <- yrbss_exercise %>%
-  specify(weight ~ physical_3plus) %>%
-  hypothesise(null = "independence") %>%
-  generate(reps = 200, type = "permute") %>%
+null_dist2 <- yrbss_exercise |>
+  specify(weight ~ physical_3plus) |>
+  hypothesise(null = "independence") |>
+  generate(reps = 200, type = "permute") |>
   calculate(stat = "diff in means", order = c("yes", "no"))
 ```
 
@@ -479,7 +479,7 @@ Here, `hypothesise` is used to set the null hypothesis as a test for independenc
 We can visualise this null distribution with the following code:
 
 ```{r vis-null-dist, exercise = TRUE}
-null_dist2 %>%
+null_dist2 |>
    visualise() + shade_p_value(obs_diff, direction = "two-sided")
 ```
 
@@ -501,7 +501,7 @@ sum(null_dist2$stat >= obs_diff$stat)
 Now that the test is initialised and the null distribution formed, you can calculate the $P$-value for your hypothesis test using the function `get_p_value`.
 
 ```{r inf-weight-habit-ht-pvalue, exercise = TRUE}
-null_dist2 %>%
+null_dist2 |>
   get_p_value(obs_stat = obs_diff, direction = "two_sided")
 ```
 

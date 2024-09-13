@@ -376,10 +376,10 @@ Below is an overview of the functions we will use to construct this confidence i
 This code will find the 95% confidence interval for the area.
 
 ```{r confidence-interval-infer, exercise = TRUE}
-samp %>%
- specify(response = area) %>%
- generate(reps = 1000, type = "bootstrap") %>%
- calculate(stat = "mean") %>%
+samp |>
+ specify(response = area) |>
+ generate(reps = 1000, type = "bootstrap") |>
+ calculate(stat = "mean") |>
  get_ci(level = 0.95)
 ```
 

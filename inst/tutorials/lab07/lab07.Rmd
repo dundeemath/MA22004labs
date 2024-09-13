@@ -166,7 +166,7 @@ knitr::opts_chunk$set(echo = FALSE, error = TRUE,
                       fig.asp = 0.75, out.width = "100%")
 
 data(hfi)
-hfi_samp <- hfi %>% drop_na(pf_expression_control, pf_score)
+hfi_samp <- hfi |> drop_na(pf_expression_control, pf_score)
 hfi_samp <- sample_n(hfi_samp, 30)
 ```
 
@@ -240,7 +240,7 @@ question_text(
 The correlation coefficient quantifies the strength of a linear relationship between variables. A correlation coefficient can be computed using the `cor` function. A perfect linear association has a correlation $\pm 1$. A correlation near zero indicates the absence of a linear association. 
 
 ```{r cor, echo = TRUE, eval = TRUE}
-hfi %>%
+hfi |>
   summarise(cor(pf_expression_control, pf_score, use = "complete.obs"))
 ```
 
@@ -273,7 +273,7 @@ Use the following interactive function to select the line that you think does th
 
 ```{r plotss-setup, echo = TRUE, eval = FALSE}
 # We must remove records with `NA` responses.
-hfi <- hfi %>% drop_na(pf_expression_control, pf_score)
+hfi <- hfi |> drop_na(pf_expression_control, pf_score)
 # We consider a smaller sample of just 30 rows, just because.
 hfi_samp <- sample_n(hfi, 30)
 ```
@@ -340,7 +340,7 @@ After the formula, you find the five-number summary of the residuals.
 The "Coefficients" table shown next is critical; its first column displays the linear model's y-intercept and the coefficient of `pf_expression_control`.
 With this table, we can write down the least squares regression line for the linear model,
 
-\[ \hat{y} = 4.61707 + 0.49143 \cdot \mathsf{pf\_expression\_control} \,.\]
+$$ \hat{y} = 4.61707 + 0.49143 \cdot \mathsf{pf\_expression\_control} \,.$$
 
 One last piece of information we will discuss from the summary output is the Multiple R-squared, or more simply, $R^2$.
 The $R^2$ value represents the proportion of variability in the response variable explained by the explanatory variable.

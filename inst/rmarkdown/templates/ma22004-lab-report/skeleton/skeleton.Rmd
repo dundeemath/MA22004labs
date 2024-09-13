@@ -35,8 +35,6 @@ Answer to exercise 1.
 # Comments are not evaluated by R.
 ```
 
-\newpage
-
 ### Exercise 2 
 
 Answer to exercise 2.
@@ -45,6 +43,3 @@ Answer to exercise 2.
 # Insert your code for Exercise 2 here
 ```
 
-\newpage
-
-Turn your Rmarkdown document into a PDF by clicking on the *Knit* button. 

@@ -151,7 +151,6 @@ library(infer)
 library(learnr)
 library(gradethis)
 library(knitr)
-library(zoo)
 
 # tutorial options
 tutorial_options(
@@ -193,7 +192,6 @@ library(MA22004labs)
 library(tidyverse)
 library(janitor)
 library(infer)
-library(zoo) # for time series
 ```
 
 ### The **APS Unemployment in Scotland Data**
@@ -227,8 +225,8 @@ head(aps_sco)
 Let's plot the estimated unemployment rates in Scotland over time by ethnicity. (Note that the APS also reports uncertainty estimates in their rate estimates; however, we exclude these from our investigation.)
 
 ```{r apl-ts-plot, echo = TRUE, eval = TRUE}
-dat <- aps_sco %>%
- select(yq, white, minority) %>%
+dat <- aps_sco |>
+ select(yq, white, minority) |>
  pivot_longer(cols = !yq, names_to = "ethnicity", values_to = "rate")
 
 ggplot(dat, aes(x = yq)) + geom_line(aes(y = rate, color = ethnicity)) +
@@ -286,8 +284,8 @@ help(aps_sco_synth)
 To make calculating "by hand" easier, use the `tabyl` command from the `janitor` package can be used to summarise the data. For example, a table of sample proportions can be quickly obtained. 
 
 ```{r aps_sco_synth-tabyl-perc, exercise = TRUE, warning = FALSE, error = FALSE}
-p <- aps_sco_synth %>% 
- tabyl(ethnicity, unemployed) %>% 
+p <- aps_sco_synth |> 
+ tabyl(ethnicity, unemployed) |> 
  adorn_percentages()
 p
 ```
@@ -300,13 +298,13 @@ Try using `tabyl` to create a summary of counts with totals.
 ```
 
 ```{r aps_sco_synth-tabyl-n-hint}
-aps_sco_synth %>% tabyl(`___`, `___`) %>% 
+aps_sco_synth |> tabyl(`___`, `___`) |> 
   `___`
 ```
 
 ```{r aps_sco_synth-tabyl-n-solution}
-n <- aps_sco_synth %>% 
- tabyl(ethnicity, unemployed) %>% 
+n <- aps_sco_synth |> 
+ tabyl(ethnicity, unemployed) |> 
  adorn_totals(where = c("row","col"))
 n
 ```
@@ -318,9 +316,9 @@ Recalling the procedure in [§4.3 of the lecture notes](https://dundeemath.githu
 \[H_a : \quad p_m-p_w \neq 0\,.\]
 
 ```{r aps_sco_synth-htest-hand-pre}
-n <- aps_sco_synth %>% tabyl(ethnicity, unemployed) %>% 
+n <- aps_sco_synth |> tabyl(ethnicity, unemployed) |> 
   adorn_totals(where = c("row","col"))
-p <- aps_sco_synth %>% tabyl(ethnicity, unemployed) %>% 
+p <- aps_sco_synth |> tabyl(ethnicity, unemployed) |> 
   adorn_percentages()
 ```
 
@@ -362,9 +360,9 @@ The `infer` workflow allows us to `specify` a statistic and `calculate` that sta
 
 ```{r aps_sco_synth-infer-obs-diff, exercise = TRUE, warning = FALSE, error = FALSE}
 # calculate statistic
-obs_diff <- aps_sco_synth %>%
+obs_diff <- aps_sco_synth |>
   # unemployed is independent of ethnicity, since "yes" unemployed
-  specify(unemployed ~ ethnicity, success = "yes") %>% 
+  specify(unemployed ~ ethnicity, success = "yes") |> 
   #specify p_minority - p_white
   calculate(stat = "diff in props", order = c("minority", "white")) 
 obs_diff
@@ -374,24 +372,24 @@ To conduct a hypothesis test "by hand", you calculated a single realisation of t
 
 ```{r aps_sco-infer-null-dist, exercise = TRUE, warning = FALSE, error = FALSE}
 # calculate the distribution of observed differences 
-null_dist <- aps_sco_synth %>% 
-  specify(unemployed ~ ethnicity, success = "yes") %>%
+null_dist <- aps_sco_synth |> 
+  specify(unemployed ~ ethnicity, success = "yes") |>
   # null hypothesis is on independence, or p_minority - p_white = 0
-  hypothesise(null = "independence") %>%
+  hypothesise(null = "independence") |>
   # based on permuting samples 
-  generate(reps = 1000, type = "permute") %>%
+  generate(reps = 1000, type = "permute") |>
   calculate(stat = "diff in props", order = c("minority", "white"))
 head(null_dist)
 ```
 
 ```{r aps_sco-infer-null-dist-stat-pre}
-obs_diff <- aps_sco_synth %>%
-  specify(unemployed ~ ethnicity, success = "yes") %>% 
+obs_diff <- aps_sco_synth |>
+  specify(unemployed ~ ethnicity, success = "yes") |> 
   calculate(stat = "diff in props", order = c("minority", "white")) 
-null_dist <- aps_sco_synth %>% 
-  specify(unemployed ~ ethnicity, success = "yes") %>%
-  hypothesise(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
+null_dist <- aps_sco_synth |> 
+  specify(unemployed ~ ethnicity, success = "yes") |>
+  hypothesise(null = "independence") |>
+  generate(reps = 1000, type = "permute") |>
   calculate(stat = "diff in props", order = c("minority", "white"))
 ```
 
@@ -399,14 +397,14 @@ The null distribution can then be visualised and the \(P\)-value calculated. The
 
 ```{r aps_sco-infer-null-dist-vis, exercise = TRUE, warning = FALSE, error = FALSE, exercise.setup = "aps_sco-infer-null-dist-stat-pre"}
 # plot sampled/bootstrapped null distribution
-null_dist %>%
+null_dist |>
  visualize() +
  shade_p_value(obs_stat = obs_diff, direction = "two-sided")
 ```
 
 ```{r aps_sco-infer-null-dist-pval, exercise = TRUE, warning = FALSE, error = FALSE, exercise.setup = "aps_sco-infer-null-dist-stat-pre"}
 # calculate two-sided p-value (compare to p1)
-p_val <- null_dist %>%
+p_val <- null_dist |>
   get_p_value(obs_stat = obs_diff, direction = "two-sided")
 p_val
 ```

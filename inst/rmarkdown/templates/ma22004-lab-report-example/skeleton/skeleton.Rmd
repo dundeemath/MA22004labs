@@ -1,7 +1,7 @@
 ---
 title: "Lab NUMBER: YOUR TITLE HERE"
 author: "YOUR NAME HERE"
-date: "`r Sys.Date()`"
+date: "Someday"
 output:
   pdf_document: default
 papersize: a4
