@@ -8,7 +8,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab02"
-  version: 1.2.2021
+  version: 1.2.2026
 ---
 
 ```{css, echo=FALSE}

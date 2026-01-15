@@ -8,7 +8,7 @@ output:
 runtime: shiny_prerendered
 tutorial:
   id: "ma22004-lab01"
-  version: 2.2.2022
+  version: 2.2.2026
 ---
 
 ```{css, echo=FALSE}
@@ -175,6 +175,8 @@ data(arbuthnot)
 data(frs_income_21)
 data(frs_bracket1_long)
 data(frs_bracket1_wide)
+
+knitr::opts_knit$set(root.dir = "inst/tutorials/lab01")
 ```
 
 ## RStudio and lab reports
@@ -191,7 +193,7 @@ The report for Lab 1 consists of answers to exercises 1-4 in the last section of
 
 If you are already running this lab tutorial, you have successfully installed and launched RStudio. Well done! You should see a window that looks more or less like the image shown below (I've added a few comments). 
 
-```{r r-interface-2020, fig.margin = TRUE, echo = FALSE, fig.width = 3, out.width = "100%", fig.cap="A fresh *RStudio* window. Please try to use `R` version **4.0.2 (2020-06-22) \"Taking Off Again\"** or higher."}
+```{r r-interface-2020, fig.margin = TRUE, echo = FALSE, fig.width = 3, out.width = "100%", fig.cap="A fresh *RStudio* window. Please try to use `R` version **4.1.0"** or higher."}
 knitr::include_graphics("images/r-interface-4-0-2.png")
 ```
 
