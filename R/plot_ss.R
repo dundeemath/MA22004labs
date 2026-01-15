@@ -1,3 +1,33 @@
+#' Visualise residuals and sum of squares for a fitted line
+#'
+#' Produces a scatter plot of `y` versus `x` and fits a line either by:
+#' (1) letting the user click two points on the plot, or
+#' (2) fitting the least-squares regression line.
+#'
+#' The function then computes residuals and prints the sum of squared residuals.
+#' Optionally, it draws "squares" whose side lengths correspond to residual sizes
+#' as a visual demonstration of least squares.
+#'
+#' @param x Numeric vector of x-values.
+#' @param y Numeric vector of y-values (same length as `x`).
+#' @param showSquares Logical; if `TRUE`, draw squares illustrating squared residuals.
+#' @param leastSquares Logical; if `TRUE`, fit the least-squares line using [stats::lm()].
+#'
+#' @return Invisibly returns a list containing:
+#' \itemize{
+#'   \item `model`: the fitted `lm` object
+#'   \item `ss`: the residual sum of squares
+#' }
+#' The function is mainly used for its plot and printed output.
+#'
+#' @examples
+#' set.seed(1)
+#' x <- 1:10
+#' y <- 1 + 0.5 * x + rnorm(10, sd = 0.5)
+#' plot_ss(x, y, leastSquares = TRUE)
+#'
+#' @importFrom graphics plot points lines abline locator par
+#' @importFrom stats lm predict
 #' @export
 plot_ss <- function(x, y, showSquares = FALSE, leastSquares = FALSE){
  plot(y~x, asp = 1)# xlab = paste(substitute(x)), ylab = paste(substitute(y)))

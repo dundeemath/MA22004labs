@@ -195,7 +195,7 @@ library(tidyverse)
 
 :::{.tipblock}
 **Human Freedom Index Data**: The Human Freedom Index is a report that attempts to summarise the idea of "freedom" through various variables for many countries around the globe.
-It serves as a rough objective measure for the relationships between the different types of freedom --- whether it's political, religious, economic or personal freedom --- and other social and financial circumstances. The Human Freedom Index is an annually co-published report by the Cato Institute, the Fraser Institute, and the Liberales Institut at the Friedrich Naumann Foundation for Freedom. 
+It serves as a rough objective measure for the relationships between the different types of freedom --- whether it's political, religious, economic or personal freedom --- and other social and financial circumstances. The Human Freedom Index is an annually published report by the Cato Institute, the Fraser Institute, and the Liberales Institut at the Friedrich Naumann Foundation for Freedom. 
 :::
 
 In this lab, you'll analyse the **Human Freedom Index Data** from 2008-2016. You will summarise a few of the relationships within the data graphically and numerically to find which variables can help tell a story about freedom. The data we're working with is in a data frame called `hfi`, short for Human Freedom Index, made available by the openintro package.

@@ -346,16 +346,28 @@ question_text(
 ```
 :::
 
-### Bootstrapping
+### Bootstrap
 
 Another way of calculating a confidence interval for a parameter is using simulation, or more specifically, using **bootstrapping**. The term bootstrapping comes from the phrase "pulling oneself up by one's bootstraps", which is a metaphor for accomplishing an impossible task without outside help. In this case, the impossible task is estimating a population parameter (e.g., the unknown population mean), and we'll accomplish it using data from only the given sample. Note that this notion of saying something about a population parameter using only information from an observed sample is the crux of statistical inference; it is not limited to bootstrapping.
 
-In essence, bootstrapping assumes that there are more observations in the populations like the ones in the observed sample. So we "reconstruct" the population by resampling from our sample with replacement. The bootstrapping scheme is as follows:
+Bootstrapping is a simulation-based method for estimating uncertainty in a statistic (like a mean or proportion) using only the observed sample. The idea is to treat the observed sample as our best approximation to the population, and then repeatedly resample the data with replacement to mimic the process of taking many samples from the population.
+
+In essence, bootstrapping approximates the population distribution using the empirical distribution of the observed sample, then resamples from that approximation with replacment. That is, in the nonparametric bootstrap, we treat the observed sample as our best approximation to the population. We then create many ‘new samples’ by resampling the observed data with replacement (usually keeping the same sample size). To bootstrap, we:
 
 -   *Step 1.* Take a bootstrap sample - a random sample taken **with replacement** from the original sample, of the same size as the original sample.
--   *Step 2.* Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples.
--   *Step 3.* Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics.
--   *Step 4.* Calculate the bounds of the XX% confidence interval as the central XX% of the bootstrap distribution.
+-   *Step 2.* Calculate the statistic of interest on that resample - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap sample.
+-   *Step 3.* Repeat steps (1) and (2) many times to build a bootstrap distribution - a distribution of bootstrap statistics.
+-   *Step 4.* Form a confidence interval, commonly using the **percentile method**, e.g., for 95% take the 2.5% and 97.5% percentiles of the bootstrap distribution.
+
+The bootstrap method does not require normality, but it does require your sample to be representative of the population you are trying to learn about. Bootstrapping works best when the observations are an independent random sample from the population (or at least reasonably representative).
+
+:::{.warningblock}
+Bootstrapping assumes the sample is representative of the population and that observations are (approximately) independent.
+:::
+
+:::{.importantblock}
+If the original sample is biased or unrepresentative, bootstrapping will reproduce that bias.
+:::
 
 Instead of coding up each of these steps, one can use the **infer** package to construct confidence intervals.
 
@@ -368,7 +380,7 @@ Below is an overview of the functions we will use to construct this confidence i
 +-------------+--------------------------------------------------------------------------------------------------------------------------------------------+
 | `generate`  | The number of samples you want to generate                                                                                                 |
 +-------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-| `calculate` | The sample statistic you want to do inference with, or you can also think of this as the population parameter you want to do inference for |
+| `calculate` | Compute the sample statistic (e.g., mean) on each resample to form the bootstrap distribution |
 +-------------+--------------------------------------------------------------------------------------------------------------------------------------------+
 | `get_ci`    | Find the confidence interval                                                                                                               |
 +-------------+--------------------------------------------------------------------------------------------------------------------------------------------+
@@ -515,14 +527,14 @@ lower_vector <- samp_mean - 1.96 * samp_sd / sqrt(m)
 upper_vector <- samp_mean + 1.96 * samp_sd / sqrt(m) 
 ```
 
-Included with the lab is a non-standard function called `plot_ci`; use the command `plot_ci(lower_vector, upper_vector, mean(population))` to plot fifty (50) 95% confidence intervals for the true mean area from the **Ames House Data**. This tutorial is set up to rerun the loop above in the background every time you call the code chunk below; try rerunning the code.
+Included with the lab is a non-standard function called `plot_ci`; use the command `plot_ci(lower_vector, upper_vector, mean(population$area))` to plot fifty (50) 95% confidence intervals for the true mean area from the **Ames House Data**. This tutorial is set up to rerun the loop above in the background every time you call the code chunk below; try rerunning the code.
 
 ```{r plot-fifty-cis, exercise = TRUE, exercise.setup = "cififty-e"}
 plot_ci(lower_vector, upper_vector, mean(population$area))
 ```
 
 :::{.exerciseblock}
-Included with the lab is a non-standard function called `plot_ci`; use the command `plot_ci(lower_vector, upper_vector, mean(population))` to plot fifty (50) 95% confidence intervals for the true mean area from the **Ames House Data**. What proportion of your confidence intervals include the population mean? Is this proportion exactly equal to the confidence level? If not, explain why.
+Included with the lab is a non-standard function called `plot_ci`; use the command `plot_ci(lower_vector, upper_vector, mean(population$area))` to plot fifty (50) 95% confidence intervals for the true mean area from the **Ames House Data**. What proportion of your confidence intervals include the population mean? Is this proportion exactly equal to the confidence level? If not, explain why.
 
 ```{r answer-5a, exercise = TRUE, exercise.setup = "cififty-e"}
 
@@ -560,21 +572,23 @@ set.seed(n)
 ```
 :::
 
-1.  Using `ggplot`, plot and describe the distribution of the sample `sample(ames$area, 60)`. What would you say is the "typical" size within your sample? Also, state precisely what you interpreted "typical" to mean (e.g., reference a summary statistic). **[3 marks]**
+1.  Using `ggplot`, plot and describe the distribution of `samp$area`, where `samp <- sample_n(ames, 60)`. What would you say is the "typical" size within your sample? Also, state precisely what you interpreted "typical" to mean (e.g., reference a summary statistic). **[3 marks]**
 
-2.  Would you expect another student's distribution for `sample(ames$area, 60)` to be identical to yours? Would you expect it to be similar? Why or why not? **[3 mark]**
+2.  Would you expect another student's distribution for `samp$area` (with `samp <- sample_n(ames, 60)`) to be identical to yours? Would you expect it to be similar? Why or why not? **[3 mark]**
 
 3.  In Section "Confidence intervals", the confidence interval \[\overline{x} \pm 1.96 \frac{s}{\sqrt{m}}\,,\] with sample standard deviation $s$ and sample size $m$, is used. What conditions must be met for this confidence interval to be valid? **[3 marks]**
 
 <!-- 4.  What does "95% confidence" mean in relation to a confidence interval? If you're unsure, see [Section 2.2 of the Course Notes](https://dundeemath.github.io/MA22004/statistical-inference.html#confidence-intervals). **[3 marks]** -->
 
-4.  Included with the lab is a non-standard function called `plot_ci`; use `plot_ci` to plot fifty 90% confidence intervals for the true mean area from the **Ames House Data**. What proportion of your confidence intervals includes the population mean? Is this proportion exactly equal to the confidence level? If not, explain why. **[5 marks]**
+4.  Included with the lab is a non-standard function called `plot_ci`. Using the approach demonstrated earlier in the lab, construct fifty 90% confidence intervals for the true mean area of the **Ames House Data**, and use `plot_ci` to plot them. What proportion of your confidence intervals includes the population mean? Is this proportion exactly equal to 90%? If not, explain why. **[5 marks]**
 
 <!-- 5.  Pick a confidence level of your choosing, provided it is not 95%. What is the appropriate critical value? **[2 mark]** -->
 
 <!-- 5.  Calculate fifty new confidence intervals for the true mean area at the confidence level different from 95%. Using the `plot_ci` function, plot all intervals and calculate the proportion of intervals that include the true population mean. How does this percentage compare to the confidence level selected for the intervals? **[6 marks]** -->
 
-5.  Using code from the **infer** package and data from the one sample of size 60 from `ames`, find a confidence interval for the proportion of Ames residents that live in a single-family home with a 90% confidence level and interpret it. **[6 marks]**
+5.  Using code from the **infer** package and one simple random sample of size 60 from `ames` (e.g. `samp <- sample_n(ames, 60)`), find a 90% bootstrap confidence interval for the proportion of Ames houses that are single-family homes. Clearly state which variable you used and what value you treated as "single-family" (the `success = ...` level), and interpret your ocnfidence interval in context. **[6 marks]**
+
+*Hint: Use `names(ames)` to find the relevant categorical variable, and `count(ames, <variable>)` to see the levels so you can choose the correct `success = "..."`.*
 
 
 ------------------------------------------------------------------------

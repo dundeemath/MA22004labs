@@ -427,11 +427,11 @@ null_dist1 |>
   get_p_value(obs_stat, direction = "two-sided")
 ```
 
-Since the $P$-value is large, the data provide weak evidence against the null hypothesis. We fail to reject the null hypothesis that the mean is different from 68 kg. We reasonably retain the view that true mean weight is 68 kg. 
+Since the $P$-value is large, the data provide weak evidence against the null hypothesis (or "We do not find evidence that the mean differs from 68 kg"). We fail to reject the alternative that the mean is different from 68 kg. We reasonably retain the view that true mean weight is 68 kg. 
 
-### Example Test 2: Are mean weights are different for those who exercise at least times a week and those who do not?
+### Example Test 2: Are mean weights are different for those who exercise at least three times a week and those who do not?
     
-Now consider testing if the mean weights are different for those who exercise at least times a week and those who do not. Record the hypotheses for this test.
+Now consider testing if the mean weights are different for those who exercise at least three times a week and those who do not. Record the hypotheses for this test.
 
 ```{r null-hypoth-2}
 question_text(
@@ -537,11 +537,11 @@ The **YRBSS Survey Data** includes a selected group of variables from a random s
 
 <!-- 3.  Calculate a new confidence interval for the same parameter at the 90% confidence level. Comment on the width of this interval versus the one obtained in the previous exercise. **[2 marks]** -->
 
-3.  Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who do not, at a confidence level of $0.01$. Please use the `infer` package to conduct the test.  **[5 marks]**
+3.  Conduct a hypothesis test evaluating whether the average height is different for those who exercise at least three times a week and those who do not, at a significance level $0.01$. Please use the `infer` package to conduct the test.  **[5 marks]**
 
 4.  Now, a non-inference task: determine the number of different levels or categories for the categorical variable `hours_tv_per_school_day`. **[2 marks]**
 
-5.  Come up with a research question evaluating the relationship between height (or weight) and sleep. Formulate the question so it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results and also explain in plain language. Be sure to check all assumptions, state your confidence level (i.e., $\alpha$), and place your conclusion in context. **[5 marks]**
+5.  Come up with a research question evaluating the relationship between height (or weight) and sleep. Formulate the question so it can be answered using a hypothesis test and/or a confidence interval. Report the statistical results and also explain in plain language. Be sure to check all assumptions, state your significance level (i.e., $\alpha$), and place your conclusion in context. **[5 marks]**
 
 ------------------------------------------------------------------------
 

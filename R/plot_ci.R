@@ -1,3 +1,24 @@
+#' Plot a collection of confidence intervals
+#'
+#' Plots multiple confidence intervals on a common axis. Intervals that do not
+#' contain the reference value `m` are highlighted.
+#'
+#' This function is designed for the MA22004 labs to visualise repeated
+#' confidence intervals for a population mean.
+#'
+#' @param lo Numeric vector of lower confidence interval bounds.
+#' @param hi Numeric vector of upper confidence interval bounds (same length as `lo`).
+#' @param m Reference value to show as a vertical dashed line (typically the true mean).
+#'
+#' @return Invisibly returns `NULL`. Called for its side effect of producing a plot.
+#'
+#' @examples
+#' set.seed(1)
+#' lo <- rnorm(50, mean = -0.2, sd = 0.1)
+#' hi <- lo + abs(rnorm(50, mean = 0.4, sd = 0.1))
+#' plot_ci(lo, hi, m = 0)
+#'
+#' @importFrom graphics par plot abline axis points lines
 #' @export
 plot_ci <- function(lo, hi, m){
  par(mar=c(2, 1, 1, 1), mgp=c(2.7, 0.7, 0))

@@ -334,7 +334,7 @@ z <- (p$yes[1] - p$yes[2]) /
   sqrt(phat*(1-phat)* (1/n$Total[1] + 1/n$Total[2]))
 
 # two-sided test
-Pval <- 2*(1-pnorm(z))
+Pval <- 2*(1-pnorm(abs(z)))
 ```
 :::
 
@@ -343,7 +343,7 @@ Based on the \(P\)-value found above, would you accept or reject the null hypoth
 
 ```{r aps_sco-htest-context-free}
 question_text(
-  "Place the outcome of the hypothesis text in the context using free text below.",
+  "Place the outcome of the hypothesis test in the context using free text below.",
   answer("C0rrect", correct = TRUE),
   incorrect = "Okay! [even if this button is red]",
   try_again_button = "Modify your answer",
