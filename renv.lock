@@ -584,9 +584,14 @@
     },
     "ggmosaic": {
       "Package": "ggmosaic",
-      "Version": "0.3.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "0.4.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "haleyjeppson",
+      "RemoteRepo": "ggmosaic",
+      "RemoteRef": "master",
+      "RemoteSha": "4b714439e1d55d15528f8991662d76c2c8d8ec0d",
       "Requirements": [
         "R",
         "dplyr",
@@ -597,9 +602,10 @@
         "purrr",
         "rlang",
         "scales",
-        "tidyr"
+        "tidyr",
+        "withr"
       ],
-      "Hash": "9c716443a2b821aa997c5675386bd34b"
+      "Hash": "8e3145452d5a895caf4126830b68ddff"
     },
     "ggplot2": {
       "Package": "ggplot2",
