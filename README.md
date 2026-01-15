@@ -1,6 +1,6 @@
 # README
 
-Welcome! The lab tutorials, templates, functions, and data files required for **MA22004 - Statistics and Probability II** at the University of Dundee are available as an `R` package at this repository. 
+Welcome! The lab tutorials, templates, functions, and data files required for **MA22004/MA52008 - Statistics and Data Analysis** at the University of Dundee are available as an `R` package at this repository. 
 
 Please read these instructions carefully!
 

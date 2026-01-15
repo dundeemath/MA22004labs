@@ -1,5 +1,5 @@
 ---
-title: "MA22004 Lab 5: Inference for numerical data"
+title: "MA22004/MA52008 Lab 5: Inference for numerical data"
 description: "An interactive lab exploring inferences using behavioural health data and the `infer` package."
 output:
   learnr::tutorial:
@@ -202,7 +202,7 @@ data(yrbss_samp)
 This lab considers inferences for numerical data. 
 
 :::{.noteblock}
-The report for Lab 5 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown**, then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the first Section, "RStudio and lab reports", of Lab 1.
+The report for Lab 5 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF. To create your new lab report, in RStudio, go to **New File \> R Markdown**, then choose **From Template** and select *MA22004/MA52008 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the first Section, "RStudio and lab reports", of Lab 1.
 :::
 
 ### Packages
@@ -520,7 +520,7 @@ Construct and record a confidence interval for the difference between the weight
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004/MA52008 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **YRBSS Survey Data**  in the data frame `yrbss`, which is packaged with `MA22004labs`. 

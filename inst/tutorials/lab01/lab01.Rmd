@@ -1,5 +1,5 @@
 ---
-title: "MA22004 Lab 1: Intro to `R` & RStudio"
+title: "MA22004/MA52008 Lab 1: Intro to `R` & RStudio"
 description: "An interactive lab providing an intro to statistical programming using various data sets including: measurements from physical systems, population time series, and household income data."
 output:
   learnr::tutorial:
@@ -184,7 +184,7 @@ This lab aims to introduce you to `R` and RStudio, which you'll use throughout t
 As you progress through the labs, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer! Before getting to that stage, you must build essential fluency in `R`. First, we will explore the fundamental building blocks of `R` and RStudio: the RStudio interface, reading in data, and basic commands for working with data in `R`.
 
 :::{.noteblock}
-The report for Lab 1 consists of answers to exercises 1-4 in the last section of this tutorial. You will upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. A `Quarto` template called *MA22004 Lab Report* is provided. Further details about how to use the template to create your report are included in Section "RStudio and lab reports" of this interactive Lab. 
+The report for Lab 1 consists of answers to exercises 1-4 in the last section of this tutorial. You will upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. A `Quarto` template called *MA22004/MA52008 Lab Report* is provided. Further details about how to use the template to create your report are included in Section "RStudio and lab reports" of this interactive Lab. 
 :::
 
 ### RStudio interface 
@@ -245,7 +245,7 @@ Additionally, these packages share common philosophies and are designed to work 
 
 ## Creating reproducible lab reports
 
-As part of your grade for MA22004, you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `MA22004labs` package (recall that the package can be loaded by typing `library(MA22004labs)` at the RStudio console prompt). 
+As part of your grade for MA22004/MA52008, you will need to submit lab reports. I have provided a template file that can be accessed through RStudio after you install and load the `MA22004labs` package (recall that the package can be loaded by typing `library(MA22004labs)` at the RStudio console prompt). 
 
 Access the template by selecting **New File > R Markdown**. You will then be greeted with a pop-up window. Choose **From Template** from the left-hand pane and then select **MA22004 Lab Template**. A new **Untitled.Rmd** file will open. Feel free to change the name to something sensible and save it where you like. The final PDF is created using the **Knit** shortcut from the menu bar (**File > Knit Document** if you cannot find the shortcut). Submit the lab report as a PDF but please also retain the lab report markdown file. 
 
@@ -780,7 +780,7 @@ In general, data analysis will involve many different kinds of data types. One r
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text can be found in this tutorial's first Section. 
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004/MA52008 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text can be found in this tutorial's first Section. 
 :::
 
 The following exercises refer to variables found in or derived from the **UK Household Income Data.** These include `frs_income_21`, `frs_bracket1_wide`, and `frs_bracket1_long` which are packaged with `MA22004labs`. 

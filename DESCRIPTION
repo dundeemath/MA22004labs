@@ -1,12 +1,12 @@
 Package: MA22004labs
 Type: Package
-Title: MA22004 (University of Dundee)
-Version: 2.0.2024
+Title: MA22004/MA52008 (University of Dundee)
+Version: 2.0.2026
 Authors@R: as.person(
     "Eric J. Hall <ehall001@dundee.ac.uk> [aut, cre] (<https://orcid.org/0000-0003-0211-3335>)"
   )
 Description: Lab tutorials, templates, and data files for the course 
-    MA22004 - Statistics and Probability II 
+    MA22004/MA52008MA52008 - Statistics and Data Analysis
     in the Division of Mathematics at the University of Dundee.
     The University of Dundee is a Scottish Registered Charity, No. SC015096.
     This work is derivative of OpenIntro Labs and was modified by Eric Hall. 

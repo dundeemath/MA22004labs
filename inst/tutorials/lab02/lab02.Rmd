@@ -1,5 +1,5 @@
 ---
-title: "MA22004 Lab 2: Intro to exploratory data analysis"
+title: "MA22004/MA52008 Lab 2: Intro to exploratory data analysis"
 description: "An interactive lab introducing exploratory data analysis using health data."
 output:
   learnr::tutorial:
@@ -175,7 +175,7 @@ data(cdc)
 Some define Statistics as the field that focuses on turning information into knowledge.  The first step is to summarise and describe the raw data. In this lab, you will gain insight into public health by generating simple graphical and numerical summaries of a data set collected by the Centers for Disease Control and Prevention (CDC). As this is a large data set, you'll also learn indispensable data processing and subsetting skills.
 
 :::{.noteblock}
-The report for Lab 2 consists of answers to exercises 1-6 in the last section of this tutorial. Upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. Remember: to create your new lab report in RStudio, go to **New File \> R Markdown**, then choose **From Template** and select *MA22004 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the first Section, "RStudio and lab reports", of Lab 1.
+The report for Lab 2 consists of answers to exercises 1-6 in the last section of this tutorial. Upload your submission to [Gradescope](https://www.gradescope.com) as a PDF. Remember: to create your new lab report in RStudio, go to **New File \> R Markdown**, then choose **From Template** and select *MA22004/MA52008 Lab Report* from the list of templates. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the first Section, "RStudio and lab reports", of Lab 1.
 :::
 
 ### Packages 
@@ -632,7 +632,7 @@ We've done a good first pass at analysing the BRFSS questionnaire.  We've found 
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004/MA52008 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **CDC Health Data**  in the data frame `cdc`, which is packaged with `MA22004labs`.

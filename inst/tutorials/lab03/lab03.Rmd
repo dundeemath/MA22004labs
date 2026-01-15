@@ -1,5 +1,5 @@
 ---
-title: "MA22004 Lab 3: Sampling distributions"
+title: "MA22004/MA52008 Lab 3: Sampling distributions"
 description: "An interactive lab exploring sampling distributions using housing data."
 output:
   learnr::tutorial:
@@ -188,7 +188,7 @@ for(i in 1:5000){
 In this lab, we investigate how the statistics from a random sample of data can serve as point estimates for population parameters.  We're interested in formulating a *sampling distribution* of our estimate to learn about the properties of the estimate, such as its distribution.
 
 :::{.noteblock}
-The report for Lab 3 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF; an `rmarkdown` template called *MA22004 Lab Report* is provided. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in Section "RStudio and lab reports" of Lab 1. 
+The report for Lab 3 consists of answers to exercises 1-5 in the last section of this tutorial. Upload the submission to [Gradescope](https://www.gradescope.com) as a PDF; an `rmarkdown` template called *MA22004/MA52008 Lab Report* is provided. Further instructions on using the class template to produce a nice lab report containing data analysis and text are in Section "RStudio and lab reports" of Lab 1. 
 :::
 
 ### Packages 
@@ -511,7 +511,7 @@ question_text(
 ## Exercises
 
 :::{.warningblock}
-Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
+Please work through the interactive tutorial for this lab. Your lab report should provide answers to the exercises below. For full marks, please answer the exercises in complete sentences, be mindful of appropriate usage, spelling, and grammar, and use $\LaTeX$ for mathematics where applicable. Use the *MA22004/MA52008 Lab Report* template to create your lab report. Upload your final submission as a PDF to [Gradescope](https://www.gradescope.com). Further instructions on using the class template to produce a nice lab report containing data analysis and text are in the interactive tutorial for Lab 1.
 :::
 
 The following exercises refer to variables found in or derived from the **Ames Housing Data**  in the data frame `ames` which is packaged with `MA22004labs`. In particular, we focus on two features: the above-ground living area of the house in square feet (`area`, i.e. `ames$area`) and the sale price (`price`, i.e. `ames$price`). Please use `ggplot` when creating plots and visualisations and use `tidy` methods for manipulating data. 
