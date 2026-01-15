@@ -18,7 +18,7 @@ Below you will find instructions for steps 1, 2, and 3 above. You will also find
 
 Please work through this tutorial. 
 
-**If you have already installed** the `MA22004labs` package (for example in a previous semester), then please make sure that you are running **Version: >= 2.0.2024**. The tutorials and exercise questions might have changed!
+**If you have already installed** the `MA22004labs` package (for example in a previous semester), then please make sure that you are running **Version: = 2.0.2026**. The tutorials and exercise questions might have changed!
 
 ## INSTALLING `R` and RStudio
 

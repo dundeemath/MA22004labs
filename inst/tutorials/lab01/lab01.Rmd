@@ -193,7 +193,7 @@ The report for Lab 1 consists of answers to exercises 1-4 in the last section of
 
 If you are already running this lab tutorial, you have successfully installed and launched RStudio. Well done! You should see a window that looks more or less like the image shown below (I've added a few comments). 
 
-```{r r-interface-2020, fig.margin = TRUE, echo = FALSE, fig.width = 3, out.width = "100%", fig.cap="A fresh *RStudio* window. Please try to use `R` version **4.1.0"** or higher."}
+```{r r-interface-2020, fig.margin = TRUE, echo = FALSE, fig.width = 3, out.width = "100%", fig.cap="A fresh *RStudio* window. Please try to use `R` version **4.1.0**."}
 knitr::include_graphics("images/r-interface-4-0-2.png")
 ```
 
