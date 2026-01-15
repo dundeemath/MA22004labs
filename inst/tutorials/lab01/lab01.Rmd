@@ -175,8 +175,6 @@ data(arbuthnot)
 data(frs_income_21)
 data(frs_bracket1_long)
 data(frs_bracket1_wide)
-
-knitr::opts_knit$set(root.dir = "inst/tutorials/lab01")
 ```
 
 ## RStudio and lab reports
