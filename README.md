@@ -25,7 +25,7 @@ Please work through this tutorial.
 Please ensure that you have a current version of `R` (>= 4.1.0). Older versions of `R` may work, but I have not been able to test them. `R` can be downloaded from *CRAN* at [https://cran.r-project.org/](https://cran.r-project.org/). 
 Follow the appropriate link for your operating system. 
 
-The most up-to-date version of RStudio can be downloaded from *RStudio* at [https://www.rstudio.com/download](https://www.rstudio.com/download). Select the Free version of RStudio Desktop appropriate for your computer and operating system. 
+The most up-to-date version of RStudio can be downloaded from *RStudio* at [https://posit.co/downloads/](https://posit.co/downloads/). Select the Free version of RStudio Desktop appropriate for your computer and operating system. 
 
 Once you have installed `R` and RStudio, open RStudio Desktop and follow the instructions below to install the `MA22004labs` package and `tinytex`. 
 
